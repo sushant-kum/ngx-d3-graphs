@@ -7,7 +7,20 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "lint:fix": "npm run lint:fix:lib && npm run lint:fix:doc",
+    "lint:fix:lib": "ng lint ngx-d3-graphs --fix",
+    "lint:fix:doc": "ng lint ngx-d3-graphs-doc --fix",
+    "lint:check": "ng lint",
+    "format": "npm run format:lib && npm run format:doc",
+    "format:lib": "prettier \"projects/ngx-d3-graphs/src/**/*.{css,html,js,json,md,scss,ts}\"",
+    "format:doc": "prettier \"projects/ngx-d3-graphs-doc/src/**/*.{css,html,js,json,md,scss,ts}\"",
+    "format:fix": "npm run format:fix:lib && npm run format:fix:doc",
+    "format:fix:lib": "prettier --write \"projects/ngx-d3-graphs/src/**/*.{css,html,js,json,md,scss,ts}\"",
+    "format:fix:doc": "prettier --write \"projects/ngx-d3-graphs-doc/src/**/*.{css,html,js,json,md,scss,ts}\"",
+    "format:check": "npm run format:check:lib && npm run format:check:doc",
+    "format:check:lib": "prettier --check \"projects/ngx-d3-graphs/src/**/*.{css,html,js,json,md,scss,ts}\"",
+    "format:check:doc": "prettier --check \"projects/ngx-d3-graphs-doc/src/**/*.{css,html,js,json,md,scss,ts}\""
   },
   "private": true,
   "dependencies": {
@@ -24,13 +37,17 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.803.21",
+    "@angular-devkit/build-ng-packagr": "~0.803.21",
     "@angular/cli": "~8.3.17",
     "@angular/compiler-cli": "~8.2.13",
     "@angular/language-service": "~8.2.13",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "gzipper": "^3.4.2",
+    "husky": "^3.1.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -38,9 +55,20 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "ng-packagr": "^5.4.0",
+    "prettier": "^1.19.1",
+    "prettier-tslint": "^0.4.2",
+    "pretty-quick": "^2.0.1",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
+    "tsickle": "^0.37.0",
     "tslint": "~5.15.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "~3.5.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
