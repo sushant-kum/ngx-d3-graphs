@@ -1,0 +1,15 @@
+@import './_variables.font';
+@import './raleway.font';
+@import './roboto.font';
+@import './mixins.font';
+
+@include ngx-d3-text-font-family();
+@include ngx-d3-text-font-weight();
+
+.ngx-d3-text-italic {
+  font-style: italic;
+}
+
+.ngx-d3-text-normal {
+  font-style: normal;
+}

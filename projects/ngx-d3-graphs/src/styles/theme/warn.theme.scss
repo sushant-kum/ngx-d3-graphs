@@ -1,0 +1,85 @@
+.ngx-d3-theme-warn-l5 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 50);
+  background-color: map-get($mat-palette-warn, 50) !important;
+}
+
+.ngx-d3-theme-warn-l4 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 100);
+  background-color: map-get($mat-palette-warn, 100) !important;
+}
+
+.ngx-d3-theme-warn-l3 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 200);
+  background-color: map-get($mat-palette-warn, 200) !important;
+}
+
+.ngx-d3-theme-warn-l2 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 300);
+  background-color: map-get($mat-palette-warn, 300) !important;
+}
+
+.ngx-d3-theme-warn-l1 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 400);
+  background-color: map-get($mat-palette-warn, 400) !important;
+}
+
+.ngx-d3-theme-warn-d1 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 600);
+  background-color: map-get($mat-palette-warn, 600) !important;
+}
+
+.ngx-d3-theme-warn-d2 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 700);
+  background-color: map-get($mat-palette-warn, 700) !important;
+}
+
+.ngx-d3-theme-warn-d3 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 800);
+  background-color: map-get($mat-palette-warn, 800) !important;
+}
+
+.ngx-d3-theme-warn-d4 {
+  color: map-deep-get($mat-palette-warn, 'contrast', 900);
+  background-color: map-get($mat-palette-warn, 900) !important;
+}
+
+.ngx-d3-theme-warn-light {
+  color: map-deep-get($mat-palette-warn, 'contrast', 50);
+  background-color: map-get($mat-palette-warn, 50) !important;
+}
+
+.ngx-d3-theme-warn-dark {
+  color: map-deep-get($mat-palette-warn, 'contrast', 900);
+  background-color: map-get($mat-palette-warn, 900) !important;
+}
+
+.ngx-d3-theme-warn-action {
+  color: map-deep-get($mat-palette-warn, 'contrast', 900);
+  background-color: map-get($mat-palette-warn, 900) !important;
+}
+
+.ngx-d3-theme-warn {
+  color: map-deep-get($mat-palette-warn, 'contrast', 500);
+  background-color: map-get($mat-palette-warn, 500) !important;
+}
+
+.ngx-d3-text-theme-warn {
+  color: map-get($mat-palette-warn, 500) !important;
+}
+
+.ngx-d3-border-theme-warn {
+  border-color: map-get($mat-palette-warn, 500) !important;
+}
+
+.ngx-d3-hover-theme-warn:hover {
+  color: map-deep-get($mat-palette-warn, 'contrast', 500);
+  background-color: map-get($mat-palette-warn, 500) !important;
+}
+
+.ngx-d3-hover-text-theme-warn:hover {
+  color: map-get($mat-palette-warn, 500) !important;
+}
+
+.ngx-d3-hover-border-theme-warn:hover {
+  border-color: map-get($mat-palette-warn, 500) !important;
+}
