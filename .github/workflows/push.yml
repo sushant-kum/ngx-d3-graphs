@@ -1,0 +1,35 @@
+name: '[CI] On Push'
+
+on:
+  push:
+    branches:
+      - '*'
+      - '*/*'
+
+jobs:
+  inspection_and_tests__non_release:
+    name: Inspection and Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: ['10', '12']
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v1.1.0
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install npm dependencies
+        run: npm install
+      - name: Run format check with prettier
+        run: npm run format:check
+      - name: Run lint check
+        run: npm run lint:check
+      - name: Run unit tests
+        run: npm run test:CI
+        continue-on-error: true
+      - name: Run build on ngx-d3-graphs to check that it succeeds
+        run: npm run build:prod:lib
+      - name: Run build on ngx-d3-graphs-doc to check that it succeeds
+        run: npm run build:prod:doc

@@ -9,7 +9,8 @@
     "serve:doc": "ng serve --host 0.0.0.0 --disableHostCheck --proxy-config proxy.config.json",
     "mock-server:dev": "nodemon --config \"./nodemon.json\"/",
     "build:dev:lib": "ng build --project ngx-d3-graphs --watch",
-    "build:lib": "ng build --project ngx-d3-graphs",
+    "build:prod:lib": "ng build --project ngx-d3-graphs",
+    "build:prod:doc": "ng build --prod --project ngx-d3-graphs-doc",
     "lint:fix": "npm run lint:fix:lib && npm run lint:fix:doc",
     "lint:fix:lib": "ng lint ngx-d3-graphs --fix",
     "lint:fix:doc": "ng lint ngx-d3-graphs-doc --fix",
@@ -22,7 +23,8 @@
     "format:fix:doc": "prettier --write \"projects/ngx-d3-graphs-doc/src/**/*.{css,html,js,json,md,scss,ts}\"",
     "format:check": "npm run format:check:lib && npm run format:check:doc",
     "format:check:lib": "prettier --check \"projects/ngx-d3-graphs/src/**/*.{css,html,js,json,md,scss,ts}\"",
-    "format:check:doc": "prettier --check \"projects/ngx-d3-graphs-doc/src/**/*.{css,html,js,json,md,scss,ts}\""
+    "format:check:doc": "prettier --check \"projects/ngx-d3-graphs-doc/src/**/*.{css,html,js,json,md,scss,ts}\"",
+    "test:CI": "ng test --browsers ChromeHeadless --no-watch --code-coverage"
   },
   "private": true,
   "dependencies": {
