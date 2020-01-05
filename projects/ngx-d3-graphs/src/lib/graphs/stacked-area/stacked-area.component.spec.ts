@@ -8,9 +8,8 @@ describe('StackedAreaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StackedAreaComponent ]
-    })
-    .compileComponents();
+      declarations: [StackedAreaComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
