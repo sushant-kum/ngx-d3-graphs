@@ -2,4 +2,4 @@
  * Public API Surface of ngx-d3-graphs
  */
 
-export * from './lib/graphs/stacked-area/stacked-area.module';
+export * from './lib/components/graphs/stacked-area/stacked-area.module';
