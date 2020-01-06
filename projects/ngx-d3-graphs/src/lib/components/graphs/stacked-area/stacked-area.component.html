@@ -2,5 +2,9 @@
   <div #chart id="chart"></div>
 </div>
 <div class="w3-hide" [ngClass]="{ 'w3-show': data === undefined || data.length === 0 }">
-  <ngx-d3-no-data></ngx-d3-no-data>
+  <ngx-d3-no-data
+    [width]="options.size.width"
+    [height]="options.size.height"
+    [no_data_text]="options.no_data_text"
+  ></ngx-d3-no-data>
 </div>

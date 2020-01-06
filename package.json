@@ -41,6 +41,7 @@
     "hammerjs": "^2.0.8",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "unique-colors": "^1.0.1",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

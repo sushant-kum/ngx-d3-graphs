@@ -1,5 +1,19 @@
-<div id="no-data" class="w3-display-container w3-round ngx-d3-theme-primary-light">
-  <span class="w3-display-middle ngx-d3-text-theme-primary ngx-d3-text-500 w3-large">
-    No depictable data.
-  </span>
-</div>
+<ng-container *ngIf="width.toString() === 'responsive'; else templateFixedWidth">
+  <div id="no-data" class="w3-display-container w3-round ngx-d3-theme-primary-light" [style.height.px]="height">
+    <span class="w3-display-middle ngx-d3-text-theme-primary ngx-d3-text-500 w3-large">
+      {{ no_data_text }}
+    </span>
+  </div>
+</ng-container>
+<ng-template #templateFixedWidth>
+  <div
+    id="no-data"
+    class="w3-display-container w3-round ngx-d3-theme-primary-light"
+    [style.width.px]="width"
+    [style.height.px]="height"
+  >
+    <span class="w3-display-middle ngx-d3-text-theme-primary ngx-d3-text-500 w3-large">
+      {{ no_data_text }}
+    </span>
+  </div>
+</ng-template>

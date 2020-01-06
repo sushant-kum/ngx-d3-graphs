@@ -1,6 +1,7 @@
 export interface GraphOptionsModel {
+  no_data_text?: string;
   size?: {
-    width?: number;
+    width?: number | 'responsive';
     height?: number;
   };
   padding?: {

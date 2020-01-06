@@ -1,11 +1,12 @@
-import * as distinctColors from 'distinct-colors';
+import * as uniqueColors from 'unique-colors';
 
-import { GraphOptionsModel } from '../data-models/graph-options/graph-options';
+import { GraphOptionsModel } from '../data-models/graph-options/graph-options.model';
 
 export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
+  no_data_text: 'No depictable data',
   size: {
-    width: undefined,
-    height: undefined
+    width: 'responsive',
+    height: 300
   },
   padding: {
     top: 0,
@@ -14,6 +15,12 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
     left: 0
   },
   color: {
-    pattern: distinctColors({ count: 20 })
+    pattern: uniqueColors.unique_colors(20)
+  },
+  interaction: {
+    enabled: true
+  },
+  transition: {
+    duration: 350
   }
 };
