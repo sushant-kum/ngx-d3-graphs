@@ -4,6 +4,10 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
+      "css-element-queries": "css-element-queries",
+      "d3": "d3",
+      "moment": "moment",
+      "object-assign-deep": "object-assign-deep",
       "unique-colors": "unique-colors"
     }
   }

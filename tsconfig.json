@@ -16,7 +16,8 @@
     "paths": {
       "ngx-d3-graphs": ["dist/ngx-d3-graphs"],
       "ngx-d3-graphs/*": ["dist/ngx-d3-graphs/*"]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

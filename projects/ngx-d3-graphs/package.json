@@ -4,6 +4,10 @@
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14",
+    "css-element-queries": "^1.2.3",
+    "d3": "^5.15.0",
+    "moment": "^2.24.0",
+    "object-assign-deep": "^0.4.0",
     "unique-colors": "^1.0.1"
   }
 }

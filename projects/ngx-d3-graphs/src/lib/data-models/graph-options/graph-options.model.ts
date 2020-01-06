@@ -1,3 +1,5 @@
+import { AxisOptionsModel } from '../axis-options/axis-options.model';
+
 export interface GraphOptionsModel {
   no_data_text?: string;
   size?: {
@@ -19,4 +21,5 @@ export interface GraphOptionsModel {
   transition?: {
     duration?: number;
   };
+  axis?: AxisOptionsModel;
 }

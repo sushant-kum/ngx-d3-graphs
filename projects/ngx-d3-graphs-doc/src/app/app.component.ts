@@ -16,6 +16,15 @@ export class AppComponent {
       right: 20,
       bottom: 20,
       left: 20
+    },
+    axis: {
+      x: {
+        tick: {
+          format: x => {
+            return x;
+          }
+        }
+      }
     }
   });
   title = 'ngx-d3-graphs-doc';
