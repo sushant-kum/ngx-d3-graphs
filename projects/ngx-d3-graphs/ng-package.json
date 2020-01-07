@@ -6,6 +6,7 @@
     "umdModuleIds": {
       "css-element-queries": "css-element-queries",
       "d3": "d3",
+      "fast-deep-equal": "fast-deep-equal",
       "moment": "moment",
       "object-assign-deep": "object-assign-deep",
       "unique-colors": "unique-colors"
