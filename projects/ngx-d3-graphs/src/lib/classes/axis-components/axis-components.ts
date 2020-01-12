@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { AxisOptionsModel } from '../../data-models/axis-options/axis-options.model';
 import { DEFAULT_GRAPH_OPTIONS } from '../../constants/default-graph-options';
+import { HelperService } from '../../services/helper/helper.service';
 
 export class AxisComponents {
   static readonly DEFAULT_AXIS_OPTIONS = objectAssignDeep({}, DEFAULT_GRAPH_OPTIONS.axis);
@@ -90,6 +91,7 @@ export class AxisComponents {
     graph_width: number,
     graph_height: number
   ): d3.Selection<SVGGElement, unknown, null, undefined> {
+    const x_axis = svg.append('g');
     const attr = {
       class: this.options.rotated
         ? 'ngx-d3--axis ngx-d3--axis--rotated ngx-d3--axis--x'
@@ -99,21 +101,66 @@ export class AxisComponents {
 
     const axis = this.options.rotated ? d3.axisLeft(x) : d3.axisBottom(x);
 
-    if (this.options.x.type === 'category') {
-
-      if (this.options.x.tick.values !== undefined && this.options.x.tick.values)
+    /**
+     * Ticks
+     */
+    // x.tick.format
+    if (this.options.x.tick.format) {
+      axis.tickFormat(this.options.x.tick.format);
     }
 
-    // .ticks(
-    //   this.options.x.tick.count !== undefined && typeof this.options.x.tick.count === 'number'
-    //     ? this.options.x.tick.count
-    //     : Math.floor(graph_width / 90)
-    // );
+    // x.ticks.values, x.tick.count
+    if (this.options.x.type === 'category') {
+      if (this.options.x.tick.values && HelperService.array.isSubset(this.options.x.tick.values, x.domain())) {
+        axis.tickValues(this.options.x.tick.values);
+      } else {
+        let tick_interval: number;
+        if (this.options.rotated) {
+          tick_interval = (50 / graph_height) * x.domain().length;
+        } else {
+          tick_interval = (90 / graph_width) * x.domain().length;
+        }
+        axis.tickValues(HelperService.array.getElementsAtInterval(x.domain(), tick_interval));
+      }
+    } else {
+      if (this.options.x.tick.values && HelperService.array.isInRange(this.options.x.tick.values, x.domain())) {
+        axis.tickValues(this.options.x.tick.values);
+      } else {
+        axis.ticks(
+          this.options.x.tick.count !== undefined && typeof this.options.x.tick.count === 'number'
+            ? this.options.x.tick.count
+            : this.options.rotated === true
+            ? Math.floor(graph_height / 50)
+            : Math.floor(graph_width / 90)
+        );
+      }
+    }
 
-    return svg
-      .append('g')
+    // x.tick.outer
+    if (!this.options.x.tick.outer) {
+      axis.tickSizeOuter(0);
+    }
+
+    x_axis
       .attr('class', attr.class)
       .attr('transform', attr.transform)
       .call(axis);
+
+    // x.tick.rotate
+    if (this.options.x.tick.rotate && !this.options.rotated) {
+      x_axis
+        .selectAll('text')
+        .attr('y', 0)
+        .attr('x', 9)
+        .attr('dy', '.35em')
+        .attr('transform', `rotate(${this.options.x.tick.rotate})`)
+        .style('text-anchor', 'start');
+    }
+
+    /**
+     * Position X axis
+     */
+
+    return x_axis;
   }
 }

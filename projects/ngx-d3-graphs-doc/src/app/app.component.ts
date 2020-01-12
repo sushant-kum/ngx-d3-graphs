@@ -17,16 +17,18 @@ export class AppComponent implements OnInit {
       top: 20,
       right: 20,
       bottom: 20,
-      left: 20
+      left: 50
     },
     axis: {
       rotated: false,
       x: {
-        type: 'category',
+        type: 'indexed',
         tick: {
           format: x => {
             return x;
-          }
+          },
+          // values: [1880, 2000],
+          rotate: 90
         }
       }
     }

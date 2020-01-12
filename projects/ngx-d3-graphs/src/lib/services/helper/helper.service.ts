@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment';
-import * as equal from 'fast-deep-equal';
+import equal from 'fast-deep-equal';
 
 @Injectable({
   providedIn: 'root'
@@ -8,19 +8,19 @@ import * as equal from 'fast-deep-equal';
 export class HelperService {
   constructor() {}
 
-  time = {
+  static time = {
     format(date: moment.Moment | Date, format: string): string {
       return moment(date).format(format);
     }
   };
 
-  json = {
+  static json = {
     stringify(obj: object): string {
       return JSON.stringify(obj);
     }
   };
 
-  object = {
+  static object = {
     Keys(obj: object): string[] {
       return Object.keys(obj);
     },
@@ -36,19 +36,19 @@ export class HelperService {
         return Object.assign(obj, {});
       }
     },
-    isEqual: (obj1: any, obj2: any): boolean => {
+    isEqual(obj1: any, obj2: any): boolean {
       return equal(obj1, obj2);
     }
   };
 
-  console = {
+  static console = {
     log(...args: any[]): string {
       console.log(args);
       return `console.logged ${args}`;
     }
   };
 
-  array = {
+  static array = {
     num_list(end: number, start: number = 0, jump: number = 1): number[] {
       const list: number[] = [];
       for (let i = start; i < end; i += jump) {
@@ -64,14 +64,37 @@ export class HelperService {
         }
       }
       return true;
+    },
+    isInRange(elements_array: any[], range_array: any[], include_extrems: boolean = true): boolean {
+      range_array = range_array.sort();
+      for (const ele of elements_array) {
+        if (include_extrems) {
+          if (!(ele >= range_array[0] && ele <= range_array[1])) {
+            return false;
+          }
+        } else {
+          if (!(ele > range_array[0] && ele < range_array[1])) {
+            return false;
+          }
+        }
+      }
+      return true;
+    },
+    getElementsAtInterval(array: any[], interval: number): any[] {
+      interval = Math.ceil(interval);
+      const arr: any[] = [];
+      for (let i = 0; i < array.length; i += interval) {
+        arr.push(array[i]);
+      }
+      return arr;
     }
   };
 
-  variable = {
-    typeof: (variable: any): string => {
+  static variable = {
+    typeof(variable: any): string {
       return typeof variable;
     },
-    isNaN: (variable: any): boolean => {
+    isNaN(variable: any): boolean {
       return isNaN(variable);
     }
   };
