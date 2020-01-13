@@ -157,10 +157,56 @@ export class AxisComponents {
         .style('text-anchor', 'start');
     }
 
+    // x.tick.multiline
+    if (this.options.x.tick.multiline) {
+      x_axis.selectAll('text').call(this._wrapText, x.range()[1] - x.range()[0]);
+    }
+
     /**
      * Position X axis
      */
 
     return x_axis;
+  }
+
+  private _wrapText(text, width): void {
+    const tick_width: number = width / text.size();
+    text.each(function() {
+      const d3_text = d3.select(this);
+
+      const words = d3_text
+        .text()
+        .toString()
+        .split(/\s+/)
+        .reverse();
+      let word;
+      let line = [];
+      let lineNumber = 0;
+      const lineHeight = 1.1; // ems
+      const y = d3_text.attr('y');
+      const dy = parseFloat(d3_text.attr('dy'));
+      let tspan = d3_text
+        .text(null)
+        .append('tspan')
+        .attr('x', 0)
+        .attr('y', y)
+        .attr('dy', dy + 'em');
+      // tslint:disable-next-line: no-conditional-assignment
+      while ((word = words.pop())) {
+        line.push(word);
+        tspan.text(line.join(' '));
+        if (tspan.node().getComputedTextLength() > tick_width) {
+          line.pop();
+          tspan.text(line.join(' '));
+          line = [word];
+          tspan = d3_text
+            .append('tspan')
+            .attr('x', 0)
+            .attr('y', y)
+            .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+            .text(word);
+        }
+      }
+    });
   }
 }

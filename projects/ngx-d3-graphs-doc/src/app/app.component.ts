@@ -22,13 +22,13 @@ export class AppComponent implements OnInit {
     axis: {
       rotated: false,
       x: {
-        type: 'indexed',
+        type: 'category',
         tick: {
           format: x => {
-            return x;
-          },
+            return x + 'sajgf kjhsk haskjd h';
+          }
           // values: [1880, 2000],
-          rotate: 90
+          // rotate: 90
         }
       }
     }
