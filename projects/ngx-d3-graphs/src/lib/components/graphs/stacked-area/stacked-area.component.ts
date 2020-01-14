@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  AfterViewInit,
+  OnChanges,
+  ViewChild,
+  ElementRef,
+  ViewEncapsulation
+} from '@angular/core';
 import * as d3 from 'd3';
 import moment from 'moment';
 import { ResizeSensor } from 'css-element-queries';
@@ -12,14 +21,17 @@ import { AxisComponents } from '../../../classes/axis-components/axis-components
 @Component({
   selector: 'ngx-d3-stacked-area',
   templateUrl: './stacked-area.component.html',
-  styleUrls: ['./stacked-area.component.scss']
+  styleUrls: ['./stacked-area.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('chart', { static: true })
   private _chartContainer: ElementRef;
 
   @Input() data: StackedAreaDataModel[];
-  @Input() options: GraphOptions;
+  @Input() options: GraphOptionsModel;
+
+  options_obj: GraphOptions;
 
   private _idle_timeout: NodeJS.Timer;
   private _svg: d3.Selection<SVGGElement, unknown, null, undefined>;
@@ -33,6 +45,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     | d3.ScalePoint<string>
     | d3.AxisScale<d3.AxisDomain>;
   private _x_axis: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _x_label: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _y: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number> | d3.AxisScale<d3.AxisDomain>;
   private _y_axis: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _area: d3.Area<[number, number]>;
@@ -45,6 +58,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     console.log('ngOnInit()');
     console.log('StackedAreaComponent.data', this.data);
     console.log('StackedAreaComponent.options', this.options);
+    this.options_obj = new GraphOptions(this.options);
   }
 
   ngAfterViewInit() {
@@ -65,6 +79,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     console.log('ngOnChanges()');
     console.log(' StackedAreaComponent.data', this.data);
     console.log(' StackedAreaComponent.options', this.options);
+    this.options_obj = new GraphOptions(this.options);
 
     if (this.data !== undefined && this.data.length > 0 && this._chartContainer.nativeElement.offsetWidth !== 0) {
       this._createChart(this.data, this._chartContainer.nativeElement);
@@ -77,6 +92,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     console.log('onResize(): void');
     console.log(' StackedAreaComponent.data', this.data);
     console.log(' StackedAreaComponent.options', this.options);
+    this.options_obj = new GraphOptions(this.options);
+
     if (this.data !== undefined && this.data.length > 0) {
       this._createChart(this.data, this._chartContainer.nativeElement);
     } else {
@@ -87,8 +104,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   private _createChart(data: StackedAreaDataModel[], element: HTMLElement): void {
     console.log('private _createChart(data: StackedAreaDataModel[], element: HTMLElement)', data, element);
 
-    const graph_height = this.options.size.height - this.options.padding.top - this.options.padding.bottom;
-    const graph_width = element.offsetWidth - this.options.padding.left - this.options.padding.right;
+    const graph_height = this.options_obj.size.height - this.options_obj.padding.top - this.options_obj.padding.bottom;
+    const graph_width = element.offsetWidth - this.options_obj.padding.left - this.options_obj.padding.right;
 
     /**
      * Create base SVG
@@ -100,14 +117,35 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     this._svg = d3
       .select(element)
       .append('svg')
+      .attr('class', 'ngx-d3')
       .attr('width', element.offsetWidth)
-      .attr('height', graph_height + this.options.padding.top + this.options.padding.bottom)
+      .attr('height', graph_height + this.options_obj.padding.top + this.options_obj.padding.bottom)
       .append('g')
-      .attr('transform', 'translate(' + this.options.padding.left + ',' + this.options.padding.top + ')');
+      .attr('transform', 'translate(' + this.options_obj.padding.left + ',' + this.options_obj.padding.top + ')');
 
     /**
      * Process data
      */
+    this._processData(data);
+
+    /**
+     * Axes
+     */
+    const axes: AxisComponents = new AxisComponents(this.options_obj.axis);
+
+    // Add X axis
+    this._createXAxis(axes, graph_width, graph_height);
+    // Add X axis label
+    if (this.options_obj.axis.x.label) {
+      this._creatXAxisLabel(axes, graph_width, graph_height);
+    }
+  }
+
+  /**
+   * Process data to get stacked data
+   *
+   */
+  private _processData: (data: StackedAreaDataModel[]) => void = (data: StackedAreaDataModel[]): void => {
     const sumstat = d3
       .nest()
       .key((d: any) => d.plot.x)
@@ -115,11 +153,11 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
     sumstat.forEach(ss => {
       let obj: { [key: string]: Date | string | number };
-      if (this.options.axis.x.type === 'timeseries') {
+      if (this.options_obj.axis.x.type === 'timeseries') {
         obj = {
-          key: d3.timeParse('%Y-%m-%d')(ss.key)
+          key: moment(ss.key).toDate()
         };
-      } else if (this.options.axis.x.type === 'category') {
+      } else if (this.options_obj.axis.x.type === 'category') {
         obj = {
           key: ss.key
         };
@@ -132,7 +170,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
           console.error('data[i].key', ss.key, typeof ss.key);
           throw new Error(
             `StackedAreaComponent.options.axis.x.type = '${
-              this.options.axis.x.type
+              this.options_obj.axis.x.type
             }', and typeof data[i].key = '${typeof ss.key}' are not compatible.`
           );
         }
@@ -156,8 +194,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       }
     });
 
-    if (this.options.color.pattern && this.options.color.pattern.length >= this._keys.length) {
-      this._colors = this.options.color.pattern.slice(0, this._keys.length);
+    if (this.options_obj.color.pattern && this.options_obj.color.pattern.length >= this._keys.length) {
+      this._colors = this.options_obj.color.pattern.slice(0, this._keys.length);
     } else {
       this._colors = uniqueColors.unique_colors(this._keys.length);
     }
@@ -169,21 +207,25 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     this._stacked_data = d3.stack().keys(this._keys)(this._optimized_data as { [key: string]: number }[]);
 
     console.log('this._stacked_data', this._stacked_data);
+  };
 
-    /**
-     * Axes
-     */
-    const axes: AxisComponents = new AxisComponents(this.options.axis);
-
-    // Add X axis
-    if (this.options.axis.x.type === 'timeseries') {
+  /**
+   * Create and render X Axis
+   *
+   */
+  private _createXAxis: (axes: AxisComponents, graph_width: number, graph_height: number) => void = (
+    axes: AxisComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    if (this.options_obj.axis.x.type === 'timeseries') {
       this._x = axes.getXAxis(
         d3.extent(this._optimized_data, d => d.key as Date),
         graph_width,
         graph_height
       );
-    } else if (this.options.axis.x.type === 'category') {
-      let categories: string[] = this.options.axis.x.categories;
+    } else if (this.options_obj.axis.x.type === 'category') {
+      let categories: string[] = this.options_obj.axis.x.categories;
       const computed_categories: string[] = [];
       this._optimized_data.forEach(data_row => {
         computed_categories.push(data_row.key.toString());
@@ -204,18 +246,24 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       );
     }
 
-    this._x_axis = axes.renderXAxis(this._svg, this._x, graph_width, graph_height);
-      // .append('g')
-      // .attr('class', 'ngx-d3--axis ngx-d3--axis--x')
-      // .attr('transform', 'translate(0,' + graph_height + ')')
-      // .call(
-      //   d3
-      //     .axisLeft(this._x as any)
-      //     .ticks(
-      //       this.options.axis.x.tick.count !== undefined && typeof this.options.axis.x.tick.count === 'number'
-      //         ? this.options.axis.x.tick.count
-      //         : Math.floor(graph_width / 90)
-      //     )
-      // );
-  }
+    this._x_axis = axes.renderXAxis(this._svg, this._x, graph_width, graph_height, this.options_obj.padding);
+  };
+
+  /**
+   * Create and render X Axis Label
+   *
+   */
+  private _creatXAxisLabel: (axes: AxisComponents, graph_width: number, graph_height: number) => void = (
+    axes: AxisComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    this._x_label = axes.renderXAxisLabel(
+      this._svg,
+      this._x_axis,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.x.label
+    );
+  };
 }

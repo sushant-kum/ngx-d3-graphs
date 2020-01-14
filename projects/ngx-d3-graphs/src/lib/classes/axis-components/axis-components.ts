@@ -2,6 +2,7 @@ import objectAssignDeep from 'object-assign-deep';
 import * as d3 from 'd3';
 import moment from 'moment';
 
+import { GraphOptionsModel } from '../../data-models/graph-options/graph-options.model';
 import { AxisOptionsModel } from '../../data-models/axis-options/axis-options.model';
 import { DEFAULT_GRAPH_OPTIONS } from '../../constants/default-graph-options';
 import { HelperService } from '../../services/helper/helper.service';
@@ -59,6 +60,7 @@ export class AxisComponents {
   getXAxisDomain(
     domain: (Date | number | string | { valueOf(): number })[]
   ): (Date | number | string | { valueOf(): number })[] {
+    // x.min, x.max
     if (this.options.x.type !== 'category' && (this.options.x.min !== undefined || this.options.x.min !== undefined)) {
       const computed_domain: (Date | number | string | { valueOf(): number })[] = [undefined, undefined];
       if (this.options.x.min !== undefined) {
@@ -89,7 +91,8 @@ export class AxisComponents {
       | d3.ScalePoint<string>
       | d3.AxisScale<d3.AxisDomain>,
     graph_width: number,
-    graph_height: number
+    graph_height: number,
+    padding: GraphOptionsModel['padding']
   ): d3.Selection<SVGGElement, unknown, null, undefined> {
     const x_axis = svg.append('g');
     const attr = {
@@ -159,17 +162,101 @@ export class AxisComponents {
 
     // x.tick.multiline
     if (this.options.x.tick.multiline) {
-      x_axis.selectAll('text').call(this._wrapText, x.range()[1] - x.range()[0]);
+      if (this.options.rotated && padding.left) {
+        x_axis.selectAll('.tick text').call(this._wrapVerticalXTick, padding.left);
+      } else {
+        x_axis.selectAll('.tick text').call(this._wrapHorizontalXTick, x.range()[1] - x.range()[0]);
+      }
     }
 
-    /**
-     * Position X axis
-     */
-
+    // x.show
+    if (!this.options.x.show) {
+      x_axis.attr('display', 'none');
+    }
     return x_axis;
   }
 
-  private _wrapText(text, width): void {
+  /**
+   * Renders X Axis
+   *
+   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @param svg Parent SVG element
+   * @param x_axis X Axis SVG element
+   * @param graph_width Width of the graph in px
+   * @param graph_height Height of the graph in px
+   * @param label Label text and position
+   * @returns
+   */
+  renderXAxisLabel(
+    svg: d3.Selection<SVGGElement, unknown, null, undefined>,
+    x_axis: d3.Selection<SVGGElement, unknown, null, undefined>,
+    graph_width: number,
+    graph_height: number,
+    label: AxisOptionsModel['x']['label']
+  ): d3.Selection<SVGGElement, unknown, null, undefined> {
+    const x_label: d3.Selection<SVGGElement, unknown, null, undefined> = svg.append('text').text(label.text);
+    console.log("this.options.x.label.position.split('-')", this.options.x.label.position.split('-'));
+    if (this.options.rotated) {
+      let label_x_position: number;
+      let label_dx: number;
+      let label_dy: number;
+
+      x_label.attr('class', 'ngx-d3--label ngx-d3--label--rotated ngx-d3--label--x').attr('transform', 'rotate(-90)');
+
+      if (this.options.x.label.position.split('-')[0] === 'outer') {
+        label_dy = -x_axis.node().getBBox().width;
+      } else {
+        label_dy = x_label.node().getBBox().height;
+      }
+
+      if (this.options.x.label.position.split('-')[1] === 'bottom') {
+        label_x_position = -graph_height;
+        label_dx = 2;
+      } else if (this.options.x.label.position.split('-')[1] === 'middle') {
+        label_x_position = -graph_height / 2;
+        label_dx = -x_label.node().getBBox().width / 2;
+      } else {
+        label_x_position = 0;
+        label_dx = -x_label.node().getBBox().width;
+      }
+
+      x_label
+        .attr('x', label_x_position)
+        .attr('dx', label_dx)
+        .attr('dy', label_dy);
+    } else {
+      let text_anchor: 'start' | 'middle' | 'end';
+      let label_x_position: number;
+      let label_y_position: number;
+
+      x_label.attr('class', 'ngx-d3--label ngx-d3--label--x');
+
+      if (this.options.x.label.position.split('-')[0] === 'outer') {
+        label_y_position = graph_height + 27;
+      } else {
+        label_y_position = graph_height - 5;
+      }
+
+      if (this.options.x.label.position.split('-')[1] === 'left') {
+        text_anchor = 'start';
+        label_x_position = 2;
+      } else if (this.options.x.label.position.split('-')[1] === 'center') {
+        text_anchor = 'middle';
+        label_x_position = graph_width / 2;
+      } else {
+        text_anchor = 'end';
+        label_x_position = graph_width;
+      }
+
+      x_label
+        .attr('text-anchor', text_anchor)
+        .attr('x', label_x_position)
+        .attr('y', label_y_position);
+    }
+    return x_label;
+  }
+
+  private _wrapHorizontalXTick(text: d3.Selection<d3.BaseType, unknown, SVGGElement, unknown>, width: number): void {
     const tick_width: number = width / text.size();
     text.each(function() {
       const d3_text = d3.select(this);
@@ -203,6 +290,51 @@ export class AxisComponents {
             .append('tspan')
             .attr('x', 0)
             .attr('y', y)
+            .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+            .text(word);
+        }
+      }
+    });
+  }
+
+  private _wrapVerticalXTick(
+    text: d3.Selection<d3.BaseType, unknown, SVGGElement, unknown>,
+    left_padding: number
+  ): void {
+    const tick_width: number = left_padding - 6;
+    text.each(function() {
+      const d3_text = d3.select(this);
+
+      const words = d3_text
+        .text()
+        .toString()
+        .split(/\s+/)
+        .reverse();
+      let word: string;
+      let line = [];
+      let lineNumber = 0;
+      const lineHeight = 1.1; // ems
+      const dy = parseFloat(d3_text.attr('dy'));
+      let tspan = d3_text
+        .text(null)
+        .append('tspan')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('dx', -6)
+        .attr('dy', dy + 'em');
+      // tslint:disable-next-line: no-conditional-assignment
+      while ((word = words.pop())) {
+        line.push(word);
+        tspan.text(line.join(' '));
+        if (tspan.node().getComputedTextLength() > tick_width) {
+          line.pop();
+          tspan.text(line.join(' '));
+          line = [word];
+          tspan = d3_text
+            .append('tspan')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('dx', -6)
             .attr('dy', ++lineNumber * lineHeight + dy + 'em')
             .text(word);
         }
