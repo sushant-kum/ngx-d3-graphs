@@ -6,17 +6,21 @@ import {
   OnChanges,
   ViewChild,
   ElementRef,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import * as d3 from 'd3';
 import moment from 'moment';
 import { ResizeSensor } from 'css-element-queries';
 import * as uniqueColors from 'unique-colors';
+import objectAssignDeep from 'object-assign-deep';
 
 import { GraphOptions } from '../../../classes/graph-options/graph-options';
-import { StackedAreaDataModel } from '../../../data-models/stacked-area-data/stacked-area-data.model';
+import { StackedAreaDataModel, StackedAreaOptionsModel } from '../../../data-models/stacked-area/stacked-area.model';
 import { GraphOptionsModel } from '../../../data-models/graph-options/graph-options.model';
 import { AxisComponents } from '../../../classes/axis-components/axis-components';
+import { DEFAULT_STACKED_AREA_OPTIONS } from './../../../constants/default-stacked-area-options';
 
 @Component({
   selector: 'ngx-d3-stacked-area',
@@ -30,6 +34,18 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() data: StackedAreaDataModel[];
   @Input() options: GraphOptionsModel;
+  @Input() stacked_area_options: StackedAreaOptionsModel;
+
+  @Output() areaclick: EventEmitter<string> = new EventEmitter();
+  @Output() areacontextmenu: EventEmitter<string> = new EventEmitter();
+  @Output() areadblclick: EventEmitter<string> = new EventEmitter();
+  @Output() areamousedown: EventEmitter<string> = new EventEmitter();
+  @Output() areamouseenter: EventEmitter<string> = new EventEmitter();
+  @Output() areamouseleave: EventEmitter<string> = new EventEmitter();
+  @Output() areamousemove: EventEmitter<string> = new EventEmitter();
+  @Output() areamouseout: EventEmitter<string> = new EventEmitter();
+  @Output() areamouseover: EventEmitter<string> = new EventEmitter();
+  @Output() areamouseup: EventEmitter<string> = new EventEmitter();
 
   options_obj: GraphOptions;
 
@@ -57,9 +73,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     console.log('ngOnInit()');
-    console.log('StackedAreaComponent.data', this.data);
-    console.log('StackedAreaComponent.options', this.options);
-    this.options_obj = new GraphOptions(this.options);
+    this._initOps();
   }
 
   ngAfterViewInit() {
@@ -78,9 +92,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges() {
     console.log('ngOnChanges()');
-    console.log(' StackedAreaComponent.data', this.data);
-    console.log(' StackedAreaComponent.options', this.options);
-    this.options_obj = new GraphOptions(this.options);
+    this._initOps();
 
     if (this.data !== undefined && this.data.length > 0 && this._chartContainer.nativeElement.offsetWidth !== 0) {
       this._createChart(this.data, this._chartContainer.nativeElement);
@@ -91,15 +103,25 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
   onResize(): void {
     console.log('onResize(): void');
-    console.log(' StackedAreaComponent.data', this.data);
-    console.log(' StackedAreaComponent.options', this.options);
-    this.options_obj = new GraphOptions(this.options);
+    this._initOps();
 
     if (this.data !== undefined && this.data.length > 0) {
       this._createChart(this.data, this._chartContainer.nativeElement);
     } else {
       return;
     }
+  }
+
+  private _initOps(): void {
+    console.log(' StackedAreaComponent.data', this.data);
+    console.log(' StackedAreaComponent.options', this.options);
+    console.log(' StackedAreaComponent.stacked_area_options', this.stacked_area_options);
+    this.options_obj = new GraphOptions(this.options);
+
+    const temp_stacked_area_options: StackedAreaOptionsModel = objectAssignDeep({}, DEFAULT_STACKED_AREA_OPTIONS);
+    objectAssignDeep(temp_stacked_area_options, this.stacked_area_options);
+
+    this.stacked_area_options = temp_stacked_area_options;
   }
 
   private _createChart(data: StackedAreaDataModel[], element: HTMLElement): void {
@@ -149,6 +171,15 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.options_obj.axis.y.label) {
       this._creatYAxisLabel(axes, graph_width, graph_height);
     }
+
+    /**
+     * Brushing and chart plotting
+     */
+    // Plot the areas
+    this._plotStackedArea(graph_width, graph_height);
+
+    // Area mouse events
+    this._attachMouseEventsToAreas();
   }
 
   /**
@@ -156,6 +187,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
    *
    */
   private _processData: (data: StackedAreaDataModel[]) => void = (data: StackedAreaDataModel[]): void => {
+    this._optimized_data = [];
+
     const sumstat = d3
       .nest()
       .key((d: any) => d.plot.x)
@@ -355,5 +388,135 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       graph_height,
       this.options_obj.axis.y.label
     );
+  };
+
+  /**
+   * Plot stacked areas
+   *
+   */
+  private _plotStackedArea: (graph_width: number, graph_height: number) => void = (
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    this._svg
+      .append('defs')
+      .append('svg:clipPath')
+      .attr('id', 'id-ngx-d3--clip')
+      .append('svg:rect')
+      .attr('width', graph_width)
+      .attr('height', graph_height)
+      .attr('x', 0)
+      .attr('y', 0);
+
+    // Create the scatter variable: where both the circles and the brush take place
+    this._area_chart = this._svg.append('g').attr('clip-path', 'url(#id-ngx-d3--clip)');
+
+    // Area generator
+    this._area = d3
+      .area()
+      .x((d: any) => {
+        return this._x(d.data.key);
+      })
+      .y0(d => {
+        return this._y(d[0]);
+      })
+      .y1(d => {
+        return this._y(d[1]);
+      });
+
+    // Show the areas
+    this._area_chart
+      .selectAll('ngx-d3--layers')
+      .data(this._stacked_data)
+      .enter()
+      .append('path')
+      .attr('class', d => 'ngx-d3--area ngx-d3--area--key--' + d.key.toLowerCase().replace(/\s/g, ''))
+      .style('stroke', this.stacked_area_options.area.stroke.color_hex)
+      .attr('stroke-width', this.stacked_area_options.area.stroke.width)
+      .style('fill', d => this._colors[this._keys.indexOf(d.key)])
+      .attr('fill-opacity', this.stacked_area_options.area.opacity.unhovered)
+      .attr('d', this._area as any);
+
+    // Line generator
+
+    const line = d3
+      .line()
+      .x((d: any) => {
+        return this._x(d.data.key);
+      })
+      .y(d => {
+        return this._y(d[1]);
+      });
+
+    // Show the lines
+    this._area_chart
+      .selectAll('ngx-d3-lines')
+      .data(this._stacked_data)
+      .enter()
+      .append('path')
+      .attr('class', d => 'ngx-d3--line ngx-d3--line--key--' + d.key.toLowerCase().replace(/\s/g, ''))
+      .style('stroke', d =>
+        this.stacked_area_options.area.stroke.color_hex
+          ? this.stacked_area_options.area.stroke.color_hex
+          : this._colors[this._keys.indexOf(d.key)]
+      )
+      .attr('stroke-width', this.stacked_area_options.area.stroke.width)
+      .style('fill', 'none')
+      .attr('d', line as any);
+  };
+
+  /**
+   * Attach mouse events to areas
+   *
+   */
+  private _attachMouseEventsToAreas: () => void = (): void => {
+    const ided_keys = this._keys.map(key => key.toLowerCase().replace(/\s/g, ''));
+
+    const areas = this._svg.selectAll('.ngx-d3--area');
+
+    for (const area of areas.nodes()) {
+      const d3_area = d3.select(area);
+      let ided_key: string;
+      for (const ele_class of d3_area.attr('class').split(' ')) {
+        if (ele_class.indexOf('ngx-d3--area--key--') === 0) {
+          ided_key = ele_class.split('ngx-d3--area--key--')[1];
+          break;
+        }
+      }
+      const key = ided_keys.includes(ided_key) ? this._keys[ided_keys.indexOf(ided_key)] : undefined;
+
+      d3_area.on('click', () => {
+        this.areaclick.emit(key);
+      });
+      d3_area.on('contextmenu', () => {
+        this.areacontextmenu.emit(key);
+      });
+      d3_area.on('dblclick', () => {
+        this.areadblclick.emit(key);
+      });
+      d3_area.on('mousedown', () => {
+        this.areamousedown.emit(key);
+      });
+      d3_area.on('mouseenter', () => {
+        d3_area.attr('fill-opacity', this.stacked_area_options.area.opacity.hovered);
+        this.areamouseenter.emit(key);
+      });
+      d3_area.on('mouseleave', () => {
+        d3_area.attr('fill-opacity', this.stacked_area_options.area.opacity.unhovered);
+        this.areamouseleave.emit(key);
+      });
+      d3_area.on('mousemove', () => {
+        this.areamousemove.emit(key);
+      });
+      d3_area.on('mouseout', () => {
+        this.areamouseout.emit(key);
+      });
+      d3_area.on('mouseover', () => {
+        this.areamouseover.emit(key);
+      });
+      d3_area.on('mouseup', () => {
+        this.areamouseup.emit(key);
+      });
+    }
   };
 }

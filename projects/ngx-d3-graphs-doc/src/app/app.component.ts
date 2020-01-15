@@ -61,6 +61,10 @@ export class AppComponent implements OnInit {
     this._getGraphData();
   }
 
+  areaClick(key: string) {
+    console.log('areaClick(key: string)', key);
+  }
+
   private _getGraphData(): void {
     this.graph_data = [];
     this._http.get('assets/mock-data/graphs/stacked-area/birth-records.json').subscribe(
