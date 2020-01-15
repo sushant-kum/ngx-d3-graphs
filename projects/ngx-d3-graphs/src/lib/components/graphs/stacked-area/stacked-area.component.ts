@@ -48,6 +48,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   private _x_label: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _y: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number> | d3.AxisScale<d3.AxisDomain>;
   private _y_axis: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _y_label: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _area: d3.Area<[number, number]>;
   private _area_chart: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _brush: d3.BrushBehavior<unknown>;
@@ -135,9 +136,18 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Add X axis
     this._createXAxis(axes, graph_width, graph_height);
+
     // Add X axis label
     if (this.options_obj.axis.x.label) {
       this._creatXAxisLabel(axes, graph_width, graph_height);
+    }
+
+    // Add Y Axis
+    this._createYAxis(axes, graph_width, graph_height);
+
+    // Add Y Axis label
+    if (this.options_obj.axis.y.label) {
+      this._creatYAxisLabel(axes, graph_width, graph_height);
     }
   }
 
@@ -264,6 +274,86 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       graph_width,
       graph_height,
       this.options_obj.axis.x.label
+    );
+  };
+
+  /**
+   * Create Y axis D3 object
+   *
+   */
+  private _createYAxis: (axes: AxisComponents, graph_width: number, graph_height: number) => void = (
+    axes: AxisComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    if (this.options_obj.axis.y.type === 'timeseries') {
+      this._y = axes.getLinearYAxis(this._getYDomain('Date'), graph_width, graph_height);
+    } else if (this.options_obj.axis.y.type === 'linear') {
+      this._y = axes.getLinearYAxis(this._getYDomain('number'), graph_width, graph_height);
+    }
+
+    this._y_axis = axes.renderYAxis(this._svg, this._y, graph_width, graph_height);
+  };
+
+  /**
+   * Get data-wise domain of Y axis data
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param type type of data `number` or `Date`
+   */
+  private _getYDomain(type: 'number' | 'Date'): [number, number] | [Date, Date] {
+    switch (type) {
+      case 'number':
+        let min_num: number;
+        let max_num: number;
+
+        for (const stack_entry of this._stacked_data) {
+          for (const entry of stack_entry) {
+            if (min_num === undefined || entry[0] < min_num) {
+              min_num = entry[0];
+            }
+            if (max_num === undefined || entry[1] > max_num) {
+              max_num = entry[1];
+            }
+          }
+        }
+
+        return [min_num, max_num];
+
+      case 'Date':
+        let min_date: moment.Moment;
+        let max_date: moment.Moment;
+
+        for (const stack_entry of this._stacked_data) {
+          for (const entry of stack_entry) {
+            if (min_date === undefined || moment(entry[0]).isBefore(min_date)) {
+              min_date = moment(entry[0]);
+            }
+            if (max_date === undefined || moment(entry[1]).isAfter(max_date)) {
+              max_date = moment(entry[1]);
+            }
+          }
+        }
+
+        return [min_date.toDate(), max_date.toDate()];
+    }
+  }
+
+  /**
+   * Create Y Axis label
+   *
+   */
+  private _creatYAxisLabel: (axes: AxisComponents, graph_width: number, graph_height: number) => void = (
+    axes: AxisComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    this._y_label = axes.renderYAxisLabel(
+      this._svg,
+      this._y_axis,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.y.label
     );
   };
 }

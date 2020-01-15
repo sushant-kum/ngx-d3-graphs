@@ -23,22 +23,30 @@ export class AppComponent implements OnInit {
     },
     axis: {
       // rotated: true,
-      x: {
-        // show: false,
-        type: 'timeseries',
-        localtime: false,
-        tick: {
-          format: x => {
-            return moment(x).format('DD MMM, YYYY'); // + ' sajgf kjhsk haskjd h';
-          }
-          // outer: false
-          // values: [1880, 2000],
-          // rotate: 90
-        },
-        label: {
-          text: 'Too long label text could be bad!'
-          // position: 'inner-right'
-        }
+      // x: {
+      //   // show: false,
+      //   // type: 'timeseries',
+      //   // localtime: false,
+      //   tick: {
+      //     format: x => {
+      //       console.log(typeof x);
+      //       return x; // + ' sajgf kjhsk haskjd h';
+      //     }
+      //     // outer: false
+      //     // values: [1880, 2000],
+      //     // rotate: 90
+      //   },
+      //   // label: {
+      //   //   text: 'Too long label text could be bad!'
+      //   //   // position: 'inner-right'
+      //   // }
+      // },
+      y: {
+        // min: 10000,
+        // inner: true,
+        // label: {
+        //   position: 'outer-top'
+        // }
       }
     }
   };
@@ -61,7 +69,7 @@ export class AppComponent implements OnInit {
           this.graph_data.push({
             key: data_row.name,
             plot: {
-              x: moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
+              x: data_row.year, // moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
               y: data_row.n
             }
           });

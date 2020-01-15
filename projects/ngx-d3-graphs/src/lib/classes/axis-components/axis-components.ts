@@ -1,3 +1,10 @@
+/**
+ * @author Sushant Kumar
+ * @email sushant.kum96@gmail.com
+ * @create date 2020-01-15 10:52:20
+ * @modify date 2020-01-15 10:52:20
+ * @desc Axis component
+ */
 import objectAssignDeep from 'object-assign-deep';
 import * as d3 from 'd3';
 import moment from 'moment';
@@ -7,6 +14,12 @@ import { AxisOptionsModel } from '../../data-models/axis-options/axis-options.mo
 import { DEFAULT_GRAPH_OPTIONS } from '../../constants/default-graph-options';
 import { HelperService } from '../../services/helper/helper.service';
 
+/**
+ * Class AxisComponents
+ *
+ * @author Sushant Kumar<sushant.kum96@gmail.com>
+ * @export
+ */
 export class AxisComponents {
   static readonly DEFAULT_AXIS_OPTIONS = objectAssignDeep({}, DEFAULT_GRAPH_OPTIONS.axis);
 
@@ -14,13 +27,19 @@ export class AxisComponents {
 
   constructor(axis_options?: AxisOptionsModel) {
     const temp_axis_options: AxisOptionsModel = objectAssignDeep({}, AxisComponents.DEFAULT_AXIS_OPTIONS);
-    console.log('temp_axis_options before', JSON.parse(JSON.stringify(temp_axis_options)));
     objectAssignDeep(temp_axis_options, axis_options);
-    console.log('temp_axis_options after', JSON.parse(JSON.stringify(temp_axis_options)));
 
     this.options = temp_axis_options;
   }
 
+  /**
+   * Create and return D3 X axis
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param domain Data-wise domain for X axis
+   * @param graph_width Graph width
+   * @param graph_height Graph height
+   */
   getXAxis(
     domain: (Date | number | string | { valueOf(): number })[],
     graph_width: number,
@@ -52,30 +71,38 @@ export class AxisComponents {
         .domain(this.getXAxisDomain(domain) as any);
     }
 
-    console.log('this.getXAxisDomain(domain)', this.getXAxisDomain(domain));
-    // x.domain(this.getXAxisDomain(domain) as any);
     return x;
   }
 
+  /**
+   * Get actual domain of X axis
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param domain Data-wise domain
+   */
   getXAxisDomain(
     domain: (Date | number | string | { valueOf(): number })[]
   ): (Date | number | string | { valueOf(): number })[] {
     // x.min, x.max
-    if (this.options.x.type !== 'category' && (this.options.x.min !== undefined || this.options.x.min !== undefined)) {
+    if (this.options.x.type !== 'category' && (this.options.x.min !== undefined || this.options.x.max !== undefined)) {
       const computed_domain: (Date | number | string | { valueOf(): number })[] = [undefined, undefined];
-      if (this.options.x.min !== undefined) {
+      if (this.options.x.min || this.options.x.min === 0) {
         if (this.options.x.type === 'timeseries') {
-          computed_domain[0] = moment(this.options.x.min, 'YYYY-MM-DD').toDate();
+          computed_domain[0] = moment(this.options.x.min).toDate();
         } else {
-          computed_domain[0] = domain[0];
+          computed_domain[0] = this.options.x.min;
         }
+      } else {
+        computed_domain[0] = domain[0];
       }
-      if (this.options.x.max !== undefined) {
+      if (this.options.x.max || this.options.x.max === 0) {
         if (this.options.x.type === 'timeseries') {
-          computed_domain[1] = moment(this.options.x.max, 'YYYY-MM-DD').toDate();
+          computed_domain[1] = moment(this.options.x.max).toDate();
         } else {
-          computed_domain[1] = domain[1];
+          computed_domain[1] = this.options.x.max;
         }
+      } else {
+        computed_domain[1] = domain[1];
       }
       return computed_domain;
     } else {
@@ -83,6 +110,16 @@ export class AxisComponents {
     }
   }
 
+  /**
+   * Render X axis
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param svg Parent SVG element
+   * @param x D3 X axis element
+   * @param graph_width Graph width
+   * @param graph_height Graph height
+   * @param padding Graph padding object
+   */
   renderXAxis(
     svg: d3.Selection<SVGGElement, unknown, null, undefined>,
     x:
@@ -177,9 +214,9 @@ export class AxisComponents {
   }
 
   /**
-   * Renders X Axis
+   * Renders X Axis label
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
    * @param svg Parent SVG element
    * @param x_axis X Axis SVG element
    * @param graph_width Width of the graph in px
@@ -195,7 +232,6 @@ export class AxisComponents {
     label: AxisOptionsModel['x']['label']
   ): d3.Selection<SVGGElement, unknown, null, undefined> {
     const x_label: d3.Selection<SVGGElement, unknown, null, undefined> = svg.append('text').text(label.text);
-    console.log("this.options.x.label.position.split('-')", this.options.x.label.position.split('-'));
     if (this.options.rotated) {
       let label_x_position: number;
       let label_dx: number;
@@ -239,7 +275,7 @@ export class AxisComponents {
 
       if (this.options.x.label.position.split('-')[1] === 'left') {
         text_anchor = 'start';
-        label_x_position = 2;
+        label_x_position = 5;
       } else if (this.options.x.label.position.split('-')[1] === 'center') {
         text_anchor = 'middle';
         label_x_position = graph_width / 2;
@@ -256,6 +292,13 @@ export class AxisComponents {
     return x_label;
   }
 
+  /**
+   * Wrap tick text for horizontal X axis
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param text Tick Text
+   * @param width Width of axis
+   */
   private _wrapHorizontalXTick(text: d3.Selection<d3.BaseType, unknown, SVGGElement, unknown>, width: number): void {
     const tick_width: number = width / text.size();
     text.each(function() {
@@ -297,6 +340,13 @@ export class AxisComponents {
     });
   }
 
+  /**
+   * Wrap text for vertical X axis
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param text
+   * @param left_padding
+   */
   private _wrapVerticalXTick(
     text: d3.Selection<d3.BaseType, unknown, SVGGElement, unknown>,
     left_padding: number
@@ -340,5 +390,224 @@ export class AxisComponents {
         }
       }
     });
+  }
+
+  /**
+   * Get linear D3 X Axis object
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param domain Data-wise domain
+   * @param graph_width Graph width
+   * @param graph_height Graph height
+   */
+  getLinearYAxis(
+    domain: [number, number] | [Date, Date],
+    graph_width: number,
+    graph_height: number
+  ): d3.ScaleTime<number, number> | d3.ScaleLinear<number, number> | d3.AxisScale<d3.AxisDomain> {
+    let y: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number> | d3.AxisScale<d3.AxisDomain>;
+    // y.inverted
+    const computed_domain = this.options.y.inverted
+      ? this.getLinearYAxisDomain(domain).reverse()
+      : this.getLinearYAxisDomain(domain);
+    if (this.options.y.type === 'timeseries') {
+      y = d3
+        .scaleTime()
+        .range(this.options.rotated ? [0, graph_width] : [graph_height, 0])
+        .domain(computed_domain);
+    } else if (this.options.y.type === 'linear') {
+      y = d3
+        .scaleLinear()
+        .range(this.options.rotated ? [0, graph_width] : [graph_height, 0])
+        .domain(computed_domain);
+    }
+
+    return y;
+  }
+
+  /**
+   * Get linear domain for Y Axis
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param domain Data-wise domain
+   */
+  getLinearYAxisDomain(domain: [number, number] | [Date, Date]): [number, number] | [Date, Date] {
+    // y.min, y.max
+    if (this.options.y.min !== undefined || this.options.y.max !== undefined) {
+      const computed_domain: [number, number] | [Date, Date] = [undefined, undefined];
+      if (this.options.y.min || this.options.y.min === 0) {
+        if (this.options.y.type === 'timeseries') {
+          computed_domain[0] = moment(this.options.y.min).toDate();
+        } else {
+          computed_domain[0] = this.options.y.min;
+        }
+      } else {
+        computed_domain[0] = domain[0];
+      }
+      if (this.options.y.max || this.options.y.max === 0) {
+        if (this.options.y.type === 'timeseries') {
+          computed_domain[1] = moment(this.options.y.max).toDate();
+        } else {
+          computed_domain[1] = this.options.y.max;
+        }
+      } else {
+        computed_domain[1] = domain[1];
+      }
+      return computed_domain;
+    } else {
+      return domain;
+    }
+  }
+
+  /**
+   * Render Y axis
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param svg Parent SVG element
+   * @param y D3 Y axis object
+   * @param graph_width Graph width
+   * @param graph_height Graph height
+   */
+  renderYAxis(
+    svg: d3.Selection<SVGGElement, unknown, null, undefined>,
+    y:
+      | d3.ScaleTime<number, number>
+      | d3.ScaleLinear<number, number>
+      | d3.ScalePoint<string>
+      | d3.AxisScale<d3.AxisDomain>,
+    graph_width: number,
+    graph_height: number
+  ): d3.Selection<SVGGElement, unknown, null, undefined> {
+    const y_axis = svg.append('g');
+    const attr = {
+      class: this.options.rotated
+        ? 'ngx-d3--axis ngx-d3--axis--rotated ngx-d3--axis--y'
+        : 'ngx-d3--axis ngx-d3--axis--y',
+      transform: this.options.rotated ? 'translate(0,' + graph_height + ')' : 'translate(0, 0)'
+    };
+
+    const axis = this.options.rotated ? d3.axisBottom(y) : this.options.y.inner ? d3.axisRight(y) : d3.axisLeft(y);
+
+    /**
+     * Ticks
+     */
+    // y.tick.format
+    if (this.options.y.tick.format) {
+      axis.tickFormat(this.options.y.tick.format);
+    }
+
+    // y.tick.values, y.tick.count
+    if (this.options.y.tick.values && HelperService.array.isInRange(this.options.y.tick.values, y.domain())) {
+      axis.tickValues(this.options.y.tick.values);
+    } else {
+      axis.ticks(
+        this.options.y.tick.count !== undefined && typeof this.options.y.tick.count === 'number'
+          ? this.options.y.tick.count
+          : this.options.rotated === true
+          ? Math.floor(graph_width / 90)
+          : Math.floor(graph_height / 50)
+      );
+    }
+
+    // y.tick.outer
+    if (!this.options.y.tick.outer) {
+      axis.tickSizeOuter(0);
+    }
+
+    y_axis
+      .attr('class', attr.class)
+      .attr('transform', attr.transform)
+      .call(axis);
+
+    // y.show
+    if (!this.options.y.show) {
+      y_axis.attr('display', 'none');
+    }
+
+    return y_axis;
+  }
+
+  /**
+   * Render Y Axis label
+   *
+   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @param svg Parent SVG element's D3 object
+   * @param y_axis D3 Y axis SVG element
+   * @param graph_width Graph width
+   * @param graph_height Graph height
+   * @param label Y axis label object
+   */
+  renderYAxisLabel(
+    svg: d3.Selection<SVGGElement, unknown, null, undefined>,
+    y_axis: d3.Selection<SVGGElement, unknown, null, undefined>,
+    graph_width: number,
+    graph_height: number,
+    label: AxisOptionsModel['y']['label']
+  ): d3.Selection<SVGGElement, unknown, null, undefined> {
+    const y_label: d3.Selection<SVGGElement, unknown, null, undefined> = svg.append('text').text(label.text);
+    if (this.options.rotated) {
+      let text_anchor: 'start' | 'middle' | 'end';
+      let label_x_position: number;
+      let label_y_position: number;
+
+      y_label.attr('class', 'ngx-d3--label ngx-d3--label--rotated ngx-d3--label--y');
+      if (this.options.y.label.position.split('-')[0] === 'outer') {
+        label_y_position = graph_height + 27;
+      } else {
+        label_y_position = graph_height - 5;
+      }
+
+      if (this.options.y.label.position.split('-')[1] === 'left') {
+        text_anchor = 'start';
+        label_x_position = 5;
+      } else if (this.options.y.label.position.split('-')[1] === 'center') {
+        text_anchor = 'middle';
+        label_x_position = graph_width / 2;
+      } else {
+        text_anchor = 'end';
+        label_x_position = graph_width;
+      }
+
+      y_label
+        .attr('text-anchor', text_anchor)
+        .attr('x', label_x_position)
+        .attr('y', label_y_position);
+    } else {
+      let label_x_position: number;
+      let label_dx: number;
+      let label_dy: number;
+
+      y_label.attr('class', 'ngx-d3--label ngx-d3--label--y').attr('transform', 'rotate(-90)');
+      if (this.options.y.label.position.split('-')[0] === 'outer') {
+        if (this.options.y.inner) {
+          label_dy = -5;
+        } else {
+          label_dy = -y_axis.node().getBBox().width;
+        }
+      } else {
+        if (this.options.y.inner) {
+          label_dy = y_axis.node().getBBox().width + y_label.node().getBBox().height;
+        } else {
+          label_dy = y_label.node().getBBox().height;
+        }
+      }
+
+      if (this.options.y.label.position.split('-')[1] === 'bottom') {
+        label_x_position = -graph_height;
+        label_dx = 5;
+      } else if (this.options.y.label.position.split('-')[1] === 'middle') {
+        label_x_position = -graph_height / 2;
+        label_dx = -y_label.node().getBBox().width / 2;
+      } else {
+        label_x_position = 0;
+        label_dx = -y_label.node().getBBox().width;
+      }
+
+      y_label
+        .attr('x', label_x_position)
+        .attr('dx', label_dx)
+        .attr('dy', label_dy);
+    }
+    return y_label;
   }
 }

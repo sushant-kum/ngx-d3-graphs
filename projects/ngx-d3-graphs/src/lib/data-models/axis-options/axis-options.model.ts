@@ -44,7 +44,7 @@ export interface AxisOptionsModel {
   y?: {
     show?: boolean;
     inner?: boolean;
-    type?: 'linear' | 'timeseries' | 'log';
+    type?: 'linear' | 'timeseries';
     min?: number | Date;
     max?: number | Date;
     inverted?: boolean;
@@ -76,7 +76,7 @@ export interface AxisOptionsModel {
   y2?: {
     show?: boolean;
     inner?: boolean;
-    type?: 'linear' | 'timeseries' | 'log';
+    type?: 'linear' | 'timeseries';
     min?: number | Date;
     max?: number | Date;
     inverted?: boolean;
