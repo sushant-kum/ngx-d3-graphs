@@ -1,4 +1,4 @@
-import * as uniqueColors from 'unique-colors';
+import palette from 'google-palette';
 
 import { GraphOptionsModel } from '../data-models/graph-options/graph-options.model';
 
@@ -15,7 +15,7 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
     left: 0
   },
   color: {
-    pattern: uniqueColors.unique_colors(20)
+    pattern: palette('mpn65', 20)
   },
   interaction: {
     enabled: true

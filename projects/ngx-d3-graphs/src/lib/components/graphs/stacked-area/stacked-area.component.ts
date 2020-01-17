@@ -13,7 +13,7 @@ import {
 import * as d3 from 'd3';
 import moment from 'moment';
 import { ResizeSensor } from 'css-element-queries';
-import * as uniqueColors from 'unique-colors';
+import palette from 'google-palette';
 import objectAssignDeep from 'object-assign-deep';
 
 import { GraphOptions } from '../../../classes/graph-options/graph-options';
@@ -66,6 +66,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   private _y_axis: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _y_label: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _area: d3.Area<[number, number]>;
+  private _line: d3.Line<[number, number]>;
   private _area_chart: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _brush: d3.BrushBehavior<unknown>;
 
@@ -117,6 +118,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     console.log(' StackedAreaComponent.options', this.options);
     console.log(' StackedAreaComponent.stacked_area_options', this.stacked_area_options);
     this.options_obj = new GraphOptions(this.options);
+    console.log(' StackedAreaComponent.options_obj', this.options_obj);
 
     const temp_stacked_area_options: StackedAreaOptionsModel = objectAssignDeep({}, DEFAULT_STACKED_AREA_OPTIONS);
     objectAssignDeep(temp_stacked_area_options, this.stacked_area_options);
@@ -178,8 +180,15 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     // Plot the areas
     this._plotStackedArea(graph_width, graph_height);
 
+    // Animate graph
+    if (this.options_obj.transition.duration) {
+      this._animateStackedArea();
+    }
+
     // Area mouse events
-    this._attachMouseEventsToAreas();
+    if (this.options_obj.interaction.enabled) {
+      this._attachMouseEventsToAreas();
+    }
   }
 
   /**
@@ -240,7 +249,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.options_obj.color.pattern && this.options_obj.color.pattern.length >= this._keys.length) {
       this._colors = this.options_obj.color.pattern.slice(0, this._keys.length);
     } else {
-      this._colors = uniqueColors.unique_colors(this._keys.length);
+      this._colors = palette('mpn65', this._keys.length);
     }
 
     console.log('this._optimized_data', this._optimized_data);
@@ -418,10 +427,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         return this._x(d.data.key);
       })
       .y0(d => {
-        return this._y(d[0]);
+        return this._y(this.options_obj.transition.duration ? 0 : d[0]);
       })
       .y1(d => {
-        return this._y(d[1]);
+        return this._y(this.options_obj.transition.duration ? 0 : d[1]);
       });
 
     // Show the areas
@@ -438,14 +447,13 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .attr('d', this._area as any);
 
     // Line generator
-
-    const line = d3
+    this._line = d3
       .line()
       .x((d: any) => {
         return this._x(d.data.key);
       })
       .y(d => {
-        return this._y(d[1]);
+        return this._y(this.options_obj.transition.duration ? 0 : d[1]);
       });
 
     // Show the lines
@@ -462,7 +470,50 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       )
       .attr('stroke-width', this.stacked_area_options.area.stroke.width)
       .style('fill', 'none')
-      .attr('d', line as any);
+      .attr('d', this._line as any);
+  };
+
+  /**
+   * Animate graph
+   *
+   */
+  private _animateStackedArea: () => void = (): void => {
+    // Area generator
+    this._area = d3
+      .area()
+      .x((d: any) => {
+        return this._x(d.data.key);
+      })
+      .y0(d => {
+        return this._y(d[0]);
+      })
+      .y1(d => {
+        return this._y(d[1]);
+      });
+
+    // Animate area
+    this._svg
+      .selectAll('.ngx-d3--area')
+      .transition()
+      .duration(this.options_obj.transition.duration)
+      .attr('d', this._area as any);
+
+    // Line generator
+    this._line = d3
+      .line()
+      .x((d: any) => {
+        return this._x(d.data.key);
+      })
+      .y(d => {
+        return this._y(d[1]);
+      });
+
+    // Animate line
+    this._svg
+      .selectAll('.ngx-d3--line')
+      .transition()
+      .duration(this.options_obj.transition.duration)
+      .attr('d', this._line as any);
   };
 
   /**

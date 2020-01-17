@@ -41,14 +41,17 @@ export class AppComponent implements OnInit {
       //   //   // position: 'inner-right'
       //   // }
       // },
-      y: {
-        // min: 10000,
-        // inner: true,
-        // label: {
-        //   position: 'outer-top'
-        // }
-      }
+      // y: {
+      //   // min: 10000,
+      //   // inner: true,
+      //   // label: {
+      //   //   position: 'outer-top'
+      //   // }
+      // }
     }
+    // transition: {
+    //   duration: 800
+    // }
   };
 
   graph_data: StackedAreaDataModel[];

@@ -7,9 +7,9 @@
       "css-element-queries": "css-element-queries",
       "d3": "d3",
       "fast-deep-equal": "fast-deep-equal",
+      "google-palette": "google-palette",
       "moment": "moment",
-      "object-assign-deep": "object-assign-deep",
-      "unique-colors": "unique-colors"
+      "object-assign-deep": "object-assign-deep"
     }
   }
 }
