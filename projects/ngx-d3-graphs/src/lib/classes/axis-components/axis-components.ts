@@ -130,8 +130,8 @@ export class AxisComponents {
     graph_width: number,
     graph_height: number,
     padding: GraphOptionsModel['padding']
-  ): d3.Selection<SVGGElement, unknown, null, undefined> {
-    const x_axis = svg.append('g');
+  ): { x_axis_svg: d3.Selection<SVGGElement, unknown, null, undefined>; x_axis: d3.Axis<d3.AxisDomain> } {
+    const x_axis_svg = svg.append('g');
     const attr = {
       class: this.options.rotated
         ? 'ngx-d3--axis ngx-d3--axis--rotated ngx-d3--axis--x'
@@ -139,20 +139,20 @@ export class AxisComponents {
       transform: this.options.rotated ? 'translate(0, 0)' : 'translate(0,' + graph_height + ')'
     };
 
-    const axis = this.options.rotated ? d3.axisLeft(x) : d3.axisBottom(x);
+    const x_axis = this.options.rotated ? d3.axisLeft(x) : d3.axisBottom(x);
 
     /**
      * Ticks
      */
     // x.tick.format
     if (this.options.x.tick.format) {
-      axis.tickFormat(this.options.x.tick.format);
+      x_axis.tickFormat(this.options.x.tick.format);
     }
 
     // x.ticks.values, x.tick.count
     if (this.options.x.type === 'category') {
       if (this.options.x.tick.values && HelperService.array.isSubset(this.options.x.tick.values, x.domain())) {
-        axis.tickValues(this.options.x.tick.values);
+        x_axis.tickValues(this.options.x.tick.values);
       } else {
         let tick_interval: number;
         if (this.options.rotated) {
@@ -160,13 +160,13 @@ export class AxisComponents {
         } else {
           tick_interval = (90 / graph_width) * x.domain().length;
         }
-        axis.tickValues(HelperService.array.getElementsAtInterval(x.domain(), tick_interval));
+        x_axis.tickValues(HelperService.array.getElementsAtInterval(x.domain(), tick_interval));
       }
     } else {
       if (this.options.x.tick.values && HelperService.array.isInRange(this.options.x.tick.values, x.domain())) {
-        axis.tickValues(this.options.x.tick.values);
+        x_axis.tickValues(this.options.x.tick.values);
       } else {
-        axis.ticks(
+        x_axis.ticks(
           this.options.x.tick.count !== undefined && typeof this.options.x.tick.count === 'number'
             ? this.options.x.tick.count
             : this.options.rotated === true
@@ -178,17 +178,17 @@ export class AxisComponents {
 
     // x.tick.outer
     if (!this.options.x.tick.outer) {
-      axis.tickSizeOuter(0);
+      x_axis.tickSizeOuter(0);
     }
 
-    x_axis
+    x_axis_svg
       .attr('class', attr.class)
       .attr('transform', attr.transform)
-      .call(axis);
+      .call(x_axis);
 
     // x.tick.rotate
     if (this.options.x.tick.rotate && !this.options.rotated) {
-      x_axis
+      x_axis_svg
         .selectAll('text')
         .attr('y', 0)
         .attr('x', 9)
@@ -200,17 +200,17 @@ export class AxisComponents {
     // x.tick.multiline
     if (this.options.x.tick.multiline) {
       if (this.options.rotated && padding.left) {
-        x_axis.selectAll('.tick text').call(this._wrapVerticalXTick, padding.left);
+        x_axis_svg.selectAll('.tick text').call(this._wrapVerticalXTick, padding.left);
       } else {
-        x_axis.selectAll('.tick text').call(this._wrapHorizontalXTick, x.range()[1] - x.range()[0]);
+        x_axis_svg.selectAll('.tick text').call(this._wrapHorizontalXTick, x.range()[1] - x.range()[0]);
       }
     }
 
     // x.show
     if (!this.options.x.show) {
-      x_axis.attr('display', 'none');
+      x_axis_svg.attr('display', 'none');
     }
-    return x_axis;
+    return { x_axis_svg, x_axis };
   }
 
   /**
@@ -218,7 +218,7 @@ export class AxisComponents {
    *
    * @author Sushant Kumar<sushant.kum96@gmail.com>
    * @param svg Parent SVG element
-   * @param x_axis X Axis SVG element
+   * @param x_axis_svg X Axis SVG element
    * @param graph_width Width of the graph in px
    * @param graph_height Height of the graph in px
    * @param label Label text and position
@@ -226,7 +226,7 @@ export class AxisComponents {
    */
   renderXAxisLabel(
     svg: d3.Selection<SVGGElement, unknown, null, undefined>,
-    x_axis: d3.Selection<SVGGElement, unknown, null, undefined>,
+    x_axis_svg: d3.Selection<SVGGElement, unknown, null, undefined>,
     graph_width: number,
     graph_height: number,
     label: AxisOptionsModel['x']['label']
@@ -240,7 +240,7 @@ export class AxisComponents {
       x_label.attr('class', 'ngx-d3--label ngx-d3--label--rotated ngx-d3--label--x').attr('transform', 'rotate(-90)');
 
       if (this.options.x.label.position.split('-')[0] === 'outer') {
-        label_dy = -x_axis.node().getBBox().width;
+        label_dy = -x_axis_svg.node().getBBox().width;
       } else {
         label_dy = x_label.node().getBBox().height;
       }

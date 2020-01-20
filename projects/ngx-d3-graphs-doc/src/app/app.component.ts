@@ -23,35 +23,42 @@ export class AppComponent implements OnInit {
     },
     axis: {
       // rotated: true,
-      // x: {
-      //   // show: false,
-      //   // type: 'timeseries',
-      //   // localtime: false,
-      //   tick: {
-      //     format: x => {
-      //       console.log(typeof x);
-      //       return x; // + ' sajgf kjhsk haskjd h';
-      //     }
-      //     // outer: false
-      //     // values: [1880, 2000],
-      //     // rotate: 90
+      //   x: {
+      //     min: 2000
+      //     // show: false
+      //     //   // type: 'timeseries',
+      //     //   // localtime: false,
+      //     //   tick: {
+      //     //     format: x => {
+      //     //       console.log(typeof x);
+      //     //       return x; // + ' sajgf kjhsk haskjd h';
+      //     //     }
+      //     //     // outer: false
+      //     //     // values: [1880, 2000],
+      //     //     // rotate: 90
+      //     //   },
+      //     //   // label: {
+      //     //   //   text: 'Too long label text could be bad!'
+      //     //   //   // position: 'inner-right'
+      //     //   // }
       //   },
-      //   // label: {
-      //   //   text: 'Too long label text could be bad!'
-      //   //   // position: 'inner-right'
-      //   // }
+      //   y: {
+      //     min: 10000,
+      //     max: 100000,
+      //     inner: true,
+      //     label: {
+      //       position: 'outer-top'
+      //     }
+      //   }
       // },
-      // y: {
-      //   // min: 10000,
-      //   // inner: true,
-      //   // label: {
-      //   //   position: 'outer-top'
-      //   // }
-      // }
+      // transition: {
+      //   duration: 800
+    },
+    grid: {
+      x: {
+        show: true
+      }
     }
-    // transition: {
-    //   duration: 800
-    // }
   };
 
   graph_data: StackedAreaDataModel[];

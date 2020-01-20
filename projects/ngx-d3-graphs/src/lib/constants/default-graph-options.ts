@@ -89,5 +89,15 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
       },
       default: undefined
     }
+  },
+  grid: {
+    x: {
+      show: false,
+      lines: []
+    },
+    y: {
+      show: false,
+      lines: []
+    }
   }
 };

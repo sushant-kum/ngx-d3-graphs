@@ -1,0 +1,14 @@
+.ngx-d3 {
+  &--grid {
+    .domain {
+      display: none;
+    }
+    .tick {
+      stroke-dasharray: 5 5;
+
+      line {
+        stroke: #aaaaaa;
+      }
+    }
+  }
+}

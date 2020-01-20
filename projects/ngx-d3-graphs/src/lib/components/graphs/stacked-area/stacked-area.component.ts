@@ -21,6 +21,7 @@ import { StackedAreaDataModel, StackedAreaOptionsModel } from '../../../data-mod
 import { GraphOptionsModel } from '../../../data-models/graph-options/graph-options.model';
 import { AxisComponents } from '../../../classes/axis-components/axis-components';
 import { DEFAULT_STACKED_AREA_OPTIONS } from './../../../constants/default-stacked-area-options';
+import { GridComponents } from '../../../classes/grid-components/grid-components';
 
 @Component({
   selector: 'ngx-d3-stacked-area',
@@ -60,7 +61,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     | d3.ScaleLinear<number, number>
     | d3.ScalePoint<string>
     | d3.AxisScale<d3.AxisDomain>;
-  private _x_axis: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _x_axis_svg: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _x_axis: d3.Axis<d3.AxisDomain>;
   private _x_label: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _y: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number> | d3.AxisScale<d3.AxisDomain>;
   private _y_axis: d3.Selection<SVGGElement, unknown, null, undefined>;
@@ -189,6 +191,14 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.options_obj.interaction.enabled) {
       this._attachMouseEventsToAreas();
     }
+
+    /**
+     * Grid lines
+     */
+    const grid: GridComponents = new GridComponents(this.options_obj.grid);
+
+    // Show X axis grid lines
+    this._displayXAxisGrids(grid, graph_width, graph_height);
   }
 
   /**
@@ -298,7 +308,9 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       );
     }
 
-    this._x_axis = axes.renderXAxis(this._svg, this._x, graph_width, graph_height, this.options_obj.padding);
+    const x_axis_values = axes.renderXAxis(this._svg, this._x, graph_width, graph_height, this.options_obj.padding);
+    this._x_axis_svg = x_axis_values.x_axis_svg;
+    this._x_axis = x_axis_values.x_axis;
   };
 
   /**
@@ -312,7 +324,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   ): void => {
     this._x_label = axes.renderXAxisLabel(
       this._svg,
-      this._x_axis,
+      this._x_axis_svg,
       graph_width,
       graph_height,
       this.options_obj.axis.x.label
@@ -611,5 +623,25 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         this.areamouseup.emit(key);
       });
     }
+  };
+
+  /**
+   * Display X axis grids
+   *
+   * @memberof StackedAreaComponent
+   */
+  private _displayXAxisGrids: (grid: GridComponents, graph_width: number, graph_height: number) => void = (
+    grid: GridComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    grid.renderXAxisGridLines(
+      this._svg,
+      this._x,
+      this._x_axis,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.rotated
+    );
   };
 }
