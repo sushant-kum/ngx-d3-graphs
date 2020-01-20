@@ -421,17 +421,29 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     this._area_chart = this._svg.append('g').attr('clip-path', 'url(#id-ngx-d3--clip)');
 
     // Area generator
-    this._area = d3
-      .area()
-      .x((d: any) => {
-        return this._x(d.data.key);
-      })
-      .y0(d => {
-        return this._y(this.options_obj.transition.duration ? 0 : d[0]);
-      })
-      .y1(d => {
-        return this._y(this.options_obj.transition.duration ? 0 : d[1]);
-      });
+    this._area = this.options_obj.axis.rotated
+      ? d3
+          .area()
+          .x0(d => {
+            return this._y(this.options_obj.transition.duration ? 0 : d[0]);
+          })
+          .x1(d => {
+            return this._y(this.options_obj.transition.duration ? 0 : d[1]);
+          })
+          .y((d: any) => {
+            return this._x(d.data.key);
+          })
+      : d3
+          .area()
+          .x((d: any) => {
+            return this._x(d.data.key);
+          })
+          .y0(d => {
+            return this._y(this.options_obj.transition.duration ? 0 : d[0]);
+          })
+          .y1(d => {
+            return this._y(this.options_obj.transition.duration ? 0 : d[1]);
+          });
 
     // Show the areas
     this._area_chart
@@ -447,14 +459,23 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .attr('d', this._area as any);
 
     // Line generator
-    this._line = d3
-      .line()
-      .x((d: any) => {
-        return this._x(d.data.key);
-      })
-      .y(d => {
-        return this._y(this.options_obj.transition.duration ? 0 : d[1]);
-      });
+    this._line = this.options_obj.axis.rotated
+      ? d3
+          .line()
+          .x(d => {
+            return this._y(this.options_obj.transition.duration ? 0 : d[1]);
+          })
+          .y((d: any) => {
+            return this._x(d.data.key);
+          })
+      : d3
+          .line()
+          .x((d: any) => {
+            return this._x(d.data.key);
+          })
+          .y(d => {
+            return this._y(this.options_obj.transition.duration ? 0 : d[1]);
+          });
 
     // Show the lines
     this._area_chart
@@ -479,17 +500,29 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
    */
   private _animateStackedArea: () => void = (): void => {
     // Area generator
-    this._area = d3
-      .area()
-      .x((d: any) => {
-        return this._x(d.data.key);
-      })
-      .y0(d => {
-        return this._y(d[0]);
-      })
-      .y1(d => {
-        return this._y(d[1]);
-      });
+    this._area = this.options_obj.axis.rotated
+      ? d3
+          .area()
+          .x0(d => {
+            return this._y(d[0]);
+          })
+          .x1(d => {
+            return this._y(d[1]);
+          })
+          .y((d: any) => {
+            return this._x(d.data.key);
+          })
+      : d3
+          .area()
+          .x((d: any) => {
+            return this._x(d.data.key);
+          })
+          .y0(d => {
+            return this._y(d[0]);
+          })
+          .y1(d => {
+            return this._y(d[1]);
+          });
 
     // Animate area
     this._svg
@@ -499,14 +532,23 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .attr('d', this._area as any);
 
     // Line generator
-    this._line = d3
-      .line()
-      .x((d: any) => {
-        return this._x(d.data.key);
-      })
-      .y(d => {
-        return this._y(d[1]);
-      });
+    this._line = this.options_obj.axis.rotated
+      ? d3
+          .line()
+          .x(d => {
+            return this._y(d[1]);
+          })
+          .y((d: any) => {
+            return this._x(d.data.key);
+          })
+      : d3
+          .line()
+          .x((d: any) => {
+            return this._x(d.data.key);
+          })
+          .y(d => {
+            return this._y(d[1]);
+          });
 
     // Animate line
     this._svg
