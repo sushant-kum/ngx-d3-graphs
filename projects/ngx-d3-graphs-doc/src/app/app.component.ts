@@ -23,25 +23,25 @@ export class AppComponent implements OnInit {
     },
     axis: {
       // rotated: true,
-      //   x: {
-      //     min: 2000
-      //     // show: false
-      //     //   // type: 'timeseries',
-      //     //   // localtime: false,
-      //     //   tick: {
-      //     //     format: x => {
-      //     //       console.log(typeof x);
-      //     //       return x; // + ' sajgf kjhsk haskjd h';
-      //     //     }
-      //     //     // outer: false
-      //     //     // values: [1880, 2000],
-      //     //     // rotate: 90
-      //     //   },
-      //     //   // label: {
-      //     //   //   text: 'Too long label text could be bad!'
-      //     //   //   // position: 'inner-right'
-      //     //   // }
-      //   },
+      x: {
+        // min: 2000
+        // show: false
+        // type: 'category'
+        //   // localtime: false,
+        //   tick: {
+        //     format: x => {
+        //       console.log(typeof x);
+        //       return x; // + ' sajgf kjhsk haskjd h';
+        //     }
+        //     // outer: false
+        //     // values: [1880, 2000],
+        //     // rotate: 90
+        //   },
+        //   // label: {
+        //   //   text: 'Too long label text could be bad!'
+        //   //   // position: 'inner-right'
+        //   // }
+      }
       //   y: {
       //     min: 10000,
       //     max: 100000,
