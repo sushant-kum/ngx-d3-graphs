@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       x: {
         // min: 2000
         // show: false
-        // type: 'category'
+        type: 'timeseries'
         //   // localtime: false,
         //   tick: {
         //     format: x => {
@@ -56,7 +56,14 @@ export class AppComponent implements OnInit {
     },
     grid: {
       x: {
-        show: true
+        show: true,
+        lines: [
+          {
+            value: moment()
+              .year(2005)
+              .toDate()
+          }
+        ]
       }
     }
   };
@@ -83,7 +90,7 @@ export class AppComponent implements OnInit {
           this.graph_data.push({
             key: data_row.name,
             plot: {
-              x: data_row.year, // moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
+              x: moment([data_row.year, 0, 1]).format('YYYY-MM-DD'), // data_row.year, // moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
               y: data_row.n
             }
           });

@@ -195,11 +195,16 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     /**
      * Grid lines
      */
-    const grid: GridComponents = new GridComponents(this.options_obj.grid);
+    const grid: GridComponents = new GridComponents(this.options.grid);
 
-    // Show X axis grid lines
+    // Show X axis grids
     if (this.options.grid.x.show) {
       this._displayXAxisGrids(grid, graph_width, graph_height);
+    }
+
+    // Show X axis lines
+    if (this.options.grid.x.lines && this.options.grid.x.lines.length > 0) {
+      this._displayXAxisLines(grid, graph_width, graph_height);
     }
   }
 
@@ -637,7 +642,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     graph_width: number,
     graph_height: number
   ): void => {
-    grid.renderXAxisGridLines(
+    grid.renderXAxisGrids(
       this._svg,
       this._x,
       graph_width,
@@ -646,6 +651,21 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       this.options_obj.axis.x.type,
       this.options_obj.axis.x.tick.values,
       this.options_obj.axis.x.tick.count
+    );
+  };
+
+  private _displayXAxisLines: (grid: GridComponents, graph_width: number, graph_height: number) => void = (
+    grid: GridComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    grid.renderXAxisLines(
+      this._svg,
+      this._x,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.rotated,
+      this.options_obj.axis.x.type
     );
   };
 }
