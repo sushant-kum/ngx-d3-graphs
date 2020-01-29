@@ -667,5 +667,14 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       this.options_obj.axis.rotated,
       this.options_obj.axis.x.type
     );
+
+    grid.renderXAxisLineLabels(
+      this._svg,
+      this._x,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.rotated,
+      this.options_obj.axis.x.type
+    );
   };
 }

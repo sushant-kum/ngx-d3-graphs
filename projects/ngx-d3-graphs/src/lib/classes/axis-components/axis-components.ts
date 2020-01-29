@@ -5,9 +5,9 @@
  * @modify date 2020-01-15 10:52:20
  * @desc Axis component
  */
-import objectAssignDeep from 'object-assign-deep';
 import * as d3 from 'd3';
 import moment from 'moment';
+import assignDeep from 'assign-deep';
 
 import { GraphOptionsModel } from '../../data-models/graph-options/graph-options.model';
 import { AxisOptionsModel } from '../../data-models/axis-options/axis-options.model';
@@ -21,13 +21,13 @@ import { HelperService } from '../../services/helper/helper.service';
  * @export
  */
 export class AxisComponents {
-  static readonly DEFAULT_AXIS_OPTIONS = objectAssignDeep({}, DEFAULT_GRAPH_OPTIONS.axis);
+  static readonly DEFAULT_AXIS_OPTIONS = assignDeep({}, DEFAULT_GRAPH_OPTIONS.axis);
 
   options: AxisOptionsModel;
 
   constructor(axis_options?: AxisOptionsModel) {
-    const temp_axis_options: AxisOptionsModel = objectAssignDeep({}, AxisComponents.DEFAULT_AXIS_OPTIONS);
-    objectAssignDeep(temp_axis_options, axis_options);
+    const temp_axis_options: AxisOptionsModel = assignDeep({}, AxisComponents.DEFAULT_AXIS_OPTIONS);
+    assignDeep(temp_axis_options, axis_options);
 
     this.options = temp_axis_options;
   }

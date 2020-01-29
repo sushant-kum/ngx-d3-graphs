@@ -4,6 +4,7 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
+      "assign-deep": "assign-deep",
       "css-element-queries": "css-element-queries",
       "d3": "d3",
       "fast-deep-equal": "fast-deep-equal",

@@ -22,21 +22,21 @@ export class AppComponent implements OnInit {
       left: 50
     },
     axis: {
-      // rotated: true,
+      rotated: true,
       x: {
         // min: 2000
         // show: false
-        type: 'timeseries'
+        // type: 'timeseries'
         //   // localtime: false,
-        //   tick: {
-        //     format: x => {
-        //       console.log(typeof x);
-        //       return x; // + ' sajgf kjhsk haskjd h';
-        //     }
-        //     // outer: false
-        //     // values: [1880, 2000],
-        //     // rotate: 90
-        //   },
+        // tick: {
+        //   format: x => {
+        //     console.log(typeof x);
+        //     return moment(x).format('YYYY-MM-DD'); // + ' sajgf kjhsk haskjd h';
+        //   }
+        //   //     // outer: false
+        //   //     // values: [1880, 2000],
+        //   //     // rotate: 90
+        // }
         //   // label: {
         //   //   text: 'Too long label text could be bad!'
         //   //   // position: 'inner-right'
@@ -59,9 +59,9 @@ export class AppComponent implements OnInit {
         show: true,
         lines: [
           {
-            value: moment()
-              .year(2005)
-              .toDate()
+            value: 2005,
+            text: '2005',
+            position: 'start'
           }
         ]
       }
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
           this.graph_data.push({
             key: data_row.name,
             plot: {
-              x: moment([data_row.year, 0, 1]).format('YYYY-MM-DD'), // data_row.year, // moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
+              x: data_row.year, // moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
               y: data_row.n
             }
           });
