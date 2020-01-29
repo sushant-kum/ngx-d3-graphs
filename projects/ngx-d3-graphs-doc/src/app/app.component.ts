@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
       left: 50
     },
     axis: {
-      rotated: true,
+      // rotated: true,
       x: {
         // min: 2000
         // show: false
@@ -61,6 +61,16 @@ export class AppComponent implements OnInit {
           {
             value: 2005,
             text: '2005',
+            position: 'end'
+          }
+        ]
+      },
+      y: {
+        show: true,
+        lines: [
+          {
+            value: 60000,
+            text: '60000',
             position: 'start'
           }
         ]

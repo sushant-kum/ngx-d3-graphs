@@ -193,7 +193,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     /**
-     * Grid lines
+     * Grids and lines
      */
     const grid: GridComponents = new GridComponents(this.options.grid);
 
@@ -205,6 +205,16 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     // Show X axis lines
     if (this.options.grid.x.lines && this.options.grid.x.lines.length > 0) {
       this._displayXAxisLines(grid, graph_width, graph_height);
+    }
+
+    // Show Y axis grids
+    if (this.options.grid.y.show) {
+      this._displayYAxisGrids(grid, graph_width, graph_height);
+    }
+
+    // Show Y axis lines
+    if (this.options.grid.y.lines && this.options.grid.x.lines.length > 0) {
+      this._displayYAxisLines(grid, graph_width, graph_height);
     }
   }
 
@@ -654,6 +664,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     );
   };
 
+  /**
+   * Display X axis lines and line-labels
+   *
+   */
   private _displayXAxisLines: (grid: GridComponents, graph_width: number, graph_height: number) => void = (
     grid: GridComponents,
     graph_width: number,
@@ -675,6 +689,54 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       graph_height,
       this.options_obj.axis.rotated,
       this.options_obj.axis.x.type
+    );
+  };
+
+  /**
+   * Display Y axis grids
+   *
+   */
+  private _displayYAxisGrids: (grid: GridComponents, graph_width: number, graph_height: number) => void = (
+    grid: GridComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    grid.renderYAxisGrids(
+      this._svg,
+      this._y,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.rotated,
+      this.options_obj.axis.y.tick.values,
+      this.options_obj.axis.y.tick.count
+    );
+  };
+
+  /**
+   * Display Y axis lines and line-labels
+   *
+   */
+  private _displayYAxisLines: (grid: GridComponents, graph_width: number, graph_height: number) => void = (
+    grid: GridComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    grid.renderYAxisLines(
+      this._svg,
+      this._y,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.rotated,
+      this.options_obj.axis.y.type
+    );
+
+    grid.renderYAxisLineLabels(
+      this._svg,
+      this._y,
+      graph_width,
+      graph_height,
+      this.options_obj.axis.rotated,
+      this.options_obj.axis.y.type
     );
   };
 }

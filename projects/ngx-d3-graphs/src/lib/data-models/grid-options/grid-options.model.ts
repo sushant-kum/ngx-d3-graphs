@@ -11,7 +11,7 @@ export interface GridOptionsModel {
   y?: {
     show?: boolean;
     lines?: {
-      value: number | string | Date;
+      value: number | Date;
       text?: string;
       position?: 'start' | 'middle' | 'end';
       class?: string;
