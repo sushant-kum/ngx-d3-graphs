@@ -71,7 +71,8 @@ export class AppComponent implements OnInit {
           {
             value: 60000,
             text: '60000',
-            position: 'start'
+            position: 'start',
+            class: 'red-font'
           }
         ]
       }

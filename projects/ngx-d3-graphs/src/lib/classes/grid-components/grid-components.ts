@@ -139,7 +139,7 @@ export class GridComponents {
         .data(this.options.x.lines)
         .enter()
         .append('line')
-        .attr('class', attr.class)
+        .attr('class', d => `${attr.class} ${d.class}`)
         .attr('x1', d => {
           return is_axis_rotated ? 0 : x(axis_type === 'timeseries' ? moment(d.value).toDate() : (d.value as any));
         })
@@ -203,7 +203,7 @@ export class GridComponents {
           const x_label = x_labels
             .append('text')
             .text(line.text)
-            .attr('class', attr.class);
+            .attr('class', `${attr.class} ${line.class}`);
 
           if (line.position === 'start') {
             label_dx = 5;
@@ -229,7 +229,7 @@ export class GridComponents {
           const x_label = x_labels
             .append('text')
             .text(line.text)
-            .attr('class', attr.class);
+            .attr('class', `${attr.class} ${line.class}`);
 
           if (line.position === 'start') {
             label_dx = -graph_height + 5;
@@ -362,7 +362,9 @@ export class GridComponents {
         .data(this.options.y.lines)
         .enter()
         .append('line')
-        .attr('class', attr.class)
+        .attr('class', d => {
+          return `${attr.class} ${d.class}`;
+        })
         .attr('x1', d => {
           return is_axis_rotated ? y(axis_type === 'timeseries' ? moment(d.value).toDate() : (d.value as any)) : 0;
         })
@@ -425,7 +427,7 @@ export class GridComponents {
           const y_label = y_labels
             .append('text')
             .text(line.text)
-            .attr('class', attr.class);
+            .attr('class', `${attr.class} ${line.class}`);
 
           if (line.position === 'start') {
             label_dx = -graph_height + 5;
@@ -457,7 +459,7 @@ export class GridComponents {
           const y_label = y_labels
             .append('text')
             .text(line.text)
-            .attr('class', attr.class);
+            .attr('class', `${attr.class} ${line.class}`);
 
           if (line.position === 'start') {
             label_dx = 5;
