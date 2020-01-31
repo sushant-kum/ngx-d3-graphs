@@ -477,8 +477,8 @@ export class AxisComponents {
       | d3.AxisScale<d3.AxisDomain>,
     graph_width: number,
     graph_height: number
-  ): d3.Selection<SVGGElement, unknown, null, undefined> {
-    const y_axis = svg.append('g');
+  ): { y_axis_svg: d3.Selection<SVGGElement, unknown, null, undefined>; y_axis: d3.Axis<d3.AxisDomain> } {
+    const y_axis_svg: d3.Selection<SVGGElement, unknown, null, undefined> = svg.append('g');
     const attr = {
       class: this.options.rotated
         ? 'ngx-d3--axis ngx-d3--axis--rotated ngx-d3--axis--y'
@@ -486,21 +486,25 @@ export class AxisComponents {
       transform: this.options.rotated ? 'translate(0,' + graph_height + ')' : 'translate(0, 0)'
     };
 
-    const axis = this.options.rotated ? d3.axisBottom(y) : this.options.y.inner ? d3.axisRight(y) : d3.axisLeft(y);
+    const y_axis: d3.Axis<d3.AxisDomain> = this.options.rotated
+      ? d3.axisBottom(y)
+      : this.options.y.inner
+      ? d3.axisRight(y)
+      : d3.axisLeft(y);
 
     /**
      * Ticks
      */
     // y.tick.format
     if (this.options.y.tick.format) {
-      axis.tickFormat(this.options.y.tick.format);
+      y_axis.tickFormat(this.options.y.tick.format);
     }
 
     // y.tick.values, y.tick.count
     if (this.options.y.tick.values && HelperService.array.isInRange(this.options.y.tick.values, y.domain())) {
-      axis.tickValues(this.options.y.tick.values);
+      y_axis.tickValues(this.options.y.tick.values);
     } else {
-      axis.ticks(
+      y_axis.ticks(
         this.options.y.tick.count !== undefined && typeof this.options.y.tick.count === 'number'
           ? this.options.y.tick.count
           : this.options.rotated === true
@@ -511,20 +515,20 @@ export class AxisComponents {
 
     // y.tick.outer
     if (!this.options.y.tick.outer) {
-      axis.tickSizeOuter(0);
+      y_axis.tickSizeOuter(0);
     }
 
-    y_axis
+    y_axis_svg
       .attr('class', attr.class)
       .attr('transform', attr.transform)
-      .call(axis);
+      .call(y_axis);
 
     // y.show
     if (!this.options.y.show) {
-      y_axis.attr('display', 'none');
+      y_axis_svg.attr('display', 'none');
     }
 
-    return y_axis;
+    return { y_axis_svg, y_axis };
   }
 
   /**

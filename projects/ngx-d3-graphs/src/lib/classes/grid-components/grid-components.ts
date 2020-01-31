@@ -88,7 +88,7 @@ export class GridComponents {
         }
       }
 
-      const x_grids_svg = svg.append('g');
+      const x_grids_svg = svg.append('g').lower();
       const attr = {
         class: is_axis_rotated ? 'ngx-d3--grid ngx-d3--grid--rotated ngx-d3--grid--x' : 'ngx-d3--grid ngx-d3--grid--x',
         transform: is_axis_rotated ? 'translate(0, 0)' : 'translate(0,' + graph_height + ')'
@@ -132,6 +132,7 @@ export class GridComponents {
 
       const x_lines: d3.Selection<SVGGElement, unknown, null, undefined> = svg
         .append('g')
+        .lower()
         .attr('class', 'ngx-d3--lines ngx-d3--lines--x');
 
       x_lines
@@ -311,7 +312,7 @@ export class GridComponents {
         );
       }
 
-      const y_grids_svg = svg.append('g');
+      const y_grids_svg = svg.append('g').lower();
       const attr = {
         class: is_axis_rotated ? 'ngx-d3--grid ngx-d3--grid--rotated ngx-d3--grid--y' : 'ngx-d3--grid ngx-d3--grid--y',
         transform: is_axis_rotated ? 'translate(0,' + graph_height + ')' : 'translate(0, 0)'
@@ -338,11 +339,7 @@ export class GridComponents {
    */
   renderYAxisLines(
     svg: d3.Selection<SVGGElement, unknown, null, undefined>,
-    y:
-      | d3.ScaleTime<number, number>
-      | d3.ScaleLinear<number, number>
-      | d3.ScalePoint<string>
-      | d3.AxisScale<d3.AxisDomain>,
+    y: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number> | d3.AxisScale<d3.AxisDomain>,
     graph_width: number,
     graph_height: number,
     is_axis_rotated: boolean = DEFAULT_GRAPH_OPTIONS.axis.rotated,
@@ -355,6 +352,7 @@ export class GridComponents {
 
       const y_lines: d3.Selection<SVGGElement, unknown, null, undefined> = svg
         .append('g')
+        .lower()
         .attr('class', 'ngx-d3--lines ngx-d3--lines--y');
 
       y_lines
@@ -452,7 +450,6 @@ export class GridComponents {
       } else {
         y_labels.attr('class', 'ngx-d3--line--labels ngx-d3--line--labels--y');
         for (const line of this.options.y.lines) {
-          console.log('grid.y.line', line);
           let label_dx: number;
           let label_dy: number;
 

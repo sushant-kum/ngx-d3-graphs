@@ -4,6 +4,7 @@ import { GraphOptionsModel } from '../../data-models/graph-options/graph-options
 import { DEFAULT_GRAPH_OPTIONS } from '../../constants/default-graph-options';
 import { AxisOptionsModel } from '../../data-models/axis-options/axis-options.model';
 import { GridOptionsModel } from '../../data-models/grid-options/grid-options.model';
+import { RegionOptionsModel } from '../../data-models/region-options/region-options.model';
 
 export class GraphOptions {
   static readonly DEFAULT_GRAPH_OPTIONS = objectAssignDeep({}, DEFAULT_GRAPH_OPTIONS);
@@ -16,6 +17,7 @@ export class GraphOptions {
   transition: GraphOptionsModel['transition'];
   axis: AxisOptionsModel;
   grid: GridOptionsModel;
+  regions: RegionOptionsModel[];
 
   constructor(options?: GraphOptionsModel) {
     const temp_graph_options: GraphOptionsModel = objectAssignDeep({}, GraphOptions.DEFAULT_GRAPH_OPTIONS);
@@ -31,5 +33,6 @@ export class GraphOptions {
     this.transition = temp_graph_options.transition;
     this.axis = temp_graph_options.axis;
     this.grid = temp_graph_options.grid;
+    this.regions = temp_graph_options.regions;
   }
 }

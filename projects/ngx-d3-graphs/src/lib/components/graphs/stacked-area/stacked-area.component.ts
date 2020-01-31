@@ -1,3 +1,4 @@
+import { RegionComponents } from './../../../classes/region-components/region-components';
 import {
   Component,
   OnInit,
@@ -65,7 +66,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   private _x_axis: d3.Axis<d3.AxisDomain>;
   private _x_label: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _y: d3.ScaleTime<number, number> | d3.ScaleLinear<number, number> | d3.AxisScale<d3.AxisDomain>;
-  private _y_axis: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _y_axis_svg: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _y_axis: d3.Axis<d3.AxisDomain>;
   private _y_label: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _area: d3.Area<[number, number]>;
   private _line: d3.Line<[number, number]>;
@@ -195,26 +197,52 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     /**
      * Grids and lines
      */
-    const grid: GridComponents = new GridComponents(this.options.grid);
+    if (
+      this.options_obj.grid.x.show ||
+      (this.options_obj.grid.x.lines && this.options_obj.grid.x.lines.length > 0) ||
+      this.options_obj.grid.y.show ||
+      (this.options_obj.grid.y.lines && this.options_obj.grid.x.lines.length > 0)
+    ) {
+      const grid: GridComponents = new GridComponents(this.options_obj.grid);
 
-    // Show X axis grids
-    if (this.options.grid.x.show) {
-      this._displayXAxisGrids(grid, graph_width, graph_height);
+      // Show X axis grids
+      if (this.options_obj.grid.x.show) {
+        this._displayXAxisGrids(grid, graph_width, graph_height);
+      }
+
+      // Show X axis lines
+      if (this.options_obj.grid.x.lines && this.options_obj.grid.x.lines.length > 0) {
+        this._displayXAxisLines(grid, graph_width, graph_height);
+      }
+
+      // Show Y axis grids
+      if (this.options_obj.grid.y.show) {
+        this._displayYAxisGrids(grid, graph_width, graph_height);
+      }
+
+      // Show Y axis lines
+      if (this.options_obj.grid.y.lines && this.options_obj.grid.x.lines.length > 0) {
+        this._displayYAxisLines(grid, graph_width, graph_height);
+      }
     }
 
-    // Show X axis lines
-    if (this.options.grid.x.lines && this.options.grid.x.lines.length > 0) {
-      this._displayXAxisLines(grid, graph_width, graph_height);
-    }
+    /**
+     * Regions
+     */
+    if (this.options_obj.regions && this.options_obj.regions.length > 0) {
+      const regions: RegionComponents = new RegionComponents(this.options.regions);
 
-    // Show Y axis grids
-    if (this.options.grid.y.show) {
-      this._displayYAxisGrids(grid, graph_width, graph_height);
-    }
-
-    // Show Y axis lines
-    if (this.options.grid.y.lines && this.options.grid.x.lines.length > 0) {
-      this._displayYAxisLines(grid, graph_width, graph_height);
+      // Render regions
+      regions.renderRegions(
+        this._svg,
+        this._x,
+        this._y,
+        graph_width,
+        graph_height,
+        this.options_obj.axis.rotated,
+        this.options_obj.axis.x.type,
+        this.options_obj.axis.y.type
+      );
     }
   }
 
@@ -363,7 +391,9 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       this._y = axes.getLinearYAxis(this._getYDomain('number'), graph_width, graph_height);
     }
 
-    this._y_axis = axes.renderYAxis(this._svg, this._y, graph_width, graph_height);
+    const y_axis_values = axes.renderYAxis(this._svg, this._y, graph_width, graph_height);
+    this._y_axis_svg = y_axis_values.y_axis_svg;
+    this._y_axis = y_axis_values.y_axis;
   };
 
   /**
@@ -421,7 +451,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   ): void => {
     this._y_label = axes.renderYAxisLabel(
       this._svg,
-      this._y_axis,
+      this._y_axis_svg,
       graph_width,
       graph_height,
       this.options_obj.axis.y.label

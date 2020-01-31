@@ -68,27 +68,27 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
         count: undefined
       },
       default: undefined
-    },
-    y2: {
-      show: false,
-      inner: false,
-      type: 'linear',
-      min: undefined,
-      max: undefined,
-      inverted: false,
-      center: undefined,
-      label: {
-        text: 'Y2 Axis',
-        position: 'inner-top'
-      },
-      tick: {
-        format: undefined,
-        outer: true,
-        values: null,
-        count: undefined
-      },
-      default: undefined
     }
+    // y2: {
+    //   show: false,
+    //   inner: false,
+    //   type: 'linear',
+    //   min: undefined,
+    //   max: undefined,
+    //   inverted: false,
+    //   center: undefined,
+    //   label: {
+    //     text: 'Y2 Axis',
+    //     position: 'inner-top'
+    //   },
+    //   tick: {
+    //     format: undefined,
+    //     outer: true,
+    //     values: null,
+    //     count: undefined
+    //   },
+    //   default: undefined
+    // }
   },
   grid: {
     x: {
@@ -99,5 +99,6 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
       show: false,
       lines: []
     }
-  }
+  },
+  regions: []
 };

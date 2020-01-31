@@ -73,36 +73,36 @@ export interface AxisOptionsModel {
     };
     default?: (number | Date)[];
   };
-  y2?: {
-    show?: boolean;
-    inner?: boolean;
-    type?: 'linear' | 'timeseries';
-    min?: number | Date;
-    max?: number | Date;
-    inverted?: boolean;
-    center?: number | Date;
-    label?: {
-      text?: string;
-      position?:
-        | 'inner-right'
-        | 'inner-center'
-        | 'inner-left'
-        | 'outer-right'
-        | 'outer-center'
-        | 'outer-left'
-        | 'inner-top'
-        | 'inner-middle'
-        | 'inner-bottom'
-        | 'outer-top'
-        | 'outer-middle'
-        | 'outer-bottom';
-    };
-    tick?: {
-      format?: (x) => string;
-      count?: number;
-      values?: (number | Date)[];
-      outer?: boolean;
-    };
-    default?: (number | Date)[];
-  };
+  // y2?: {
+  //   show?: boolean;
+  //   inner?: boolean;
+  //   type?: 'linear' | 'timeseries';
+  //   min?: number | Date;
+  //   max?: number | Date;
+  //   inverted?: boolean;
+  //   center?: number | Date;
+  //   label?: {
+  //     text?: string;
+  //     position?:
+  //       | 'inner-right'
+  //       | 'inner-center'
+  //       | 'inner-left'
+  //       | 'outer-right'
+  //       | 'outer-center'
+  //       | 'outer-left'
+  //       | 'inner-top'
+  //       | 'inner-middle'
+  //       | 'inner-bottom'
+  //       | 'outer-top'
+  //       | 'outer-middle'
+  //       | 'outer-bottom';
+  //   };
+  //   tick?: {
+  //     format?: (x) => string;
+  //     count?: number;
+  //     values?: (number | Date)[];
+  //     outer?: boolean;
+  //   };
+  //   default?: (number | Date)[];
+  // };
 }
