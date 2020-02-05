@@ -100,5 +100,19 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
       lines: []
     }
   },
-  regions: []
+  regions: [],
+  legend: {
+    show: true,
+    hide: [],
+    position: 'inset',
+    inset: {
+      anchor: 'top-left',
+      x: 0,
+      y: 0
+      // step: undefined
+    },
+    onclick: undefined,
+    onmouseover: undefined,
+    onmouseout: undefined
+  }
 };

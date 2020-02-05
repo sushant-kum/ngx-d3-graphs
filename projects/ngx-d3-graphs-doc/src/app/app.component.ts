@@ -54,69 +54,79 @@ export class AppComponent implements OnInit {
       // transition: {
       //   duration: 800
     },
-    grid: {
-      x: {
-        show: true,
-        lines: [
-          // {
-          //   value: 2005,
-          //   text: '2005',
-          //   position: 'end'
-          // },
-          {
-            value: 1920,
-            text: '1920'
-          },
-          {
-            value: 2000,
-            text: '2000'
-          },
-          {
-            value: 2004,
-            text: '2004'
-          },
-          {
-            value: 2010,
-            text: '2010'
-          }
-        ]
-      },
-      y: {
-        show: true,
-        lines: [
-          // {
-          //   value: 50000,
-          //   text: '50000',
-          //   position: 'start',
-          //   class: 'red-font'
-          // },
-          {
-            value: 50000,
-            text: '50000'
-          },
-          {
-            value: 80000,
-            text: '80000'
-          },
-          {
-            value: 140000,
-            text: '140000'
-          },
-          {
-            value: 150000,
-            text: '150000'
-          }
-        ]
+    // grid: {
+    //   x: {
+    //     show: true,
+    //     lines: [
+    //       // {
+    //       //   value: 2005,
+    //       //   text: '2005',
+    //       //   position: 'end'
+    //       // },
+    //       {
+    //         value: 1920,
+    //         text: '1920'
+    //       },
+    //       {
+    //         value: 2000,
+    //         text: '2000'
+    //       },
+    //       {
+    //         value: 2004,
+    //         text: '2004'
+    //       },
+    //       {
+    //         value: 2010,
+    //         text: '2010'
+    //       }
+    //     ]
+    //   },
+    //   y: {
+    //     show: true,
+    //     lines: [
+    //       // {
+    //       //   value: 50000,
+    //       //   text: '50000',
+    //       //   position: 'start',
+    //       //   class: 'red-font'
+    //       // },
+    //       {
+    //         value: 50000,
+    //         text: '50000'
+    //       },
+    //       {
+    //         value: 80000,
+    //         text: '80000'
+    //       },
+    //       {
+    //         value: 140000,
+    //         text: '140000'
+    //       },
+    //       {
+    //         value: 150000,
+    //         text: '150000'
+    //       }
+    //     ]
+    //   }
+    // },
+    // regions: [
+    //   { axis: 'x', end: 1920, class: 'regionX' },
+    //   { axis: 'x', start: 2000, end: 2004, class: 'regionY' },
+    //   { axis: 'x', start: 2010, class: 'regionX' },
+    //   { axis: 'y', end: 50000, class: 'regionY' },
+    //   { axis: 'y', start: 80000, end: 140000, class: 'regionY' },
+    //   { axis: 'y', start: 150000, class: 'regionY' }
+    // ],
+    legend: {
+      // show: false,
+      // hide: ['Helen'],
+      position: 'inset',
+      inset: {
+        anchor: 'bottom-left'
+        // x: 50
+        // y: 50
       }
-    },
-    regions: [
-      { axis: 'x', end: 1920, class: 'regionX' },
-      { axis: 'x', start: 2000, end: 2004, class: 'regionY' },
-      { axis: 'x', start: 2010, class: 'regionX' },
-      { axis: 'y', end: 50000, class: 'regionY' },
-      { axis: 'y', start: 80000, end: 140000, class: 'regionY' },
-      { axis: 'y', start: 150000, class: 'regionY' }
-    ]
+    }
   };
 
   graph_data: StackedAreaDataModel[];

@@ -7,6 +7,7 @@
     "assign-deep": "^1.0.1",
     "css-element-queries": "^1.2.3",
     "d3": "^5.15.0",
+    "d3-svg-legend": "^2.25.6",
     "fast-deep-equal": "^3.1.1",
     "google-palette": "^1.1.0",
     "moment": "^2.24.0",

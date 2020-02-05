@@ -23,6 +23,7 @@ import { GraphOptionsModel } from '../../../data-models/graph-options/graph-opti
 import { AxisComponents } from '../../../classes/axis-components/axis-components';
 import { DEFAULT_STACKED_AREA_OPTIONS } from './../../../constants/default-stacked-area-options';
 import { GridComponents } from '../../../classes/grid-components/grid-components';
+import { LegendComponents } from '../../../classes/legend-components/legend-components';
 
 @Component({
   selector: 'ngx-d3-stacked-area',
@@ -243,6 +244,16 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         this.options_obj.axis.x.type,
         this.options_obj.axis.y.type
       );
+    }
+
+    /**
+     * Legends
+     */
+    if (this.options_obj.legend.show) {
+      const legends: LegendComponents = new LegendComponents(this.options.legend);
+
+      // Render legends
+      legends.renderOrdinalLegend(this._svg, graph_width, graph_height, this._keys, this._colors);
     }
   }
 

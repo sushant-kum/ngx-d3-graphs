@@ -1,0 +1,15 @@
+.ngx-d3 {
+  &--legend {
+    &--bg {
+      fill: #ffffff;
+      fill-opacity: 0.75;
+      stroke: #aaaaaa;
+      stroke-width: 1;
+    }
+    &--cells {
+      .ngx-d3--legend--label {
+        font-size: 12px;
+      }
+    }
+  }
+}

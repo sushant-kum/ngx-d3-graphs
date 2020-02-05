@@ -7,6 +7,7 @@
       "assign-deep": "assign-deep",
       "css-element-queries": "css-element-queries",
       "d3": "d3",
+      "d3-svg-legend": "d3-svg-legend",
       "fast-deep-equal": "fast-deep-equal",
       "google-palette": "google-palette",
       "moment": "moment",
