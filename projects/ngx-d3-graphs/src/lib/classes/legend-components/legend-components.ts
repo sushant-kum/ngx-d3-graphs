@@ -1,9 +1,7 @@
 import * as d3 from 'd3';
-import moment from 'moment';
 import * as d3Legends from 'd3-svg-legend';
 import assignDeep from 'assign-deep';
 
-import { GraphOptionsModel } from '../../data-models/graph-options/graph-options.model';
 import { LegendOptionsModel } from '../../data-models/legend-options/legend-options.model';
 import { DEFAULT_GRAPH_OPTIONS } from '../../constants/default-graph-options';
 
@@ -19,11 +17,21 @@ export class LegendComponents {
     assignDeep(temp_legend_options, legend_options);
     console.log('temp_legend_options after', JSON.parse(JSON.stringify(temp_legend_options)));
 
-    console.log('d3Legends', d3Legends);
+    // console.log('d3Legends', d3Legends);
 
     this.options = temp_legend_options;
   }
 
+  /**
+   *
+   *
+   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @param svg Parent SVG
+   * @param graph_width Graph width
+   * @param graph_height Graph height
+   * @param keys Keys
+   * @param colors Colors
+   */
   renderOrdinalLegend(
     svg: d3.Selection<SVGGElement, unknown, null, undefined>,
     graph_width: number,
@@ -55,15 +63,50 @@ export class LegendComponents {
         .shapePadding(0)
         .cellFilter((d => {
           return !this.options.hide.includes(d.label);
-        }) as any)
-        .scale(ordinal);
+        }) as any);
 
-      legend_ordinal.call(legend_ordinal_cells);
+      if (this.options.title && this.options.title.text) {
+        legend_ordinal_cells.title(this.options.title.text);
+
+        if (this.options.title.width && typeof this.options.title.width === 'number') {
+          legend_ordinal_cells.titleWidth(this.options.title.width);
+        }
+      }
+
+      if (this.options.onclick !== undefined) {
+        legend_ordinal_cells.on('cellclick', (id: any) => {
+          this.options.onclick(id);
+        });
+      }
+
+      if (this.options.onmouseover !== undefined) {
+        legend_ordinal_cells.on('cellover', (id: any) => {
+          this.options.onmouseover(id);
+        });
+      }
+
+      if (this.options.onmouseout !== undefined) {
+        legend_ordinal_cells.on('cellout', (id: any) => {
+          this.options.onmouseout(id);
+        });
+      }
+
+      // legend_ordinal_cells.scale(ordinal);
+      legend_ordinal.call(legend_ordinal_cells.scale(ordinal));
 
       legend_ordinal.select('.legendCells').attr('class', 'ngx-d3--legend--cells');
-      legend_ordinal.selectAll('.cell').attr('class', 'ngx-d3--legend--cell');
+      if (
+        this.options.onclick !== undefined ||
+        this.options.onclick !== undefined ||
+        this.options.onclick !== undefined
+      ) {
+        legend_ordinal.selectAll('.cell').attr('class', 'ngx-d3--legend--cell ngx-d3--legend--cell--interactable');
+      } else {
+        legend_ordinal.selectAll('.cell').attr('class', 'ngx-d3--legend--cell');
+      }
       legend_ordinal.selectAll('.swatch').attr('class', 'ngx-d3--legend--swatch');
       legend_ordinal.selectAll('.label').attr('class', 'ngx-d3--legend--label');
+      legend_ordinal.select('.legendTitle').attr('class', 'ngx-d3--legend--title');
 
       const legend_ordinal_bbox = JSON.parse(
         JSON.stringify({
@@ -78,35 +121,52 @@ export class LegendComponents {
 
       legend_bg.attr('width', legend_ordinal_bbox.width + 10).attr('height', legend_ordinal_bbox.height + 10);
 
-      let translate_legend: {
-        x: number;
-        y: number;
-      };
-      if (this.options.inset.anchor === 'bottom-left') {
-        translate_legend = {
-          x: this.options.inset.x ? this.options.inset.x : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.x,
-          y:
-            graph_height -
-            legend.node().getBBox().height -
-            (this.options.inset.y ? this.options.inset.y : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.y)
+      if (this.options.position === 'inset') {
+        let translate_legend: {
+          x: number;
+          y: number;
         };
+        if (this.options.inset.anchor === 'bottom-left') {
+          translate_legend = {
+            x: this.options.inset.x ? this.options.inset.x : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.x,
+            y:
+              graph_height -
+              legend.node().getBBox().height -
+              (this.options.inset.y ? this.options.inset.y : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.y)
+          };
 
-        legend.attr('transform', `translate(${translate_legend.x}, ${translate_legend.y})`);
-      } else if (this.options.inset.anchor === 'bottom-right') {
-        translate_legend = {
-          x:
-            graph_width -
-            legend.node().getBBox().width -
-            (this.options.inset.x ? this.options.inset.x : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.x),
-          y:
-            graph_height -
-            legend.node().getBBox().height -
-            (this.options.inset.y ? this.options.inset.y : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.y)
-        };
+          legend.attr('transform', `translate(${translate_legend.x}, ${translate_legend.y})`);
+        } else if (this.options.inset.anchor === 'bottom-right') {
+          translate_legend = {
+            x:
+              graph_width -
+              legend.node().getBBox().width -
+              (this.options.inset.x ? this.options.inset.x : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.x),
+            y:
+              graph_height -
+              legend.node().getBBox().height -
+              (this.options.inset.y ? this.options.inset.y : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.y)
+          };
 
-        legend.attr('transform', `translate(${translate_legend.x}, ${translate_legend.y})`);
-      } else if (this.options.inset.anchor === 'top-left') {
-      } else {
+          legend.attr('transform', `translate(${translate_legend.x}, ${translate_legend.y})`);
+        } else if (this.options.inset.anchor === 'top-left') {
+          translate_legend = {
+            x: this.options.inset.x ? this.options.inset.x : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.x,
+            y: this.options.inset.y ? this.options.inset.y : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.y
+          };
+
+          legend.attr('transform', `translate(${translate_legend.x}, ${translate_legend.y})`);
+        } else {
+          translate_legend = {
+            x:
+              graph_width -
+              legend.node().getBBox().width -
+              (this.options.inset.x ? this.options.inset.x : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.x),
+            y: this.options.inset.y ? this.options.inset.y : LegendComponents.DEFAULT_LEGEND_OPTIONS.inset.y
+          };
+
+          legend.attr('transform', `translate(${translate_legend.x}, ${translate_legend.y})`);
+        }
       }
 
       return legend;

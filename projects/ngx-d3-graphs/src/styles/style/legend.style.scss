@@ -6,9 +6,18 @@
       stroke: #aaaaaa;
       stroke-width: 1;
     }
+    &--title {
+      font-size: 13px;
+    }
     &--cells {
-      .ngx-d3--legend--label {
-        font-size: 12px;
+      .ngx-d3--legend--cell {
+        &.ngx-d3--legend--cell--interactable {
+          cursor: pointer;
+        }
+
+        .ngx-d3--legend--label {
+          font-size: 12px;
+        }
       }
     }
   }

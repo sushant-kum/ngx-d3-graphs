@@ -119,13 +119,26 @@ export class AppComponent implements OnInit {
     // ],
     legend: {
       // show: false,
-      // hide: ['Helen'],
-      position: 'inset',
-      inset: {
-        anchor: 'bottom-left'
-        // x: 50
-        // y: 50
+      // hide: ['Helen', 'Dorothy'],
+      // position: 'inset',
+      // inset: {
+      //   // anchor: 'top-left',
+      //   // x: 50,
+      //   // y: 50
+      // },
+      title: {
+        text: 'Names of children born per year',
+        width: 150
       }
+      // onclick: (id: any) => {
+      //   console.log('onclick: (id: any)', id);
+      // },
+      // onmouseover: (id: any) => {
+      //   console.log('onmouseover: (id: any)', id);
+      // },
+      // onmouseout: (id: any) => {
+      //   console.log('onmouseout: (id: any)', id);
+      // }
     }
   };
 

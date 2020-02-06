@@ -106,11 +106,12 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
     hide: [],
     position: 'inset',
     inset: {
-      anchor: 'top-left',
+      anchor: 'top-right',
       x: 0,
       y: 0
       // step: undefined
     },
+    title: undefined,
     onclick: undefined,
     onmouseover: undefined,
     onmouseout: undefined
