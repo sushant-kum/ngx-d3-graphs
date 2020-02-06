@@ -6,6 +6,7 @@ import { AxisOptionsModel } from '../../data-models/axis-options/axis-options.mo
 import { GridOptionsModel } from '../../data-models/grid-options/grid-options.model';
 import { RegionOptionsModel } from '../../data-models/region-options/region-options.model';
 import { LegendOptionsModel } from '../../data-models/legend-options/legend-options.model';
+import { PointOptionsModel } from '../../data-models/point-options/point-options-model';
 
 export class GraphOptions {
   static readonly DEFAULT_GRAPH_OPTIONS = objectAssignDeep({}, DEFAULT_GRAPH_OPTIONS);
@@ -20,6 +21,7 @@ export class GraphOptions {
   grid: GridOptionsModel;
   regions: RegionOptionsModel[];
   legend: LegendOptionsModel;
+  point: PointOptionsModel;
 
   constructor(options?: GraphOptionsModel) {
     const temp_graph_options: GraphOptionsModel = objectAssignDeep({}, GraphOptions.DEFAULT_GRAPH_OPTIONS);
@@ -37,5 +39,6 @@ export class GraphOptions {
     this.grid = temp_graph_options.grid;
     this.regions = temp_graph_options.regions;
     this.legend = temp_graph_options.legend;
+    this.point = temp_graph_options.point;
   }
 }

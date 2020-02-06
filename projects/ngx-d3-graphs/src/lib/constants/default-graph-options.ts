@@ -115,5 +115,15 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
     onclick: undefined,
     onmouseover: undefined,
     onmouseout: undefined
+  },
+  point: {
+    show: true,
+    r: 2.5,
+    focus: {
+      expand: {
+        enabled: true,
+        r: 4.38
+      }
+    }
   }
 };

@@ -11,7 +11,6 @@ export class LegendComponents {
   options: LegendOptionsModel;
 
   constructor(legend_options?: LegendOptionsModel) {
-    console.log('DEFAULT_LEGEND_OPTIONS', LegendComponents.DEFAULT_LEGEND_OPTIONS);
     const temp_legend_options: LegendOptionsModel = assignDeep({}, LegendComponents.DEFAULT_LEGEND_OPTIONS);
     console.log('temp_legend_options before', JSON.parse(JSON.stringify(temp_legend_options)));
     assignDeep(temp_legend_options, legend_options);

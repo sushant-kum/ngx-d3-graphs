@@ -2,6 +2,7 @@ import { AxisOptionsModel } from '../axis-options/axis-options.model';
 import { GridOptionsModel } from '../grid-options/grid-options.model';
 import { RegionOptionsModel } from '../region-options/region-options.model';
 import { LegendOptionsModel } from '../legend-options/legend-options.model';
+import { PointOptionsModel } from '../point-options/point-options-model';
 
 export interface GraphOptionsModel {
   no_data_text?: string;
@@ -28,4 +29,5 @@ export interface GraphOptionsModel {
   grid?: GridOptionsModel;
   regions?: RegionOptionsModel[];
   legend?: LegendOptionsModel;
+  point?: PointOptionsModel;
 }
