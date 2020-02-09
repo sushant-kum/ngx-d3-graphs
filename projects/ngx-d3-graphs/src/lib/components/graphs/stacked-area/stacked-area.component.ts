@@ -563,62 +563,71 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .style('fill', 'none')
       .attr('d', this._line as any);
 
+    // Show the points
     if (this.options_obj.point && this.options_obj.point.show) {
-      // Show the points
-      setTimeout(() => {
-        this._area_chart
-          .selectAll('ngx-d3--points')
-          .data(this._stacked_data)
-          .enter()
-          .append('g')
-          .attr('class', stack => 'ngx-d3--points ngx-d3--points--key--' + stack.key.toLowerCase().replace(/\s/g, ''))
-          .style('fill', stack =>
-            this.stacked_area_options.area.stroke.color_hex
-              ? this.stacked_area_options.area.stroke.color_hex
-              : this._colors[this._keys.indexOf(stack.key)]
-          )
-          .selectAll('ngx-d3--point')
-          .data(stack => {
-            return stack;
-          })
-          .enter()
-          .append('circle')
-          .attr('class', entry => {
-            return 'ngx-d3--point ngx-d3--point--key--' + entry.data.key;
-          })
-          .attr('cx', entry => {
-            return this._x(entry.data.key as any);
-          })
-          .attr('cy', entry => {
-            return this._y(entry[1]);
-          })
-          .attr('r', this.options_obj.point.r);
+      setTimeout(
+        () => {
+          this._area_chart
+            .selectAll('ngx-d3--points')
+            .data(this._stacked_data)
+            .enter()
+            .append('g')
+            .attr('class', stack => 'ngx-d3--points ngx-d3--points--key--' + stack.key.toLowerCase().replace(/\s/g, ''))
+            .style('fill', stack =>
+              this.stacked_area_options.area.stroke.color_hex
+                ? this.stacked_area_options.area.stroke.color_hex
+                : this._colors[this._keys.indexOf(stack.key)]
+            )
+            .selectAll('ngx-d3--point')
+            .data(stack => {
+              return stack;
+            })
+            .enter()
+            .append('circle')
+            .attr('class', entry => {
+              return (
+                'ngx-d3--point ngx-d3--point--key--' +
+                entry.data.key
+                  .toString()
+                  .toLowerCase()
+                  .replace(/\s/g, '')
+              );
+            })
+            .attr('cx', entry => {
+              return this.options_obj.axis.rotated ? this._y(entry[1]) :this._x(entry.data.key as any);
+            })
+            .attr('cy', entry => {
+              return this.options_obj.axis.rotated ?this._x(entry.data.key as any) : this._y(entry[1]);
+            })
+            .attr('r', this.options_obj.point.r);
 
-        if (
-          this.options_obj.point.focus &&
-          this.options_obj.point.focus.expand &&
-          this.options_obj.point.focus.expand.enabled
-        ) {
-          for (const point of this._svg.selectAll('.ngx-d3--point').nodes()) {
-            const d3_point = d3.select(point);
+          if (
+            this.options_obj.point.focus &&
+            this.options_obj.point.focus.expand &&
+            this.options_obj.point.focus.expand.enabled
+          ) {
+            for (const point of this._svg.selectAll('.ngx-d3--point').nodes()) {
+              const d3_point = d3.select(point);
 
-            d3_point.on('mouseover', () => {
-              d3_point
-                .attr('r', this.options_obj.point.focus.expand.r)
-                .attr('stroke', '#ffffff')
-                .attr('stroke-width', '1px');
-              (d3_point.node() as HTMLElement).classList.add('ngx-d3--point--expanded');
-            });
-            d3_point.on('mouseout', () => {
-              d3_point
-                .attr('r', this.options_obj.point.r)
-                .attr('stroke', undefined)
-                .attr('stroke-width', undefined);
-              (d3_point.node() as HTMLElement).classList.remove('ngx-d3--point--expanded');
-            });
+              d3_point.on('mouseover', () => {
+                d3_point
+                  .attr('r', this.options_obj.point.focus.expand.r)
+                  .attr('stroke', '#ffffff')
+                  .attr('stroke-width', '1px');
+                (d3_point.node() as HTMLElement).classList.add('ngx-d3--point--expanded');
+              });
+              d3_point.on('mouseout', () => {
+                d3_point
+                  .attr('r', this.options_obj.point.r)
+                  .attr('stroke', undefined)
+                  .attr('stroke-width', undefined);
+                (d3_point.node() as HTMLElement).classList.remove('ngx-d3--point--expanded');
+              });
+            }
           }
-        }
-      }, this.options_obj.transition.duration);
+        },
+        this.options_obj.transition.duration ? this.options_obj.transition.duration : 0
+      );
     }
   };
 
