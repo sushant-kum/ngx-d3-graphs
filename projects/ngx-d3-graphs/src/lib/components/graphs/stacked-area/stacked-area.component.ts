@@ -24,6 +24,7 @@ import { AxisComponents } from '../../../classes/axis-components/axis-components
 import { DEFAULT_STACKED_AREA_OPTIONS } from './../../../constants/default-stacked-area-options';
 import { GridComponents } from '../../../classes/grid-components/grid-components';
 import { LegendComponents } from '../../../classes/legend-components/legend-components';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'ngx-d3-stacked-area',
@@ -70,10 +71,22 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   private _y_axis_svg: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _y_axis: d3.Axis<d3.AxisDomain>;
   private _y_label: d3.Selection<SVGGElement, unknown, null, undefined>;
-  private _area: d3.Area<[number, number]>;
-  private _line: d3.Line<[number, number]>;
+  private _plot_area: d3.Area<[number, number]>;
+  private _plot_line: d3.Line<[number, number]>;
   private _area_chart: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _brush: d3.BrushBehavior<unknown>;
+  private _points: d3.Selection<
+    SVGCircleElement,
+    d3.SeriesPoint<{ [key: string]: number }>,
+    SVGGElement,
+    d3.Series<{ [key: string]: number }, string>
+  >;
+  private _line_container: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _line: d3.Selection<SVGLineElement, unknown, null, undefined>;
+  private _underlays: {
+    parent: d3.Selection<SVGGElement, unknown, null, undefined>;
+    event_underlay?: d3.Selection<SVGRectElement, unknown, null, undefined>;
+  };
 
   constructor() {}
 
@@ -182,6 +195,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     /**
      * Brushing and chart plotting
      */
+
+    // Add underlays
+    this._addUnderlays(graph_width, graph_height);
+
     // Plot the areas
     this._plotStackedArea(graph_width, graph_height);
 
@@ -254,6 +271,13 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
       // Render legends
       legends.renderOrdinalLegend(this._svg, graph_width, graph_height, this._keys, this._colors);
+    }
+
+    /**
+     * Line
+     */
+    if (this.options_obj.line && this.options_obj.line.show) {
+      this._prepareLine(graph_width, graph_height);
     }
   }
 
@@ -470,6 +494,30 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   /**
+   * Add underlays
+   *
+   * @memberof StackedAreaComponent
+   */
+  private _addUnderlays: (graph_width: number, graph_height: number) => void = (
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    this._underlays = {
+      parent: this._svg.append('g').attr('class', 'ngx-d3--underlays')
+    };
+
+    // Add event underlay
+    if (this.options_obj.interaction && this.options_obj.interaction.enabled) {
+      this._underlays.event_underlay = this._underlays.parent
+        .append('rect')
+        .attr('class', 'ngx-d3--underlay ngx-d3--underlay--events')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', graph_width)
+        .attr('height', graph_height);
+    }
+  };
+  /**
    * Plot stacked areas
    *
    */
@@ -491,7 +539,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     this._area_chart = this._svg.append('g').attr('clip-path', 'url(#id-ngx-d3--clip)');
 
     // Area generator
-    this._area = this.options_obj.axis.rotated
+    this._plot_area = this.options_obj.axis.rotated
       ? d3
           .area()
           .x0(d => {
@@ -526,10 +574,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .attr('stroke-width', this.stacked_area_options.area.stroke.width)
       .style('fill', d => this._colors[this._keys.indexOf(d.key)])
       .attr('fill-opacity', this.stacked_area_options.area.opacity.unhovered)
-      .attr('d', this._area as any);
+      .attr('d', this._plot_area as any);
 
     // Line generator
-    this._line = this.options_obj.axis.rotated
+    this._plot_line = this.options_obj.axis.rotated
       ? d3
           .line()
           .x(d => {
@@ -561,13 +609,13 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       )
       .attr('stroke-width', this.stacked_area_options.area.stroke.width)
       .style('fill', 'none')
-      .attr('d', this._line as any);
+      .attr('d', this._plot_line as any);
 
     // Show the points
     if (this.options_obj.point && this.options_obj.point.show) {
       setTimeout(
         () => {
-          this._area_chart
+          this._points = this._area_chart
             .selectAll('ngx-d3--points')
             .data(this._stacked_data)
             .enter()
@@ -594,10 +642,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
               );
             })
             .attr('cx', entry => {
-              return this.options_obj.axis.rotated ? this._y(entry[1]) :this._x(entry.data.key as any);
+              return this.options_obj.axis.rotated ? this._y(entry[1]) : this._x(entry.data.key as any);
             })
             .attr('cy', entry => {
-              return this.options_obj.axis.rotated ?this._x(entry.data.key as any) : this._y(entry[1]);
+              return this.options_obj.axis.rotated ? this._x(entry.data.key as any) : this._y(entry[1]);
             })
             .attr('r', this.options_obj.point.r);
 
@@ -637,7 +685,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
    */
   private _animateStackedArea: () => void = (): void => {
     // Area generator
-    this._area = this.options_obj.axis.rotated
+    this._plot_area = this.options_obj.axis.rotated
       ? d3
           .area()
           .x0(d => {
@@ -666,10 +714,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .selectAll('.ngx-d3--area')
       .transition()
       .duration(this.options_obj.transition.duration)
-      .attr('d', this._area as any);
+      .attr('d', this._plot_area as any);
 
     // Line generator
-    this._line = this.options_obj.axis.rotated
+    this._plot_line = this.options_obj.axis.rotated
       ? d3
           .line()
           .x(d => {
@@ -692,7 +740,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .selectAll('.ngx-d3--line')
       .transition()
       .duration(this.options_obj.transition.duration)
-      .attr('d', this._line as any);
+      .attr('d', this._plot_line as any);
   };
 
   /**
@@ -846,5 +894,36 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       this.options_obj.axis.rotated,
       this.options_obj.axis.y.type
     );
+  };
+
+  private _prepareLine: (graph_width: number, graph_height: number) => void = (
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    this._line_container = this._svg.append('g').attr('class', 'ngx-d3--line--container');
+    if (this.options_obj.axis.rotated) {
+      this._line = this._line_container
+        .append('line')
+        .attr('class', 'ngx-d3--line ngx-d3--line--x ngx-d3--line--rotated')
+        .attr('x1', 0)
+        .attr('x2', graph_width);
+    } else {
+      this._line = this._line_container
+        .append('line')
+        .attr('class', 'ngx-d3--line ngx-d3--line--x')
+        .attr('y1', graph_height)
+        .attr('y2', 0);
+    }
+
+    this._svg
+      .on('mouseover', () => {
+        this._line_container.style('display', '');
+      })
+      .on('mouseout', () => {
+        this._line_container.style('display', 'none');
+      })
+      .on('mousemove', () => {
+        console.log('mouse move');
+      });
   };
 }

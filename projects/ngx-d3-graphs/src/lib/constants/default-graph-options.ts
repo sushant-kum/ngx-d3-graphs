@@ -125,5 +125,11 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
         r: 4.38
       }
     }
+  },
+  line: {
+    show: true,
+    step: {
+      type: 'step'
+    }
   }
 };
