@@ -900,6 +900,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     graph_width: number,
     graph_height: number
   ): void => {
+    // const bisectDate = d3.bisectLeft((d) => {return d.})
     this._line_container = this._svg.append('g').attr('class', 'ngx-d3--line--container');
     if (this.options_obj.axis.rotated) {
       this._line = this._line_container
@@ -907,6 +908,34 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         .attr('class', 'ngx-d3--line ngx-d3--line--x ngx-d3--line--rotated')
         .attr('x1', 0)
         .attr('x2', graph_width);
+
+      this._svg
+        .on('mouseover', () => {
+          this._line_container.style('display', null);
+        })
+        .on('mouseout', () => {
+          this._line_container.style('display', 'none');
+        })
+        .on('mousemove', () => {
+          console.log('mouse move');
+          const xPos = d3.mouse(this._svg.node())[0];
+          const x_axis_arr = this._optimized_data.map(ele => {
+            return ele.key;
+          });
+
+          if (this.options_obj.axis.x.type === 'category') {
+          } else {
+            const x_axis_arr_as_number = this._optimized_data.map(ele => {
+              return ele.key as number;
+            });
+            const x0 = (this._x as any).invert(xPos);
+            const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+            const d0 = x_axis_arr_as_number[i - 1];
+            const d1 = x_axis_arr_as_number[i];
+            const d = x0 - d0 > d1 - x0 ? d1 : d0;
+            this._line.attr('transform', 'translate(' + this._x(d) + ',' + graph_height + ')');
+          }
+        });
     } else {
       this._line = this._line_container
         .append('line')
@@ -914,16 +943,5 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         .attr('y1', graph_height)
         .attr('y2', 0);
     }
-
-    this._svg
-      .on('mouseover', () => {
-        this._line_container.style('display', '');
-      })
-      .on('mouseout', () => {
-        this._line_container.style('display', 'none');
-      })
-      .on('mousemove', () => {
-        console.log('mouse move');
-      });
   };
 }
