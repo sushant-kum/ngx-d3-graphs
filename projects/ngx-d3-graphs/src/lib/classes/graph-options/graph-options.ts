@@ -7,7 +7,7 @@ import { GridOptionsModel } from '../../data-models/grid-options/grid-options.mo
 import { RegionOptionsModel } from '../../data-models/region-options/region-options.model';
 import { LegendOptionsModel } from '../../data-models/legend-options/legend-options.model';
 import { PointOptionsModel } from '../../data-models/point-options/point-options-model';
-import { LineModel } from '../../data-models/line/line.model';
+import { PointerLineModel } from '../../data-models/pointer-line/pointer-line.model';
 
 export class GraphOptions {
   static readonly DEFAULT_GRAPH_OPTIONS = objectAssignDeep({}, DEFAULT_GRAPH_OPTIONS);
@@ -23,7 +23,7 @@ export class GraphOptions {
   regions: RegionOptionsModel[];
   legend: LegendOptionsModel;
   point: PointOptionsModel;
-  line: LineModel;
+  pointer_line: PointerLineModel;
 
   constructor(options?: GraphOptionsModel) {
     const temp_graph_options: GraphOptionsModel = objectAssignDeep({}, GraphOptions.DEFAULT_GRAPH_OPTIONS);
@@ -42,6 +42,6 @@ export class GraphOptions {
     this.regions = temp_graph_options.regions;
     this.legend = temp_graph_options.legend;
     this.point = temp_graph_options.point;
-    this.line = temp_graph_options.line;
+    this.pointer_line = temp_graph_options.pointer_line;
   }
 }

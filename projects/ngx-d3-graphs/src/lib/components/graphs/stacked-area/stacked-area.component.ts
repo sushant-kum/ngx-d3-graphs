@@ -81,8 +81,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     SVGGElement,
     d3.Series<{ [key: string]: number }, string>
   >;
-  private _line_container: d3.Selection<SVGGElement, unknown, null, undefined>;
-  private _line: d3.Selection<SVGLineElement, unknown, null, undefined>;
+  private _pointer_line_container: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private _pointer_line: d3.Selection<SVGLineElement, unknown, null, undefined>;
   private _underlays: {
     parent: d3.Selection<SVGGElement, unknown, null, undefined>;
     event_underlay?: d3.Selection<SVGRectElement, unknown, null, undefined>;
@@ -276,8 +276,8 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     /**
      * Line
      */
-    if (this.options_obj.line && this.options_obj.line.show) {
-      this._prepareLine(graph_width, graph_height);
+    if (this.options_obj.pointer_line && this.options_obj.pointer_line.show) {
+      this._preparePointerLine(graph_width, graph_height);
     }
   }
 
@@ -896,52 +896,95 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     );
   };
 
-  private _prepareLine: (graph_width: number, graph_height: number) => void = (
+  /**
+   * Prepare and display pointer line
+   *
+   * @memberof StackedAreaComponent
+   */
+  private _preparePointerLine: (graph_width: number, graph_height: number) => void = (
     graph_width: number,
     graph_height: number
   ): void => {
-    // const bisectDate = d3.bisectLeft((d) => {return d.})
-    this._line_container = this._svg.append('g').attr('class', 'ngx-d3--line--container');
+    this._pointer_line_container = this._svg.append('g').attr('class', 'ngx-d3--pointer-line--container');
+
     if (this.options_obj.axis.rotated) {
-      this._line = this._line_container
+      this._pointer_line = this._pointer_line_container
         .append('line')
-        .attr('class', 'ngx-d3--line ngx-d3--line--x ngx-d3--line--rotated')
+        .attr('class', 'ngx-d3--pointer-line ngx-d3--pointer-line--x ngx-d3--pointer-line--rotated')
         .attr('x1', 0)
         .attr('x2', graph_width);
 
       this._svg
         .on('mouseover', () => {
-          this._line_container.style('display', null);
+          this._pointer_line_container.style('display', 'unset');
         })
         .on('mouseout', () => {
-          this._line_container.style('display', 'none');
+          this._pointer_line_container.style('display', null);
         })
         .on('mousemove', () => {
           console.log('mouse move');
-          const xPos = d3.mouse(this._svg.node())[0];
-          const x_axis_arr = this._optimized_data.map(ele => {
-            return ele.key;
-          });
+          const y_pos = d3.mouse(this._svg.node())[1];
 
           if (this.options_obj.axis.x.type === 'category') {
+            const x0 =
+              ((this._x.domain().length - 1) * y_pos) /
+              (this._x.range()[this._x.range().length - 1] - this._x.range()[0]);
+            const i = Math.ceil(x0);
+            const d0 = this._x.domain()[i - 1];
+            const d1 = this._x.domain()[i];
+            const d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+            this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
           } else {
             const x_axis_arr_as_number = this._optimized_data.map(ele => {
               return ele.key as number;
             });
-            const x0 = (this._x as any).invert(xPos);
+            const x0 = (this._x as any).invert(y_pos);
             const i = d3.bisectLeft(x_axis_arr_as_number, x0);
             const d0 = x_axis_arr_as_number[i - 1];
             const d1 = x_axis_arr_as_number[i];
             const d = x0 - d0 > d1 - x0 ? d1 : d0;
-            this._line.attr('transform', 'translate(' + this._x(d) + ',' + graph_height + ')');
+            this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
           }
         });
     } else {
-      this._line = this._line_container
+      this._pointer_line = this._pointer_line_container
         .append('line')
-        .attr('class', 'ngx-d3--line ngx-d3--line--x')
-        .attr('y1', graph_height)
-        .attr('y2', 0);
+        .attr('class', 'ngx-d3--pointer-line ngx-d3--pointer-line--x')
+        .attr('y1', 0)
+        .attr('y2', -graph_height);
+
+      this._svg
+        .on('mouseover', () => {
+          this._pointer_line_container.style('display', 'unset');
+        })
+        .on('mouseout', () => {
+          this._pointer_line_container.style('display', null);
+        })
+        .on('mousemove', () => {
+          console.log('mouse move');
+          const x_pos = d3.mouse(this._svg.node())[0];
+
+          if (this.options_obj.axis.x.type === 'category') {
+            const x0 =
+              ((this._x.domain().length - 1) * x_pos) /
+              (this._x.range()[this._x.range().length - 1] - this._x.range()[0]);
+            const i = Math.ceil(x0);
+            const d0 = this._x.domain()[i - 1];
+            const d1 = this._x.domain()[i];
+            const d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+            this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
+          } else {
+            const x_axis_arr_as_number = this._optimized_data.map(ele => {
+              return ele.key as number;
+            });
+            const x0 = (this._x as any).invert(x_pos);
+            const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+            const d0 = x_axis_arr_as_number[i - 1];
+            const d1 = x_axis_arr_as_number[i];
+            const d = x0 - d0 > d1 - x0 ? d1 : d0;
+            this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
+          }
+        });
     }
   };
 }

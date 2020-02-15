@@ -126,7 +126,7 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
       }
     }
   },
-  line: {
+  pointer_line: {
     show: true,
     step: {
       type: 'step'
