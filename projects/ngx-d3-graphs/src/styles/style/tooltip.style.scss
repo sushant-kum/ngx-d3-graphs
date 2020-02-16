@@ -1,0 +1,8 @@
+.ngx-d3 {
+  &--tooltip {
+    &--container {
+      position: absolute;
+      z-index: 10;
+    }
+  }
+}

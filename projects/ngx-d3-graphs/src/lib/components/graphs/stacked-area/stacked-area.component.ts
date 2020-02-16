@@ -87,6 +87,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     parent: d3.Selection<SVGGElement, unknown, null, undefined>;
     event_underlay?: d3.Selection<SVGRectElement, unknown, null, undefined>;
   };
+  private _tooltip_container: d3.Selection<HTMLDivElement, unknown, null, undefined>;
 
   constructor() {}
 
@@ -165,6 +166,15 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .attr('height', graph_height + this.options_obj.padding.top + this.options_obj.padding.bottom)
       .append('g')
       .attr('transform', 'translate(' + this.options_obj.padding.left + ',' + this.options_obj.padding.top + ')');
+
+    d3.select(element)
+      .select('.ngx-d3--tooltip--container')
+      .remove();
+
+    this._tooltip_container = d3
+      .select(element)
+      .append('div')
+      .attr('class', 'ngx-d3--tooltip--container');
 
     /**
      * Process data
