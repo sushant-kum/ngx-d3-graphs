@@ -274,7 +274,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     /**
-     * Line
+     * Pointer Line
      */
     if (this.options_obj.pointer_line && this.options_obj.pointer_line.show) {
       this._preparePointerLine(graph_width, graph_height);
