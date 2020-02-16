@@ -569,7 +569,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .data(this._stacked_data)
       .enter()
       .append('path')
-      .attr('class', d => 'ngx-d3--area ngx-d3--area--key--' + d.key.toLowerCase().replace(/\s/g, ''))
+      .attr('class', d => 'ngx-d3--plot--area ngx-d3--plot--area--key--' + d.key.toLowerCase().replace(/\s/g, ''))
       .style('stroke', this.stacked_area_options.area.stroke.color_hex)
       .attr('stroke-width', this.stacked_area_options.area.stroke.width)
       .style('fill', d => this._colors[this._keys.indexOf(d.key)])
@@ -601,7 +601,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .data(this._stacked_data)
       .enter()
       .append('path')
-      .attr('class', d => 'ngx-d3--line ngx-d3--line--key--' + d.key.toLowerCase().replace(/\s/g, ''))
+      .attr('class', d => 'ngx-d3--plot--line ngx-d3--plot--line--key--' + d.key.toLowerCase().replace(/\s/g, ''))
       .style('stroke', d =>
         this.stacked_area_options.area.stroke.color_hex
           ? this.stacked_area_options.area.stroke.color_hex
@@ -616,17 +616,20 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       setTimeout(
         () => {
           this._points = this._area_chart
-            .selectAll('ngx-d3--points')
+            .selectAll('ngx-d3--plot--points')
             .data(this._stacked_data)
             .enter()
             .append('g')
-            .attr('class', stack => 'ngx-d3--points ngx-d3--points--key--' + stack.key.toLowerCase().replace(/\s/g, ''))
+            .attr(
+              'class',
+              stack => 'ngx-d3--plot--points ngx-d3--plot--points--key--' + stack.key.toLowerCase().replace(/\s/g, '')
+            )
             .style('fill', stack =>
               this.stacked_area_options.area.stroke.color_hex
                 ? this.stacked_area_options.area.stroke.color_hex
                 : this._colors[this._keys.indexOf(stack.key)]
             )
-            .selectAll('ngx-d3--point')
+            .selectAll('ngx-d3--plot--point')
             .data(stack => {
               return stack;
             })
@@ -634,7 +637,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
             .append('circle')
             .attr('class', entry => {
               return (
-                'ngx-d3--point ngx-d3--point--key--' +
+                'ngx-d3--plot--point ngx-d3--plot--point--key--' +
                 entry.data.key
                   .toString()
                   .toLowerCase()
@@ -654,7 +657,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
             this.options_obj.point.focus.expand &&
             this.options_obj.point.focus.expand.enabled
           ) {
-            for (const point of this._svg.selectAll('.ngx-d3--point').nodes()) {
+            for (const point of this._svg.selectAll('.ngx-d3--plot--point').nodes()) {
               const d3_point = d3.select(point);
 
               d3_point.on('mouseover', () => {
@@ -662,14 +665,14 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
                   .attr('r', this.options_obj.point.focus.expand.r)
                   .attr('stroke', '#ffffff')
                   .attr('stroke-width', '1px');
-                (d3_point.node() as HTMLElement).classList.add('ngx-d3--point--expanded');
+                (d3_point.node() as HTMLElement).classList.add('ngx-d3--plot--point--expanded');
               });
               d3_point.on('mouseout', () => {
                 d3_point
                   .attr('r', this.options_obj.point.r)
                   .attr('stroke', undefined)
                   .attr('stroke-width', undefined);
-                (d3_point.node() as HTMLElement).classList.remove('ngx-d3--point--expanded');
+                (d3_point.node() as HTMLElement).classList.remove('ngx-d3--plot--point--expanded');
               });
             }
           }
@@ -711,7 +714,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Animate area
     this._svg
-      .selectAll('.ngx-d3--area')
+      .selectAll('.ngx-d3--plot--area')
       .transition()
       .duration(this.options_obj.transition.duration)
       .attr('d', this._plot_area as any);
@@ -737,7 +740,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Animate line
     this._svg
-      .selectAll('.ngx-d3--line')
+      .selectAll('.ngx-d3--plot--line')
       .transition()
       .duration(this.options_obj.transition.duration)
       .attr('d', this._plot_line as any);
@@ -750,14 +753,14 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   private _attachMouseEventsToAreas: () => void = (): void => {
     const ided_keys = this._keys.map(key => key.toLowerCase().replace(/\s/g, ''));
 
-    const areas = this._svg.selectAll('.ngx-d3--area');
+    const areas = this._svg.selectAll('.ngx-d3--plot--area');
 
     for (const area of areas.nodes()) {
       const d3_area = d3.select(area);
       let ided_key: string;
       for (const ele_class of d3_area.attr('class').split(' ')) {
-        if (ele_class.indexOf('ngx-d3--area--key--') === 0) {
-          ided_key = ele_class.split('ngx-d3--area--key--')[1];
+        if (ele_class.indexOf('ngx-d3--plot--area--key--') === 0) {
+          ided_key = ele_class.split('ngx-d3--plot--area--key--')[1];
           break;
         }
       }
@@ -905,7 +908,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     graph_width: number,
     graph_height: number
   ): void => {
-    this._pointer_line_container = this._svg.append('g').attr('class', 'ngx-d3--pointer-line--container');
+    this._pointer_line_container = this._svg
+      .append('g')
+      .lower()
+      .attr('class', 'ngx-d3--pointer-line--container');
 
     if (this.options_obj.axis.rotated) {
       this._pointer_line = this._pointer_line_container
@@ -922,7 +928,6 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
           this._pointer_line_container.style('display', null);
         })
         .on('mousemove', () => {
-          console.log('mouse move');
           const y_pos = d3.mouse(this._svg.node())[1];
 
           if (this.options_obj.axis.x.type === 'category') {
@@ -961,7 +966,6 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
           this._pointer_line_container.style('display', null);
         })
         .on('mousemove', () => {
-          console.log('mouse move');
           const x_pos = d3.mouse(this._svg.node())[0];
 
           if (this.options_obj.axis.x.type === 'category') {

@@ -7,8 +7,8 @@ export const DEFAULT_STACKED_AREA_OPTIONS: StackedAreaOptionsModel = {
       width: 1
     },
     opacity: {
-      unhovered: 0.2,
-      hovered: 0.6
+      unhovered: 0.3,
+      hovered: 0.7
     }
   }
 };
