@@ -24,9 +24,9 @@ export class AppComponent implements OnInit {
     axis: {
       // rotated: true,
       x: {
-        // min: 2000
+        // min: 2000,
         // show: false
-        type: 'category'
+        // type: 'category'
         //   // localtime: false,
         // tick: {
         //   format: x => {
@@ -142,6 +142,9 @@ export class AppComponent implements OnInit {
     },
     pointer_line: {
       show: true
+      // step: {
+      //   type: 'step-after'
+      // }
     }
   };
 

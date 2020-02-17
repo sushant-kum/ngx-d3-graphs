@@ -527,6 +527,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         .attr('height', graph_height);
     }
   };
+
   /**
    * Plot stacked areas
    *
@@ -938,18 +939,31 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
           this._pointer_line_container.style('display', null);
         })
         .on('mousemove', () => {
-          const y_pos = d3.mouse(this._svg.node())[1];
-
           if (this.options_obj.axis.x.type === 'category') {
+            const y_pos =
+              this._x.range()[0] - this._x.range()[this._x.range().length - 1] - d3.mouse(this._svg.node())[1];
             const x0 =
               ((this._x.domain().length - 1) * y_pos) /
-              (this._x.range()[this._x.range().length - 1] - this._x.range()[0]);
+              (this._x.range()[0] - this._x.range()[this._x.range().length - 1]);
             const i = Math.ceil(x0);
             const d0 = this._x.domain()[i - 1];
             const d1 = this._x.domain()[i];
-            const d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
-            this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
+            let d:
+              | string
+              | {
+                  valueOf(): number;
+                };
+            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+              d = d0;
+            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+              d = d1;
+            } else {
+              d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+            }
+            console.log('this._x.range()', this._x.range(), 'd', d);
+            this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
           } else {
+            const y_pos = d3.mouse(this._svg.node())[1];
             const x_axis_arr_as_number = this._optimized_data.map(ele => {
               return ele.key as number;
             });
@@ -957,7 +971,18 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
             const i = d3.bisectLeft(x_axis_arr_as_number, x0);
             const d0 = x_axis_arr_as_number[i - 1];
             const d1 = x_axis_arr_as_number[i];
-            const d = x0 - d0 > d1 - x0 ? d1 : d0;
+            let d:
+              | string
+              | {
+                  valueOf(): number;
+                };
+            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+              d = d0;
+            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+              d = d1;
+            } else {
+              d = x0 - d0 > d1 - x0 ? d1 : d0;
+            }
             this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
           }
         });
@@ -985,7 +1010,18 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
             const i = Math.ceil(x0);
             const d0 = this._x.domain()[i - 1];
             const d1 = this._x.domain()[i];
-            const d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+            let d:
+              | string
+              | {
+                  valueOf(): number;
+                };
+            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+              d = d0;
+            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+              d = d1;
+            } else {
+              d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+            }
             this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
           } else {
             const x_axis_arr_as_number = this._optimized_data.map(ele => {
@@ -995,7 +1031,18 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
             const i = d3.bisectLeft(x_axis_arr_as_number, x0);
             const d0 = x_axis_arr_as_number[i - 1];
             const d1 = x_axis_arr_as_number[i];
-            const d = x0 - d0 > d1 - x0 ? d1 : d0;
+            let d:
+              | string
+              | {
+                  valueOf(): number;
+                };
+            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+              d = d0;
+            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+              d = d1;
+            } else {
+              d = x0 - d0 > d1 - x0 ? d1 : d0;
+            }
             this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
           }
         });
