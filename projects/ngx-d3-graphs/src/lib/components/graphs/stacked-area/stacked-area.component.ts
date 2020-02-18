@@ -25,6 +25,7 @@ import { DEFAULT_STACKED_AREA_OPTIONS } from './../../../constants/default-stack
 import { GridComponents } from '../../../classes/grid-components/grid-components';
 import { LegendComponents } from '../../../classes/legend-components/legend-components';
 import { IfStmt } from '@angular/compiler';
+import { TooltipComponents } from '../../../classes/tooltip-components/tooltip-components';
 
 @Component({
   selector: 'ngx-d3-stacked-area',
@@ -53,6 +54,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
   options_obj: GraphOptions;
 
+  private _chart_element: d3.Selection<HTMLElement, unknown, null, undefined>;
   private _idle_timeout: NodeJS.Timer;
   private _svg: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _optimized_data: { [key: string]: Date | string | number }[] = [];
@@ -88,6 +90,9 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     event_underlay?: d3.Selection<SVGRectElement, unknown, null, undefined>;
   };
   private _tooltip_container: d3.Selection<HTMLDivElement, unknown, null, undefined>;
+  private _tooltip: d3.Selection<HTMLTableElement, unknown, null, undefined>;
+  private _tooltip_body: d3.Selection<HTMLTableSectionElement, unknown, null, undefined>;
+  private _tooltip_title: d3.Selection<HTMLTableSectionElement, unknown, null, undefined>;
 
   constructor() {}
 
@@ -154,27 +159,17 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     /**
      * Create base SVG
      */
-    d3.select(element)
-      .select('svg')
-      .remove();
+    this._chart_element = d3.select(element);
 
-    this._svg = d3
-      .select(element)
+    this._chart_element.select('svg').remove();
+
+    this._svg = this._chart_element
       .append('svg')
       .attr('class', 'ngx-d3')
       .attr('width', element.offsetWidth)
       .attr('height', graph_height + this.options_obj.padding.top + this.options_obj.padding.bottom)
       .append('g')
       .attr('transform', 'translate(' + this.options_obj.padding.left + ',' + this.options_obj.padding.top + ')');
-
-    d3.select(element)
-      .select('.ngx-d3--tooltip--container')
-      .remove();
-
-    this._tooltip_container = d3
-      .select(element)
-      .append('div')
-      .attr('class', 'ngx-d3--tooltip--container');
 
     /**
      * Process data
@@ -289,6 +284,28 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.options_obj.pointer_line && this.options_obj.pointer_line.show) {
       this._preparePointerLine(graph_width, graph_height);
     }
+
+    /**
+     * Tooltip
+     */
+    let tooltip: TooltipComponents;
+    if (this.options_obj.tooltip && this.options_obj.tooltip.show) {
+      // Create tooltip container
+      this._chart_element.select('.ngx-d3--tooltip--container').remove();
+
+      this._tooltip_container = this._chart_element.append('div').attr('class', 'ngx-d3--tooltip--container');
+
+      tooltip = new TooltipComponents(this.options.tooltip);
+      // if (this.options_obj.tooltip.grouped) {
+      //   this._prepareGroupedTooltip(tooltip, graph_width, graph_height);
+      // } else {
+      // }
+    }
+
+    // Set event handlers
+    this._setChartEleMouseOverEventHandler();
+    this._setChartEleMouseOutEventHandler();
+    this._setChartEleMouseMoveEventHandler(graph_width, graph_height, tooltip);
   }
 
   /**
@@ -911,7 +928,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   /**
-   * Prepare and display pointer line
+   * Prepare pointer line
    *
    * @memberof StackedAreaComponent
    */
@@ -930,122 +947,418 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         .attr('class', 'ngx-d3--pointer-line ngx-d3--pointer-line--x ngx-d3--pointer-line--rotated')
         .attr('x1', 0)
         .attr('x2', graph_width);
-
-      this._svg
-        .on('mouseover', () => {
-          this._pointer_line_container.style('display', 'unset');
-        })
-        .on('mouseout', () => {
-          this._pointer_line_container.style('display', null);
-        })
-        .on('mousemove', () => {
-          if (this.options_obj.axis.x.type === 'category') {
-            const y_pos =
-              this._x.range()[0] - this._x.range()[this._x.range().length - 1] - d3.mouse(this._svg.node())[1];
-            const x0 =
-              ((this._x.domain().length - 1) * y_pos) /
-              (this._x.range()[0] - this._x.range()[this._x.range().length - 1]);
-            const i = Math.ceil(x0);
-            const d0 = this._x.domain()[i - 1];
-            const d1 = this._x.domain()[i];
-            let d:
-              | string
-              | {
-                  valueOf(): number;
-                };
-            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
-              d = d0;
-            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
-              d = d1;
-            } else {
-              d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
-            }
-            console.log('this._x.range()', this._x.range(), 'd', d);
-            this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
-          } else {
-            const y_pos = d3.mouse(this._svg.node())[1];
-            const x_axis_arr_as_number = this._optimized_data.map(ele => {
-              return ele.key as number;
-            });
-            const x0 = (this._x as any).invert(y_pos);
-            const i = d3.bisectLeft(x_axis_arr_as_number, x0);
-            const d0 = x_axis_arr_as_number[i - 1];
-            const d1 = x_axis_arr_as_number[i];
-            let d:
-              | string
-              | {
-                  valueOf(): number;
-                };
-            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
-              d = d0;
-            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
-              d = d1;
-            } else {
-              d = x0 - d0 > d1 - x0 ? d1 : d0;
-            }
-            this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
-          }
-        });
     } else {
       this._pointer_line = this._pointer_line_container
         .append('line')
         .attr('class', 'ngx-d3--pointer-line ngx-d3--pointer-line--x')
         .attr('y1', 0)
         .attr('y2', -graph_height);
-
-      this._svg
-        .on('mouseover', () => {
-          this._pointer_line_container.style('display', 'unset');
-        })
-        .on('mouseout', () => {
-          this._pointer_line_container.style('display', null);
-        })
-        .on('mousemove', () => {
-          const x_pos = d3.mouse(this._svg.node())[0];
-
-          if (this.options_obj.axis.x.type === 'category') {
-            const x0 =
-              ((this._x.domain().length - 1) * x_pos) /
-              (this._x.range()[this._x.range().length - 1] - this._x.range()[0]);
-            const i = Math.ceil(x0);
-            const d0 = this._x.domain()[i - 1];
-            const d1 = this._x.domain()[i];
-            let d:
-              | string
-              | {
-                  valueOf(): number;
-                };
-            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
-              d = d0;
-            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
-              d = d1;
-            } else {
-              d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
-            }
-            this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
-          } else {
-            const x_axis_arr_as_number = this._optimized_data.map(ele => {
-              return ele.key as number;
-            });
-            const x0 = (this._x as any).invert(x_pos);
-            const i = d3.bisectLeft(x_axis_arr_as_number, x0);
-            const d0 = x_axis_arr_as_number[i - 1];
-            const d1 = x_axis_arr_as_number[i];
-            let d:
-              | string
-              | {
-                  valueOf(): number;
-                };
-            if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
-              d = d0;
-            } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
-              d = d1;
-            } else {
-              d = x0 - d0 > d1 - x0 ? d1 : d0;
-            }
-            this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
-          }
-        });
     }
+  };
+
+  /**
+   * Display pointer line
+   *
+   */
+  private _displayPointerLine: (graph_width: number, graph_height: number) => void = (
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    if (this.options_obj.axis.rotated) {
+      if (this.options_obj.axis.x.type === 'category') {
+        const y_pos = this._x.range()[0] - this._x.range()[this._x.range().length - 1] - d3.mouse(this._svg.node())[1];
+        const x0 =
+          ((this._x.domain().length - 1) * y_pos) / (this._x.range()[0] - this._x.range()[this._x.range().length - 1]);
+        const i = Math.ceil(x0);
+        const d0 = this._x.domain()[i - 1];
+        const d1 = this._x.domain()[i];
+        let d:
+          | string
+          | {
+              valueOf(): number;
+            };
+        if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+          d = d0;
+        } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+          d = d1;
+        } else {
+          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+        }
+        this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
+      } else {
+        const y_pos = d3.mouse(this._svg.node())[1];
+        const x_axis_arr_as_number = this._optimized_data.map(ele => {
+          return ele.key as number;
+        });
+        const x0 = (this._x as any).invert(y_pos);
+        const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+        const d0 = x_axis_arr_as_number[i - 1];
+        const d1 = x_axis_arr_as_number[i];
+        let d:
+          | string
+          | {
+              valueOf(): number;
+            };
+        if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+          d = d0;
+        } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+          d = d1;
+        } else {
+          d = x0 - d0 > d1 - x0 ? d1 : d0;
+        }
+        this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
+      }
+    } else {
+      const x_pos = d3.mouse(this._svg.node())[0];
+
+      if (this.options_obj.axis.x.type === 'category') {
+        const x0 =
+          ((this._x.domain().length - 1) * x_pos) / (this._x.range()[this._x.range().length - 1] - this._x.range()[0]);
+        const i = Math.ceil(x0);
+        const d0 = this._x.domain()[i - 1];
+        const d1 = this._x.domain()[i];
+        let d:
+          | string
+          | {
+              valueOf(): number;
+            };
+        if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+          d = d0;
+        } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+          d = d1;
+        } else {
+          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+        }
+        this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
+      } else {
+        const x_axis_arr_as_number = this._optimized_data.map(ele => {
+          return ele.key as number;
+        });
+        const x0 = (this._x as any).invert(x_pos);
+        const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+        const d0 = x_axis_arr_as_number[i - 1];
+        const d1 = x_axis_arr_as_number[i];
+        let d:
+          | string
+          | {
+              valueOf(): number;
+            };
+        if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-before') {
+          d = d0;
+        } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
+          d = d1;
+        } else {
+          d = x0 - d0 > d1 - x0 ? d1 : d0;
+        }
+        this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
+      }
+    }
+  };
+
+  /**
+   * Display grouped tooltip
+   *
+   */
+  private _displayGroupedTooltip: (tooltip: TooltipComponents, graph_width: number, graph_height: number) => void = (
+    tooltip: TooltipComponents,
+    graph_width: number,
+    graph_height: number
+  ): void => {
+    if (this.options_obj.axis.rotated) {
+      const x_pos = d3.mouse(this._svg.node())[0];
+      const y_pos = d3.mouse(this._svg.node())[1];
+
+      let d:
+        | string
+        | {
+            valueOf(): number;
+          };
+
+      if (this.options_obj.axis.x.type === 'category') {
+        const y_pos_modified = this._x.range()[0] - this._x.range()[this._x.range().length - 1] - y_pos;
+        const x0 =
+          ((this._x.domain().length - 1) * y_pos_modified) /
+          (this._x.range()[0] - this._x.range()[this._x.range().length - 1]);
+        const i = Math.ceil(x0);
+        const d0 = this._x.domain()[i - 1];
+        const d1 = this._x.domain()[i];
+
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          d = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          d = d1;
+        } else {
+          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+        }
+      } else {
+        const x_axis_arr_as_number = this._optimized_data.map(ele => {
+          return ele.key as number;
+        });
+        const x0 = (this._x as any).invert(y_pos);
+        const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+        const d0 = x_axis_arr_as_number[i - 1];
+        const d1 = x_axis_arr_as_number[i];
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          d = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          d = d1;
+        } else {
+          d = x0 - d0 > d1 - x0 ? d1 : d0;
+        }
+      }
+
+      const data: { key: string; value: string; color: string }[] = [];
+      for (const optimized_data_row of this._optimized_data) {
+        if (optimized_data_row.key === d) {
+          for (const key of this._keys) {
+            data.push({
+              key: this.options_obj.tooltip.format.key ? this.options_obj.tooltip.format.key(key) : key,
+              value: this.options_obj.tooltip.format.value
+                ? this.options_obj.tooltip.format.value(
+                    optimized_data_row[key] ? (optimized_data_row[key] as number | Date) : 0
+                  )
+                : optimized_data_row[key]
+                ? String(optimized_data_row[key])
+                : '',
+              color: this._colors[this._keys.indexOf(key)]
+            });
+          }
+          break;
+        }
+      }
+      const title = this.options_obj.tooltip.format.title ? this.options_obj.tooltip.format.title(d as any) : String(d);
+
+      if (d !== undefined) {
+        this._tooltip_container.style('display', null);
+        if (!(this._tooltip_title && this._tooltip_title.select('.ngx-d3--tooltip--title').text() === title)) {
+          const tooltip_eles = tooltip.createTooltip(this._tooltip_container, title, data);
+          this._tooltip = tooltip_eles.tooltip;
+          this._tooltip_title = tooltip_eles.tooltip_title;
+          this._tooltip_body = tooltip_eles.tooltip_body;
+        }
+      } else {
+        this._tooltip_container.style('display', 'none');
+      }
+
+      const top: number =
+        this._x(d as any) + this.options_obj.padding.top + this.options_obj.tooltip.position.top <
+        this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight
+          ? this._x(d as any) + this.options_obj.padding.top + this.options_obj.tooltip.position.top
+          : this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight;
+      const left: number = x_pos + this.options_obj.padding.left + this.options_obj.tooltip.position.left;
+
+      this._tooltip_container.style(
+        'top',
+        `${top >= this.options_obj.padding.top ? top : this.options_obj.padding.top}px`
+      );
+      this._tooltip_container.style(
+        'left',
+        `${
+          left <
+          this._chart_element.node().offsetWidth -
+            this.options_obj.padding.right -
+            this._tooltip_container.node().offsetWidth -
+            this.options_obj.tooltip.position.left
+            ? left
+            : this._chart_element.node().offsetWidth -
+              this.options_obj.padding.right -
+              this._tooltip_container.node().offsetWidth -
+              this.options_obj.tooltip.position.left
+        }px`
+      );
+    } else {
+      const x_pos = d3.mouse(this._svg.node())[0];
+      const y_pos = d3.mouse(this._svg.node())[1];
+
+      let d:
+        | string
+        | {
+            valueOf(): number;
+          };
+
+      if (this.options_obj.axis.x.type === 'category') {
+        const x0 =
+          ((this._x.domain().length - 1) * x_pos) / (this._x.range()[this._x.range().length - 1] - this._x.range()[0]);
+        const i = Math.ceil(x0);
+        const d0 = this._x.domain()[i - 1];
+        const d1 = this._x.domain()[i];
+
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          d = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          d = d1;
+        } else {
+          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+        }
+      } else {
+        const x_axis_arr_as_number = this._optimized_data.map(ele => {
+          return ele.key as number;
+        });
+        const x0 = (this._x as any).invert(x_pos);
+        const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+        const d0 = x_axis_arr_as_number[i - 1];
+        const d1 = x_axis_arr_as_number[i];
+
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          d = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          d = d1;
+        } else {
+          d = x0 - d0 > d1 - x0 ? d1 : d0;
+        }
+      }
+
+      const data: { key: string; value: string; color: string }[] = [];
+      for (const optimized_data_row of this._optimized_data) {
+        if (optimized_data_row.key === d) {
+          for (const key of this._keys) {
+            data.push({
+              key: this.options_obj.tooltip.format.key ? this.options_obj.tooltip.format.key(key) : key,
+              value: this.options_obj.tooltip.format.value
+                ? this.options_obj.tooltip.format.value(
+                    optimized_data_row[key] ? (optimized_data_row[key] as number | Date) : 0
+                  )
+                : optimized_data_row[key]
+                ? String(optimized_data_row[key])
+                : '',
+              color: this._colors[this._keys.indexOf(key)]
+            });
+          }
+          break;
+        }
+      }
+      const title = this.options_obj.tooltip.format.title ? this.options_obj.tooltip.format.title(d as any) : String(d);
+
+      if (d !== undefined) {
+        this._tooltip_container.style('display', null);
+        if (!(this._tooltip_title && this._tooltip_title.select('.ngx-d3--tooltip--title').text() === title)) {
+          const tooltip_eles = tooltip.createTooltip(this._tooltip_container, title, data);
+          this._tooltip = tooltip_eles.tooltip;
+          this._tooltip_title = tooltip_eles.tooltip_title;
+          this._tooltip_body = tooltip_eles.tooltip_body;
+        }
+      } else {
+        this._tooltip_container.style('display', 'none');
+      }
+
+      const top: number =
+        y_pos + this.options_obj.padding.top + this.options_obj.tooltip.position.top <
+        this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight
+          ? y_pos + this.options_obj.padding.top + this.options_obj.tooltip.position.top
+          : this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight;
+      const left: number = this._x(d as any) + this.options_obj.padding.left + this.options_obj.tooltip.position.left;
+
+      this._tooltip_container.style(
+        'top',
+        `${top >= this.options_obj.padding.top ? top : this.options_obj.padding.top}px`
+      );
+      this._tooltip_container.style(
+        'left',
+        `${
+          left <
+          this._chart_element.node().offsetWidth -
+            this.options_obj.padding.right -
+            this._tooltip_container.node().offsetWidth -
+            this.options_obj.tooltip.position.left
+            ? left
+            : this._chart_element.node().offsetWidth -
+              this.options_obj.padding.right -
+              this._tooltip_container.node().offsetWidth -
+              this.options_obj.tooltip.position.left
+        }px`
+      );
+    }
+  };
+
+  /**
+   * Set chart-element mouse-over event handler
+   *
+   */
+  private _setChartEleMouseOverEventHandler: () => void = (): void => {
+    this._chart_element.on('mouseover', () => {
+      // Make pointer-line container visible
+      if (this.options_obj.pointer_line && this.options_obj.pointer_line.show && this._pointer_line_container) {
+        this._pointer_line_container.style('display', 'unset');
+      }
+
+      // Make tooltip container visible
+      if (this.options_obj.tooltip && this.options_obj.tooltip.show && this._tooltip_container) {
+        this._tooltip_container.style('display', null);
+      }
+    });
+  };
+
+  /**
+   * Set chart-element mouse-out event handler
+   *
+   */
+  private _setChartEleMouseOutEventHandler: () => void = (): void => {
+    this._chart_element.on('mouseout', () => {
+      // Make pointer-line container invisible
+      if (this.options_obj.pointer_line && this.options_obj.pointer_line.show && this._pointer_line_container) {
+        this._pointer_line_container.style('display', null);
+      }
+
+      // Make tooltip container invisible
+      if (this.options_obj.tooltip && this.options_obj.tooltip.show && this._tooltip_container) {
+        this._tooltip_container.style('display', 'none');
+      }
+    });
+  };
+
+  /**
+   * Set chart-element mouse-move event handler
+   *
+   */
+  private _setChartEleMouseMoveEventHandler: (
+    graph_width: number,
+    graph_height: number,
+    tooltip: TooltipComponents
+  ) => void = (graph_width: number, graph_height: number, tooltip: TooltipComponents): void => {
+    this._chart_element.on('mousemove', () => {
+      // Dsiplay pointer-line
+      if (this.options_obj.pointer_line && this.options_obj.pointer_line.show) {
+        this._displayPointerLine(graph_width, graph_height);
+      }
+
+      // Display tooltip
+      if (this.options_obj.tooltip && this.options_obj.tooltip.show) {
+        if (this.options_obj.tooltip.grouped) {
+          this._displayGroupedTooltip(tooltip, graph_width, graph_height);
+        }
+      }
+    });
   };
 }

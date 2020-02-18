@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       x: {
         // min: 2000,
         // show: false
-        // type: 'category'
+        type: 'category'
         //   // localtime: false,
         // tick: {
         //   format: x => {
@@ -167,15 +167,15 @@ export class AppComponent implements OnInit {
     this._http.get('assets/mock-data/graphs/stacked-area/birth-records.json').subscribe(
       (res: any) => {
         for (const data_row of res) {
-          // if (data_row.year > 2010) {
-          this.graph_data.push({
-            key: data_row.name,
-            plot: {
-              x: data_row.year, // moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
-              y: data_row.n
-            }
-          });
-          // }
+          if (data_row.year > 2010) {
+            this.graph_data.push({
+              key: data_row.name,
+              plot: {
+                x: data_row.year, // moment([data_row.year, 0, 1]).format('YYYY-MM-DD'),
+                y: data_row.n
+              }
+            });
+          }
         }
       },
       (err: HttpErrorResponse) => {

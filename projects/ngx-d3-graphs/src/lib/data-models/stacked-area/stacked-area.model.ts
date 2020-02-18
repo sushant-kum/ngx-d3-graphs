@@ -3,7 +3,7 @@ export interface StackedAreaDataModel {
   key: string;
   plot: {
     x: number | string | Date;
-    y: number;
+    y: number | Date;
   };
 }
 

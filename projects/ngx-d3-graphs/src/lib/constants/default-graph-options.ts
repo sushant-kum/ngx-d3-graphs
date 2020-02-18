@@ -131,5 +131,18 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
     step: {
       type: 'step'
     }
+  },
+  tooltip: {
+    show: true,
+    grouped: true,
+    format: {
+      title: undefined,
+      key: undefined,
+      value: undefined
+    },
+    position: {
+      top: 0,
+      left: 10
+    }
   }
 };

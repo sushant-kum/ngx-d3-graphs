@@ -8,6 +8,7 @@ import { RegionOptionsModel } from '../../data-models/region-options/region-opti
 import { LegendOptionsModel } from '../../data-models/legend-options/legend-options.model';
 import { PointOptionsModel } from '../../data-models/point-options/point-options-model';
 import { PointerLineOptionsModel } from '../../data-models/pointer-line-options/pointer-line-options.model';
+import { TooltipOptionsModel } from '../../data-models/tooltip-options/tooltip-options.model';
 
 export class GraphOptions {
   static readonly DEFAULT_GRAPH_OPTIONS = objectAssignDeep({}, DEFAULT_GRAPH_OPTIONS);
@@ -24,6 +25,7 @@ export class GraphOptions {
   legend: LegendOptionsModel;
   point: PointOptionsModel;
   pointer_line: PointerLineOptionsModel;
+  tooltip: TooltipOptionsModel;
 
   constructor(options?: GraphOptionsModel) {
     const temp_graph_options: GraphOptionsModel = objectAssignDeep({}, GraphOptions.DEFAULT_GRAPH_OPTIONS);
@@ -43,5 +45,6 @@ export class GraphOptions {
     this.legend = temp_graph_options.legend;
     this.point = temp_graph_options.point;
     this.pointer_line = temp_graph_options.pointer_line;
+    this.tooltip = temp_graph_options.tooltip;
   }
 }
