@@ -2,5 +2,13 @@
   &--plot--point {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+
+    &--invisible {
+      opacity: 0;
+    }
+
+    &--expanded {
+      z-index: 10;
+    }
   }
 }

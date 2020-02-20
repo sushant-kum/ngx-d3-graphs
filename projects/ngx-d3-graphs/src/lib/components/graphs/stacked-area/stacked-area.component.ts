@@ -1,4 +1,3 @@
-import { RegionComponents } from './../../../classes/region-components/region-components';
 import {
   Component,
   OnInit,
@@ -17,6 +16,7 @@ import { ResizeSensor } from 'css-element-queries';
 import palette from 'google-palette';
 import objectAssignDeep from 'object-assign-deep';
 
+import { RegionComponents } from './../../../classes/region-components/region-components';
 import { GraphOptions } from '../../../classes/graph-options/graph-options';
 import { StackedAreaDataModel, StackedAreaOptionsModel } from '../../../data-models/stacked-area/stacked-area.model';
 import { GraphOptionsModel } from '../../../data-models/graph-options/graph-options.model';
@@ -24,7 +24,6 @@ import { AxisComponents } from '../../../classes/axis-components/axis-components
 import { DEFAULT_STACKED_AREA_OPTIONS } from './../../../constants/default-stacked-area-options';
 import { GridComponents } from '../../../classes/grid-components/grid-components';
 import { LegendComponents } from '../../../classes/legend-components/legend-components';
-import { IfStmt } from '@angular/compiler';
 import { TooltipComponents } from '../../../classes/tooltip-components/tooltip-components';
 
 @Component({
@@ -288,24 +287,17 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     /**
      * Tooltip
      */
-    let tooltip: TooltipComponents;
     if (this.options_obj.tooltip && this.options_obj.tooltip.show) {
       // Create tooltip container
       this._chart_element.select('.ngx-d3--tooltip--container').remove();
 
       this._tooltip_container = this._chart_element.append('div').attr('class', 'ngx-d3--tooltip--container');
-
-      tooltip = new TooltipComponents(this.options.tooltip);
-      // if (this.options_obj.tooltip.grouped) {
-      //   this._prepareGroupedTooltip(tooltip, graph_width, graph_height);
-      // } else {
-      // }
     }
 
     // Set event handlers
     this._setChartEleMouseOverEventHandler();
     this._setChartEleMouseOutEventHandler();
-    this._setChartEleMouseMoveEventHandler(graph_width, graph_height, tooltip);
+    this._setChartEleMouseMoveEventHandler(graph_width, graph_height);
   }
 
   /**
@@ -598,6 +590,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .enter()
       .append('path')
       .attr('class', d => 'ngx-d3--plot--area ngx-d3--plot--area--key--' + d.key.toLowerCase().replace(/\s/g, ''))
+      .attr('data-key', d => d.key)
       .style('stroke', this.stacked_area_options.area.stroke.color_hex)
       .attr('stroke-width', this.stacked_area_options.area.stroke.width)
       .style('fill', d => this._colors[this._keys.indexOf(d.key)])
@@ -630,6 +623,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .enter()
       .append('path')
       .attr('class', d => 'ngx-d3--plot--line ngx-d3--plot--line--key--' + d.key.toLowerCase().replace(/\s/g, ''))
+      .attr('data-key', d => d.key)
       .style('stroke', d =>
         this.stacked_area_options.area.stroke.color_hex
           ? this.stacked_area_options.area.stroke.color_hex
@@ -640,74 +634,73 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .attr('d', this._plot_line as any);
 
     // Show the points
-    if (this.options_obj.point && this.options_obj.point.show) {
-      setTimeout(
-        () => {
-          this._points = this._area_chart
-            .selectAll('ngx-d3--plot--points')
-            .data(this._stacked_data)
-            .enter()
-            .append('g')
-            .attr(
-              'class',
-              stack => 'ngx-d3--plot--points ngx-d3--plot--points--key--' + stack.key.toLowerCase().replace(/\s/g, '')
-            )
-            .style('fill', stack =>
-              this.stacked_area_options.area.stroke.color_hex
-                ? this.stacked_area_options.area.stroke.color_hex
-                : this._colors[this._keys.indexOf(stack.key)]
-            )
-            .selectAll('ngx-d3--plot--point')
-            .data(stack => {
-              return stack;
-            })
-            .enter()
-            .append('circle')
-            .attr('class', entry => {
-              return (
-                'ngx-d3--plot--point ngx-d3--plot--point--key--' +
-                entry.data.key
-                  .toString()
-                  .toLowerCase()
-                  .replace(/\s/g, '')
-              );
-            })
-            .attr('cx', entry => {
-              return this.options_obj.axis.rotated ? this._y(entry[1]) : this._x(entry.data.key as any);
-            })
-            .attr('cy', entry => {
-              return this.options_obj.axis.rotated ? this._x(entry.data.key as any) : this._y(entry[1]);
-            })
-            .attr('r', this.options_obj.point.r);
+    // if (this.options_obj.point && this.options_obj.point.show) {
+    setTimeout(
+      () => {
+        this._points = this._area_chart
+          .selectAll('ngx-d3--plot--points')
+          .data(this._stacked_data)
+          .enter()
+          .append('g')
+          .attr(
+            'class',
+            stack =>
+              'ngx-d3--plot--points ngx-d3--plot--points--key--' +
+              stack.key.toLowerCase().replace(/\s/g, '') +
+              (this.options_obj.point && this.options_obj.point.show ? '' : ' ngx-d3--plot--points--invisible')
+          )
+          .attr('data-key', stack => stack.key)
+          .style('fill', stack =>
+            this.stacked_area_options.area.stroke.color_hex
+              ? this.stacked_area_options.area.stroke.color_hex
+              : this._colors[this._keys.indexOf(stack.key)]
+          )
+          .selectAll('ngx-d3--plot--point')
+          .data(stack => {
+            return stack;
+          })
+          .enter()
+          .append('circle')
+          .attr('class', entry => {
+            return (
+              'ngx-d3--plot--point ngx-d3--plot--point--key--' +
+              entry.data.key
+                .toString()
+                .toLowerCase()
+                .replace(/\s/g, '') +
+              (this.options_obj.point && this.options_obj.point.show ? '' : ' ngx-d3--plot--point--invisible')
+            );
+          })
+          .attr('data-plot-x', entry => entry.data.key)
+          .attr('data-plot-y', entry => entry[1])
+          .attr('cx', entry => {
+            return this.options_obj.axis.rotated ? this._y(entry[1]) : this._x(entry.data.key as any);
+          })
+          .attr('cy', entry => {
+            return this.options_obj.axis.rotated ? this._x(entry.data.key as any) : this._y(entry[1]);
+          })
+          .attr('r', this.options_obj.point.r);
 
-          if (
-            this.options_obj.point.focus &&
-            this.options_obj.point.focus.expand &&
-            this.options_obj.point.focus.expand.enabled
-          ) {
-            for (const point of this._svg.selectAll('.ngx-d3--plot--point').nodes()) {
-              const d3_point = d3.select(point);
+        if (
+          this.options_obj.point.focus &&
+          this.options_obj.point.focus.expand &&
+          this.options_obj.point.focus.expand.enabled
+        ) {
+          for (const point of this._svg.selectAll('.ngx-d3--plot--point').nodes()) {
+            const d3_point = d3.select(point);
 
-              d3_point.on('mouseover', () => {
-                d3_point
-                  .attr('r', this.options_obj.point.focus.expand.r)
-                  .attr('stroke', '#ffffff')
-                  .attr('stroke-width', '1px');
-                (d3_point.node() as HTMLElement).classList.add('ngx-d3--plot--point--expanded');
-              });
-              d3_point.on('mouseout', () => {
-                d3_point
-                  .attr('r', this.options_obj.point.r)
-                  .attr('stroke', undefined)
-                  .attr('stroke-width', undefined);
-                (d3_point.node() as HTMLElement).classList.remove('ngx-d3--plot--point--expanded');
-              });
-            }
+            d3_point.on('mouseover', () => {
+              this._plotPointMouseOverEventHandler(d3_point);
+            });
+            d3_point.on('mouseout', () => {
+              this._plotPointMouseOutEventHandler(d3_point);
+            });
           }
-        },
-        this.options_obj.transition.duration ? this.options_obj.transition.duration : 0
-      );
-    }
+        }
+      },
+      this.options_obj.transition.duration ? this.options_obj.transition.duration : 0
+    );
+    // }
   };
 
   /**
@@ -982,7 +975,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
           d = d1;
         } else {
-          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+          d = x0 - Math.floor(x0) >= Math.ceil(x0) - x0 ? d1 : d0;
         }
         this._pointer_line.attr('transform', `translate(0, ${this._x(d as any)})`);
       } else {
@@ -1027,7 +1020,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         } else if (this.options_obj.pointer_line.step && this.options_obj.pointer_line.step.type === 'step-after') {
           d = d1;
         } else {
-          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+          d = x0 - Math.floor(x0) >= Math.ceil(x0) - x0 ? d1 : d0;
         }
         this._pointer_line.attr('transform', `translate(${this._x(d as any)}, ${graph_height})`);
       } else {
@@ -1059,11 +1052,9 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
    * Display grouped tooltip
    *
    */
-  private _displayGroupedTooltip: (tooltip: TooltipComponents, graph_width: number, graph_height: number) => void = (
-    tooltip: TooltipComponents,
-    graph_width: number,
-    graph_height: number
-  ): void => {
+  private _displayGroupedTooltip: () => void = (): void => {
+    const tooltip: TooltipComponents = new TooltipComponents(this.options.tooltip);
+
     if (this.options_obj.axis.rotated) {
       const x_pos = d3.mouse(this._svg.node())[0];
       const y_pos = d3.mouse(this._svg.node())[1];
@@ -1096,7 +1087,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         ) {
           d = d1;
         } else {
-          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+          d = x0 - Math.floor(x0) >= Math.ceil(x0) - x0 ? d1 : d0;
         }
       } else {
         const x_axis_arr_as_number = this._optimized_data.map(ele => {
@@ -1212,7 +1203,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         ) {
           d = d1;
         } else {
-          d = x0 - Math.floor(x0) > Math.ceil(x0) - x0 ? d1 : d0;
+          d = x0 - Math.floor(x0) >= Math.ceil(x0) - x0 ? d1 : d0;
         }
       } else {
         const x_axis_arr_as_number = this._optimized_data.map(ele => {
@@ -1303,6 +1294,237 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   /**
+   * Display non-grouped tooltip
+   */
+  private _displayNonGroupedTooltip: (d3_point: d3.Selection<d3.BaseType, unknown, null, undefined>) => void = (
+    d3_point: d3.Selection<d3.BaseType, unknown, null, undefined>
+  ): void => {
+    const tooltip: TooltipComponents = new TooltipComponents(this.options.tooltip);
+    const parent_node: HTMLElement = (d3_point.node() as any).parentNode as HTMLElement;
+    const key: string = parent_node.getAttribute('data-key');
+
+    if (this.options_obj.axis.rotated) {
+      const x_pos = d3.mouse(this._svg.node())[0];
+      const y_pos = d3.mouse(this._svg.node())[1];
+
+      let x:
+        | string
+        | {
+            valueOf(): number;
+          };
+      const y: number | Date = isNaN(d3_point.attr('data-plot-y') as any)
+        ? moment(d3_point.attr('data-plot-y')).toDate()
+        : +d3_point.attr('data-plot-y') || 0;
+
+      if (this.options_obj.axis.x.type === 'category') {
+        const y_pos_modified = this._x.range()[0] - this._x.range()[this._x.range().length - 1] - y_pos;
+        const x0 =
+          ((this._x.domain().length - 1) * y_pos_modified) /
+          (this._x.range()[0] - this._x.range()[this._x.range().length - 1]);
+        const i = Math.ceil(x0);
+        const d0 = this._x.domain()[i - 1];
+        const d1 = this._x.domain()[i];
+
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          x = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          x = d1;
+        } else {
+          x = x0 - Math.floor(x0) >= Math.ceil(x0) - x0 ? d1 : d0;
+        }
+      } else {
+        const x_axis_arr_as_number = this._optimized_data.map(ele => {
+          return ele.key as number;
+        });
+        const x0 = (this._x as any).invert(y_pos);
+        const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+        const d0 = x_axis_arr_as_number[i - 1];
+        const d1 = x_axis_arr_as_number[i];
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          x = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          x = d1;
+        } else {
+          x = x0 - d0 > d1 - x0 ? d1 : d0;
+        }
+      }
+
+      const data: { key: string; value: string; color: string }[] = [
+        {
+          key,
+          value: this.options_obj.tooltip.format.value ? this.options_obj.tooltip.format.value(y) : y.toString(),
+          color: this._colors[this._keys.indexOf(key)]
+        }
+      ];
+      const title = this.options_obj.tooltip.format.title ? this.options_obj.tooltip.format.title(x as any) : String(x);
+      console.log('title', title, 'data', data);
+
+      if (x !== undefined) {
+        this._tooltip_container.style('display', null);
+        if (!(this._tooltip_title && this._tooltip_title.select('.ngx-d3--tooltip--title').text() === title)) {
+          const tooltip_eles = tooltip.createTooltip(this._tooltip_container, title, data);
+          this._tooltip = tooltip_eles.tooltip;
+          this._tooltip_title = tooltip_eles.tooltip_title;
+          this._tooltip_body = tooltip_eles.tooltip_body;
+        }
+      } else {
+        this._tooltip_container.style('display', 'none');
+      }
+
+      const top: number =
+        this._x(x as any) + this.options_obj.padding.top + this.options_obj.tooltip.position.top <
+        this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight
+          ? this._x(x as any) + this.options_obj.padding.top + this.options_obj.tooltip.position.top
+          : this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight;
+      const left: number = x_pos + this.options_obj.padding.left + this.options_obj.tooltip.position.left;
+
+      this._tooltip_container.style(
+        'top',
+        `${top >= this.options_obj.padding.top ? top : this.options_obj.padding.top}px`
+      );
+      this._tooltip_container.style(
+        'left',
+        `${
+          left <
+          this._chart_element.node().offsetWidth -
+            this.options_obj.padding.right -
+            this._tooltip_container.node().offsetWidth -
+            this.options_obj.tooltip.position.left
+            ? left
+            : this._chart_element.node().offsetWidth -
+              this.options_obj.padding.right -
+              this._tooltip_container.node().offsetWidth -
+              this.options_obj.tooltip.position.left
+        }px`
+      );
+    } else {
+      const x_pos = d3.mouse(this._svg.node())[0];
+      const y_pos = d3.mouse(this._svg.node())[1];
+
+      let x:
+        | string
+        | {
+            valueOf(): number;
+          };
+      const y: number | Date = isNaN(d3_point.attr('data-plot-y') as any)
+        ? moment(d3_point.attr('data-plot-y')).toDate()
+        : +d3_point.attr('data-plot-y') || 0;
+
+      if (this.options_obj.axis.x.type === 'category') {
+        const x0 =
+          ((this._x.domain().length - 1) * x_pos) / (this._x.range()[this._x.range().length - 1] - this._x.range()[0]);
+        const i = Math.ceil(x0);
+        const d0 = this._x.domain()[i - 1];
+        const d1 = this._x.domain()[i];
+
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          x = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          x = d1;
+        } else {
+          x = x0 - Math.floor(x0) >= Math.ceil(x0) - x0 ? d1 : d0;
+        }
+      } else {
+        const x_axis_arr_as_number = this._optimized_data.map(ele => {
+          return ele.key as number;
+        });
+        const x0 = (this._x as any).invert(x_pos);
+        const i = d3.bisectLeft(x_axis_arr_as_number, x0);
+        const d0 = x_axis_arr_as_number[i - 1];
+        const d1 = x_axis_arr_as_number[i];
+
+        if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-before'
+        ) {
+          x = d0;
+        } else if (
+          this.options_obj.pointer_line &&
+          this.options_obj.pointer_line.step &&
+          this.options_obj.pointer_line.step.type === 'step-after'
+        ) {
+          x = d1;
+        } else {
+          x = x0 - d0 > d1 - x0 ? d1 : d0;
+        }
+      }
+
+      const data: { key: string; value: string; color: string }[] = [
+        {
+          key,
+          value: this.options_obj.tooltip.format.value ? this.options_obj.tooltip.format.value(y) : y.toString(),
+          color: this._colors[this._keys.indexOf(key)]
+        }
+      ];
+      const title = this.options_obj.tooltip.format.title ? this.options_obj.tooltip.format.title(x as any) : String(x);
+
+      console.log('title', title, 'data', JSON.stringify(data));
+
+      if (x !== undefined) {
+        this._tooltip_container.style('display', null);
+        const tooltip_eles = tooltip.createTooltip(this._tooltip_container, title, data);
+        this._tooltip = tooltip_eles.tooltip;
+        this._tooltip_title = tooltip_eles.tooltip_title;
+        this._tooltip_body = tooltip_eles.tooltip_body;
+      } else {
+        this._tooltip_container.style('display', 'none');
+      }
+
+      const top: number =
+        y_pos + this.options_obj.padding.top + this.options_obj.tooltip.position.top <
+        this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight
+          ? y_pos + this.options_obj.padding.top + this.options_obj.tooltip.position.top
+          : this._svg.node().getBBox().height - this._tooltip_container.node().offsetHeight;
+      const left: number = this._x(x as any) + this.options_obj.padding.left + this.options_obj.tooltip.position.left;
+
+      this._tooltip_container.style(
+        'top',
+        `${top >= this.options_obj.padding.top ? top : this.options_obj.padding.top}px`
+      );
+      this._tooltip_container.style(
+        'left',
+        `${
+          left <
+          this._chart_element.node().offsetWidth -
+            this.options_obj.padding.right -
+            this._tooltip_container.node().offsetWidth -
+            this.options_obj.tooltip.position.left
+            ? left
+            : this._chart_element.node().offsetWidth -
+              this.options_obj.padding.right -
+              this._tooltip_container.node().offsetWidth -
+              this.options_obj.tooltip.position.left
+        }px`
+      );
+    }
+  };
+
+  /**
    * Set chart-element mouse-over event handler
    *
    */
@@ -1314,7 +1536,12 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       }
 
       // Make tooltip container visible
-      if (this.options_obj.tooltip && this.options_obj.tooltip.show && this._tooltip_container) {
+      if (
+        this.options_obj.tooltip &&
+        this.options_obj.tooltip.show &&
+        this.options_obj.tooltip.grouped &&
+        this._tooltip_container
+      ) {
         this._tooltip_container.style('display', null);
       }
     });
@@ -1332,7 +1559,12 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       }
 
       // Make tooltip container invisible
-      if (this.options_obj.tooltip && this.options_obj.tooltip.show && this._tooltip_container) {
+      if (
+        this.options_obj.tooltip &&
+        this.options_obj.tooltip.show &&
+        this.options_obj.tooltip.grouped &&
+        this._tooltip_container
+      ) {
         this._tooltip_container.style('display', 'none');
       }
     });
@@ -1342,11 +1574,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
    * Set chart-element mouse-move event handler
    *
    */
-  private _setChartEleMouseMoveEventHandler: (
+  private _setChartEleMouseMoveEventHandler: (graph_width: number, graph_height: number) => void = (
     graph_width: number,
-    graph_height: number,
-    tooltip: TooltipComponents
-  ) => void = (graph_width: number, graph_height: number, tooltip: TooltipComponents): void => {
+    graph_height: number
+  ): void => {
     this._chart_element.on('mousemove', () => {
       // Dsiplay pointer-line
       if (this.options_obj.pointer_line && this.options_obj.pointer_line.show) {
@@ -1354,11 +1585,57 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       }
 
       // Display tooltip
-      if (this.options_obj.tooltip && this.options_obj.tooltip.show) {
-        if (this.options_obj.tooltip.grouped) {
-          this._displayGroupedTooltip(tooltip, graph_width, graph_height);
-        }
+      if (this.options_obj.tooltip && this.options_obj.tooltip.show && this.options_obj.tooltip.grouped) {
+        this._displayGroupedTooltip();
       }
     });
+  };
+
+  /**
+   * Set point mouse-over event handler
+   *
+   */
+  private _plotPointMouseOverEventHandler: (d3_point: d3.Selection<d3.BaseType, unknown, null, undefined>) => void = (
+    d3_point: d3.Selection<d3.BaseType, unknown, null, undefined>
+  ): void => {
+    // Expand point
+    d3_point
+      .attr('r', this.options_obj.point.focus.expand.r)
+      .attr('stroke', '#ffffff')
+      .attr('stroke-width', '1px');
+    (d3_point.node() as HTMLElement).classList.add('ngx-d3--plot--point--mouseover');
+    (d3_point.node() as HTMLElement).classList.add('ngx-d3--plot--point--expanded');
+
+    // Show non-grouped tooltip
+    if (this.options_obj.tooltip && this.options_obj.tooltip.show && !this.options_obj.tooltip.grouped) {
+      this._tooltip_container.style('display', null);
+      this._displayNonGroupedTooltip(d3_point);
+    }
+  };
+
+  /**
+   * Set point mouse-out event handler
+   *
+   */
+  private _plotPointMouseOutEventHandler: (d3_point: d3.Selection<d3.BaseType, unknown, null, undefined>) => void = (
+    d3_point: d3.Selection<d3.BaseType, unknown, null, undefined>
+  ): void => {
+    // De-expand point
+    d3_point
+      .attr('r', this.options_obj.point.r)
+      .attr('stroke', undefined)
+      .attr('stroke-width', undefined);
+    (d3_point.node() as HTMLElement).classList.remove('ngx-d3--plot--point--mouseover');
+    (d3_point.node() as HTMLElement).classList.remove('ngx-d3--plot--point--expanded');
+
+    // Hide non-grouped tooltip
+    if (
+      this.options_obj.tooltip &&
+      this.options_obj.tooltip.show &&
+      !this.options_obj.tooltip.grouped &&
+      this._tooltip_container
+    ) {
+      this._tooltip_container.style('display', 'none');
+    }
   };
 }

@@ -109,6 +109,9 @@ export class AppComponent implements OnInit {
     //     ]
     //   }
     // },
+    point: {
+      // show: false
+    },
     // regions: [
     //   { axis: 'x', end: 1920, class: 'regionX' },
     //   { axis: 'x', start: 2000, end: 2004, class: 'regionY' },
@@ -145,6 +148,10 @@ export class AppComponent implements OnInit {
       // step: {
       //   type: 'step-after'
       // }
+    },
+    tooltip: {
+      // show: false,
+      // grouped: false
     }
   };
 
