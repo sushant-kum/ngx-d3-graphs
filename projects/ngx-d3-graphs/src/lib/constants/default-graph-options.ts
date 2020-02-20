@@ -104,14 +104,16 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
   legend: {
     show: true,
     hide: [],
-    position: 'inset',
+    position: 'bottom',
+    bottom: {
+      align: 'center'
+    },
     inset: {
       anchor: 'top-right',
       x: 0,
       y: 0
       // step: undefined
     },
-    title: undefined,
     onclick: undefined,
     onmouseover: undefined,
     onmouseout: undefined

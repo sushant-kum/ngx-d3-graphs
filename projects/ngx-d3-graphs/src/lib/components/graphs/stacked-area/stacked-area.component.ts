@@ -82,6 +82,9 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     SVGGElement,
     d3.Series<{ [key: string]: number }, string>
   >;
+  private _legend:
+    | d3.Selection<SVGGElement, unknown, null, undefined>
+    | d3.Selection<HTMLDivElement, unknown, null, undefined>;
   private _pointer_line_container: d3.Selection<SVGGElement, unknown, null, undefined>;
   private _pointer_line: d3.Selection<SVGLineElement, unknown, null, undefined>;
   private _underlays: {
@@ -274,7 +277,15 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       const legends: LegendComponents = new LegendComponents(this.options.legend);
 
       // Render legends
-      legends.renderOrdinalLegend(this._svg, graph_width, graph_height, this._keys, this._colors);
+      this._legend = legends.renderOrdinalLegend(
+        this._chart_element,
+        this._svg,
+        this.options_obj.padding,
+        graph_width,
+        graph_height,
+        this._keys,
+        this._colors
+      );
     }
 
     /**

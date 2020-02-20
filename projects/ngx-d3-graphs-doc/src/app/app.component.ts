@@ -124,15 +124,14 @@ export class AppComponent implements OnInit {
       // show: false,
       // hide: ['Helen', 'Dorothy'],
       // position: 'inset',
+      // bottom: {
+      //   align: 'right'
+      // },
       // inset: {
       //   // anchor: 'top-left',
       //   // x: 50,
       //   // y: 50
       // },
-      title: {
-        text: 'Names of children born per year',
-        width: 150
-      }
       // onclick: (id: any) => {
       //   console.log('onclick: (id: any)', id);
       // },

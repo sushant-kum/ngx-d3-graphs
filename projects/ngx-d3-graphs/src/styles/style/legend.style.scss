@@ -1,22 +1,62 @@
 .ngx-d3 {
   &--legend {
-    &--bg {
-      fill: #ffffff;
-      fill-opacity: 0.75;
-      stroke: #aaaaaa;
-      stroke-width: 1;
-    }
-    &--title {
-      font-size: 13px;
-    }
-    &--cells {
-      .ngx-d3--legend--cell {
-        &.ngx-d3--legend--cell--interactable {
-          cursor: pointer;
-        }
+    &--inset {
+      &--bg {
+        fill: #ffffff;
+        fill-opacity: 0.75;
+        stroke: #aaaaaa;
+        stroke-width: 1;
+      }
+      &--cells {
+        .ngx-d3--legend--inset--cell {
+          &.ngx-d3--legend--inset--cell--interactable {
+            cursor: pointer;
+          }
 
-        .ngx-d3--legend--label {
-          font-size: 12px;
+          .ngx-d3--legend--inset--label {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    &--bottom {
+      &--align-left {
+        text-align: left;
+      }
+      &--align-right {
+        text-align: right;
+      }
+      &--align-center {
+        text-align: center;
+      }
+      &--bg {
+        background-color: #ffffff;
+        border: 1px solid #aaaaaa;
+        display: inline-block;
+        padding: 5px 0;
+      }
+      &--cells {
+        .ngx-d3--legend--bottom--cell {
+          display: inline;
+          padding: 0 5px;
+
+          &.ngx-d3--legend--bottom--cell--interactable {
+            cursor: pointer;
+          }
+
+          .ngx-d3--legend--bottom--marker {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            vertical-align: middle;
+            margin: 0 5px;
+          }
+
+          .ngx-d3--legend--bottom--label {
+            font-size: 12px;
+          }
         }
       }
     }
