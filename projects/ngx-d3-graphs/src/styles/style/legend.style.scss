@@ -38,7 +38,7 @@
       }
       &--cells {
         .ngx-d3--legend--bottom--cell {
-          display: inline;
+          display: inline-block;
           padding: 0 5px;
 
           &.ngx-d3--legend--bottom--cell--interactable {
