@@ -596,7 +596,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Show the areas
     this._area_chart
-      .selectAll('ngx-d3--layers')
+      .selectAll('.ngx-d3--layers')
       .data(this._stacked_data)
       .enter()
       .append('path')
@@ -629,7 +629,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
 
     // Show the lines
     this._area_chart
-      .selectAll('ngx-d3--lines')
+      .selectAll('.ngx-d3--lines')
       .data(this._stacked_data)
       .enter()
       .append('path')
@@ -645,11 +645,10 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       .attr('d', this._plot_line as any);
 
     // Show the points
-    // if (this.options_obj.point && this.options_obj.point.show) {
     setTimeout(
       () => {
         this._points = this._area_chart
-          .selectAll('ngx-d3--plot--points')
+          .selectAll('.ngx-d3--plot--points')
           .data(this._stacked_data)
           .enter()
           .append('g')
@@ -666,7 +665,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
               ? this.stacked_area_options.area.stroke.color_hex
               : this._colors[this._keys.indexOf(stack.key)]
           )
-          .selectAll('ngx-d3--plot--point')
+          .selectAll('.ngx-d3--plot--point')
           .data(stack => {
             return stack;
           })
@@ -711,7 +710,6 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       },
       this.options_obj.transition.duration ? this.options_obj.transition.duration : 0
     );
-    // }
   };
 
   /**
