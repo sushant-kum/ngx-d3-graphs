@@ -1,0 +1,24 @@
+.ngx-d3 {
+  &--grid {
+    .domain {
+      display: none;
+    }
+    .tick {
+      stroke-dasharray: 5 5;
+
+      line {
+        stroke: #aaaaaa;
+        stroke-opacity: 0.6;
+      }
+    }
+  }
+
+  &--line {
+    stroke: #aaaaaa;
+
+    &--label {
+      font-size: 12px;
+      fill: #aaaaaa;
+    }
+  }
+}

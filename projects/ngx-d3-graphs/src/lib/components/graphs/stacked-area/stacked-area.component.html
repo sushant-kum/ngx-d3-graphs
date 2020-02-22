@@ -1,0 +1,14 @@
+<div
+  class="w3-hide"
+  [ngClass]="{ 'w3-show': data !== undefined && data.length > 0 }"
+  [style.width.px]="options_obj.size.width ? options_obj.size.width : null"
+>
+  <div #chart id="chart"></div>
+</div>
+<div class="w3-hide" [ngClass]="{ 'w3-show': data === undefined || data.length === 0 }">
+  <ngx-d3-no-data
+    [width]="options_obj.size.width"
+    [height]="options_obj.size.height"
+    [no_data_text]="options_obj.no_data_text"
+  ></ngx-d3-no-data>
+</div>

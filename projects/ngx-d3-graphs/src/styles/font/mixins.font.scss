@@ -10,23 +10,6 @@
   font-style: $font-style;
 }
 
-@mixin font($font-family, $weight: 400, $font-style: normal) {
-  @if ($font-family == roboto) {
-    @include font-roboto($weight, $font-style);
-  }
-  else {
-    @include font-raleway($weight, $font-style);
-  }
-}
-
-@mixin ngx-d3-text-font-family() {
-  @each $font-family in $font-families {
-    .ngx-d3-text-#{$font-family} {
-      @include font($font-family);
-    }
-  }
-}
-
 @mixin ngx-d3-text-font-weight() {
   @each $font-weight in $font-weights {
     .ngx-d3-text-#{$font-weight} {
