@@ -250,7 +250,7 @@ export class LegendComponents {
         legend_cell
           .append('span')
           .attr('class', 'ngx-d3--legend--bottom--marker')
-          .style('background-color', `#${colors[keys.indexOf(key)]}`);
+          .style('background-color', colors[keys.indexOf(key)]);
 
         legend_cell
           .append('span')

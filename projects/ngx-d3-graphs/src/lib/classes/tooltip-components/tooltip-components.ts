@@ -52,7 +52,7 @@ export class TooltipComponents {
       td_key
         .append('div')
         .attr('class', 'ngx-d3--tooltip--color')
-        .style('background-color', `#${row.color}`);
+        .style('background-color', row.color);
       td_key
         .append('span')
         .attr('class', 'ngx-d3--tooltip--key')

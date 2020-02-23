@@ -15,7 +15,7 @@ export const DEFAULT_GRAPH_OPTIONS: GraphOptionsModel = {
     left: 0
   },
   color: {
-    pattern: palette('mpn65', 20)
+    pattern: palette('mpn65', 20).map((color: string) => `#${color}`)
   },
   interaction: {
     enabled: true

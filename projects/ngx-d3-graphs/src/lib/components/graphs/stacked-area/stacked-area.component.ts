@@ -369,7 +369,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.options_obj.color.pattern && this.options_obj.color.pattern.length >= this._keys.length) {
       this._colors = this.options_obj.color.pattern.slice(0, this._keys.length);
     } else {
-      this._colors = palette('mpn65', this._keys.length);
+      this._colors = palette('mpn65', this._keys.length).map((color: string) => `#${color}`);
     }
 
     console.log('this._optimized_data', this._optimized_data);
