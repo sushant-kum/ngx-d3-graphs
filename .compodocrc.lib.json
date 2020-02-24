@@ -1,0 +1,11 @@
+{
+  "tsconfig": "./projects/ngx-d3-graphs/tsconfig.lib.json",
+  "output": "./projects/ngx-d3-graphs-doc/src/api",
+  "name": "NgxD3Graphs - APIs",
+  "theme": "material",
+  "hideGenerator": true,
+  "disableCoverage": true,
+  "disableDependencies": true,
+  "customFavicon": "./projects/ngx-d3-graphs-doc/src/assets/images/favicon/favicon-96x96.png",
+  "customLogo": "./projects/ngx-d3-graphs-doc/src/assets/images/ngx-d3-graphs-logo.min.256x256.png"
+}
