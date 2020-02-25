@@ -1,0 +1,31 @@
+<div class="w3-top w3-card app-theme-primary">
+  <div class="header w3-padding">
+    <div class="header-home-link">
+      <img class="header-home-link-icon" src="assets/images/ngx-d3-graphs-logo.min.256x256.png" />
+      <a mat-button class="header-primary-item" [routerLink]="['/']" routerLinkActive="router-link-active">
+        NGX D3 Graphs
+      </a>
+    </div>
+    <div class="header-primary">
+      <a mat-button class="header-primary-item" [routerLink]="['/', 'graphs']" routerLinkActive="router-link-active">
+        Graphs
+      </a>
+      <a
+        mat-button
+        class="header-primary-item"
+        [routerLink]="['/', 'components']"
+        routerLinkActive="router-link-active"
+      >
+        Components
+      </a>
+    </div>
+    <div class="header-secondary">
+      <button mat-button class="header-secondary-version-container">{{ lib_version }}</button>
+      <a mat-button href="https://github.com/sushant-kum/ngx-d3-graphs">
+        <fa-icon [icon]="['fab', 'github']"></fa-icon>&nbsp;
+        <span style="vertical-align: middle;">Github</span>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="header-space"></div>
