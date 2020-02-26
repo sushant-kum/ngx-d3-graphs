@@ -25,10 +25,6 @@
     display: grid;
     grid-template-columns: auto auto;
     justify-content: end;
-
-    & > &-version-container {
-      pointer-events: none;
-    }
   }
 }
 

@@ -22,7 +22,12 @@
       </a>
     </div>
     <div class="header-secondary">
-      <button mat-button class="header-secondary-version-container">{{ lib_version }}</button>
+      <a
+        mat-button
+        class="header-secondary-version-container"
+        [href]="'https://github.com/sushant-kum/ngx-d3-graphs/releases/tag/' + lib_version"
+        >{{ lib_version }}</a
+      >
       <a mat-button target="_blank" href="https://github.com/sushant-kum/ngx-d3-graphs">
         <fa-icon [icon]="['fab', 'github']"></fa-icon>&nbsp;
         <span class="w3-hide-small" style="vertical-align: middle;">Github</span>
