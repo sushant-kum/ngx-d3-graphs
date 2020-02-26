@@ -1,2 +1,7 @@
-<app-header [lib_version]="version.lib"></app-header>
-<p>app works!</p>
+<section class="app-container">
+  <app-header [app_title]="app_title" [lib_version]="version.lib"></app-header>
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
+  <app-footer [app_title]="app_title" [lib_version]="version.lib" [doc_version]="version.doc"></app-footer>
+</section>

@@ -1,0 +1,40 @@
+.app-container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-areas:
+    'header'
+    'content'
+    'footer';
+  align-content: stretch;
+
+  app-header {
+    grid-area: header;
+  }
+
+  .content {
+    grid-area: content;
+  }
+
+  app-footer {
+    grid-area: footer;
+    align-self: end;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .app-container {
+    grid-template-rows: 89.5px auto auto;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 992px) {
+  .app-container {
+    grid-template-rows: 53.5px auto auto;
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .app-container {
+    grid-template-rows: 53.5px auto auto;
+  }
+}

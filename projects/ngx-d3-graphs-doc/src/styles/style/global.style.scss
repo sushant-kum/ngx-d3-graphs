@@ -71,19 +71,19 @@ a:not(.mat-button):not(.mat-icon-button):not(.mat-raised-button) {
   color: map-get($mat-palette-warn, 500) !important;
 }
 
-.content {
-  min-height: calc(100vh - 76px);
-  margin-left: 50px;
-  transition-property: margin;
-  transition-duration: 0.15s;
-  transition-timing-function: linear;
-}
+// .content {
+//   min-height: calc(100vh - 76px);
+//   margin-left: 50px;
+//   transition-property: margin;
+//   transition-duration: 0.15s;
+//   transition-timing-function: linear;
+// }
 
-.loading-indicator-spinner {
-  margin: 0 auto;
-}
+// .loading-indicator-spinner {
+//   margin: 0 auto;
+// }
 
-.app-card {
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-}
+// .app-card {
+//   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+//     0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+// }
