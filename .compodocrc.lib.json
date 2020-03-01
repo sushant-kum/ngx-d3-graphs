@@ -7,5 +7,5 @@
   "disableCoverage": true,
   "disableDependencies": true,
   "customFavicon": "./projects/ngx-d3-graphs-doc/src/assets/images/favicon/favicon-96x96.png",
-  "customLogo": "./projects/ngx-d3-graphs-doc/src/assets/images/ngx-d3-graphs-logo.min.256x256.png"
+  "customLogo": "./projects/ngx-d3-graphs-doc/src/assets/images/favicon/apple-icon-60x60.png"
 }
