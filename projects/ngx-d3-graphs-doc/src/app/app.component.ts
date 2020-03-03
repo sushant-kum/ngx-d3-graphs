@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 /* Services */
-import { TitleService } from 'projects/ngx-d3-graphs-doc/src/app/serices/title/title.service';
+import { TitleService } from '@doc/src/app/serices/title/title.service';
 
 /* Configs */
-import { CONFIG } from 'projects/ngx-d3-graphs-doc/src/app/config/config';
+import { CONFIG } from '@doc/src/app/config/config';
 
 @Component({
   selector: 'app-root',

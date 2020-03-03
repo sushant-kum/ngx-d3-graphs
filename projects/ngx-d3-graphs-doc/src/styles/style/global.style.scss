@@ -38,7 +38,7 @@ h6 {
   @include font-raleway($weight: 500);
 }
 
-a:not(.mat-button):not(.mat-icon-button):not(.mat-raised-button) {
+a:not(.mat-button):not(.mat-raised-button):not(.mat-stroked-button):not(.mat-flat-button):not(.mat-icon-button):not(.mat-fab):not(.mat-mini-fab) {
   text-decoration: none;
   position: relative;
   color: map-get($mat-palette-primary, 500);

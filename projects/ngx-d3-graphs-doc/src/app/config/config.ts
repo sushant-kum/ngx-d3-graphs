@@ -1,4 +1,4 @@
-import { environment as env } from 'projects/ngx-d3-graphs-doc/src/environments/environment';
+import { environment as env } from '@doc/src/environments/environment';
 
 export const CONFIG = env.production
   ? {

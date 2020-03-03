@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { CONFIG } from 'projects/ngx-d3-graphs-doc/src/app/config/config';
+import { CONFIG } from '@doc/src/app/config/config';
 
 @Injectable({
   providedIn: 'root'

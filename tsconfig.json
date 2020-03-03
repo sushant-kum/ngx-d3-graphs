@@ -15,7 +15,11 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "ngx-d3-graphs": ["dist/ngx-d3-graphs"],
-      "ngx-d3-graphs/*": ["dist/ngx-d3-graphs/*"]
+      "ngx-d3-graphs/*": ["dist/ngx-d3-graphs/*"],
+      "@lib": ["projects/ngx-d3-graphs"],
+      "@lib/*": ["projects/ngx-d3-graphs/*"],
+      "@doc": ["projects/ngx-d3-graphs-doc"],
+      "@doc/*": ["projects/ngx-d3-graphs-doc/*"]
     },
     "allowSyntheticDefaultImports": true
   },

@@ -1,0 +1,92 @@
+.banner {
+  padding: 40px 8px;
+
+  .heading {
+    padding: 0 0 4px;
+    font-size: 60px;
+  }
+
+  .sub-heading {
+    padding: 4px 0 40px;
+  }
+}
+
+.why-ngx-d3 {
+  padding: 20px 40px;
+  display: grid;
+
+  .heading {
+    padding: 20px 0;
+    grid-area: heading;
+  }
+
+  .segment {
+    .heading {
+      padding: 8px 0;
+    }
+
+    &.comfortable {
+      grid-area: comfortable;
+    }
+
+    &.customizable {
+      grid-area: customizable;
+    }
+
+    &.components {
+      grid-area: components;
+    }
+  }
+
+  .btn-get-started-holder {
+    grid-area: btn-get-started-holder;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .demo {
+    padding: 20px 10px;
+  }
+
+  .why-ngx-d3 {
+    row-gap: 16px;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'heading'
+      'comfortable'
+      'customizable'
+      'components'
+      'btn-get-started-holder';
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 992px) {
+  .demo {
+    padding: 20px 40px;
+  }
+
+  .why-ngx-d3 {
+    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+      'heading heading heading heading'
+      'comfortable comfortable customizable customizable'
+      '. components components .'
+      '. btn-get-started-holder btn-get-started-holder btn-get-started-holder';
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .demo {
+    padding: 20px 40px;
+  }
+
+  .why-ngx-d3 {
+    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      'heading heading heading'
+      'comfortable customizable components'
+      'btn-get-started-holder btn-get-started-holder btn-get-started-holder';
+  }
+}
