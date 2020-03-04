@@ -58,7 +58,7 @@
             "polyfills": "projects/ngx-d3-graphs-doc/src/polyfills.ts",
             "tsConfig": "projects/ngx-d3-graphs-doc/tsconfig.app.json",
             "aot": true,
-            "assets": ["projects/ngx-d3-graphs-doc/src/assets", "projects/ngx-d3-graphs-doc/src/api"],
+            "assets": ["projects/ngx-d3-graphs-doc/src/assets"],
             "styles": [
               "projects/ngx-d3-graphs-doc/src/assets/libraries/w3.css/4/w3.css",
               "projects/ngx-d3-graphs-doc/src/assets/libraries/hamburgers/hamburgers.min.css",

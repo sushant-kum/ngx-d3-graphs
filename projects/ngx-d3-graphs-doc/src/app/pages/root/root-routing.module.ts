@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: RootComponent
+  },
+  {
+    path: 'api',
+    loadChildren: () => import('@doc/src/app/pages/root/api/api.module').then(module => module.ApiModule)
   }
 ];
 

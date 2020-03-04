@@ -1,8 +1,7 @@
 {
   "tsconfig": "./projects/ngx-d3-graphs/tsconfig.lib.json",
-  "output": "./projects/ngx-d3-graphs-doc/src/api",
+  "output": "./projects/ngx-d3-graphs-doc/src/assets/api-doc",
   "name": "NgxD3Graphs - APIs",
-  "theme": "material",
   "hideGenerator": true,
   "disableCoverage": true,
   "disableDependencies": true,

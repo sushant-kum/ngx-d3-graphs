@@ -1,0 +1,39 @@
+.api {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'api-toolbar'
+    'api-frame-container';
+
+  & &-toolbar {
+    // padding-left: 0 !important;
+    grid-area: api-toolbar;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    grid-template-areas: 'api-toolbar-icon api-toolbar-path api-toolbar-actions';
+
+    &-icon {
+      grid-area: api-toolbar-icon;
+    }
+
+    &-path {
+      grid-area: api-toolbar-path;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &-actions {
+      grid-area: api-toolbar-actions;
+    }
+  }
+  & &-frame {
+    border: 0;
+    height: 100%;
+    width: 100%;
+
+    &-container {
+      grid-area: api-frame-container;
+    }
+  }
+}

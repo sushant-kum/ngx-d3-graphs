@@ -71,6 +71,9 @@ a:not(.mat-button):not(.mat-raised-button):not(.mat-stroked-button):not(.mat-fla
   color: map-get($mat-palette-warn, 500) !important;
 }
 
+app-api {
+  display: grid;
+}
 // .content {
 //   min-height: calc(100vh - 76px);
 //   margin-left: 50px;
