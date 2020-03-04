@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 
 /* Angular Material imports */
 import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 
 /* Fontawesome Imports */
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -32,7 +31,6 @@ import { RootComponent } from './root.component';
 
     /* Angular Material */
     MatButtonModule,
-    MatDividerModule,
 
     /* Fontawesome */
     FontAwesomeModule,

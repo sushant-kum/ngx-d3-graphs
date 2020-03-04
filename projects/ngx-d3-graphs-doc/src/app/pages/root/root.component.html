@@ -8,25 +8,42 @@
   <ngx-d3-stacked-area [data]="graph_data" [options]="graph_options"></ngx-d3-stacked-area>
 </section>
 
-<!-- <mat-divider></mat-divider> -->
-
-<section class="why-ngx-d3 app-theme-accent-light">
+<section class="why-ngx-d3 w3-content">
   <div class="heading w3-center w3-xlarge app-text-theme-primary app-text-500">Why NGX D3 Graphs?</div>
-  <div class="comfortable segment w3-center">
-    <div class="heading w3-large app-text-theme-accent">Comfortable</div>
-    NGX D3 Graphs make it easy to generate D3-based charts by wrapping the code required to construct the entire chart.
-    We don't need to write D3 code any more.
+
+  <div class="comfortable segment">
+    <div class="segment-heading w3-xlarge app-text-theme-accent">Comfortable</div>
+    <div class="segment-illustration">
+      <img src="/assets/images/icon-comfortable.svg" />
+    </div>
+    <div class="segment-content">
+      NGX D3 Graphs make it easy to generate D3-based charts by wrapping the code required to construct the entire
+      chart. We don't need to write D3 code any more.
+    </div>
   </div>
-  <div class="customizable segment w3-center">
-    <div class="heading w3-large app-text-theme-accent">Customizable</div>
-    NGX D3 Graphs gives some classes to each element when generating, so you can define a custom style by the class and
-    it's possible to extend the structure directly by D3.
+
+  <div class="customizable segment">
+    <div class="segment-heading w3-xlarge app-text-theme-accent">Customizable</div>
+    <div class="segment-illustration">
+      <img src="/assets/images/icon-customizable.svg" />
+    </div>
+    <div class="segment-content">
+      NGX D3 Graphs gives some classes to each element when generating, so you can define a custom style by the class
+      and it's possible to extend the structure directly by D3.
+    </div>
   </div>
-  <div class="components segment w3-center">
-    <div class="heading w3-large app-text-theme-accent">Components</div>
-    NGX D3 Graphs provides just not charts, but also stand-alone graph components such as axes, legend, etc which can be
-    used to create own custom charts and visualizations.
+
+  <div class="components segment">
+    <div class="segment-heading w3-xlarge app-text-theme-accent">Components</div>
+    <div class="segment-illustration">
+      <img src="/assets/images/icon-components.svg" />
+    </div>
+    <div class="segment-content">
+      NGX D3 Graphs provides just not charts, but also stand-alone graph components such as axes, legend, etc which can
+      be used to create own custom charts and visualizations.
+    </div>
   </div>
+
   <div class="btn-get-started-holder w3-center">
     <a mat-flat-button color="primary" [routerLink]="['/', 'guides', 'getting-started']">Get Started</a>
   </div>

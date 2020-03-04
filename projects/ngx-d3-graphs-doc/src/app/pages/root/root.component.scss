@@ -13,16 +13,30 @@
 
 .why-ngx-d3 {
   padding: 20px 40px;
-  display: grid;
 
   .heading {
     padding: 20px 0;
-    grid-area: heading;
   }
 
   .segment {
-    .heading {
+    display: grid;
+
+    &-heading {
       padding: 8px 0;
+      grid-area: segment-heading;
+    }
+
+    &-illustration {
+      grid-area: segment-illustration;
+
+      img {
+        max-width: 100%;
+        max-height: 300px;
+      }
+    }
+
+    &-content {
+      grid-area: segment-content;
     }
 
     &.comfortable {
@@ -39,7 +53,7 @@
   }
 
   .btn-get-started-holder {
-    grid-area: btn-get-started-holder;
+    padding: 20px 0;
   }
 }
 
@@ -49,14 +63,31 @@
   }
 
   .why-ngx-d3 {
-    row-gap: 16px;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'heading'
-      'comfortable'
-      'customizable'
-      'components'
-      'btn-get-started-holder';
+    .segment {
+      grid-template-columns: 50px 1fr;
+      grid-template-rows: auto auto;
+
+      grid-template-areas:
+        'segment-heading segment-heading'
+        'segment-illustration segment-content';
+
+      .segment-heading {
+        font-size: 18px !important;
+      }
+
+      .segment-illustration {
+        justify-self: end;
+
+        img {
+          padding: 0 10px 10px 0;
+          max-height: 50px;
+        }
+      }
+
+      .segment-content {
+        text-align: justify;
+      }
+    }
   }
 }
 
@@ -66,13 +97,60 @@
   }
 
   .why-ngx-d3 {
-    gap: 16px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-areas:
-      'heading heading heading heading'
-      'comfortable comfortable customizable customizable'
-      '. components components .'
-      '. btn-get-started-holder btn-get-started-holder btn-get-started-holder';
+    .segment {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+
+      &:nth-of-type(2n) {
+        grid-template-areas:
+          'segment-illustration segment-heading'
+          'segment-illustration segment-content';
+
+        .segment-heading {
+          justify-self: start;
+          align-self: end;
+        }
+
+        .segment-illustration {
+          justify-self: end;
+
+          img {
+            padding: 20px;
+            max-height: 250px;
+          }
+        }
+
+        .segment-content {
+          text-align: left;
+          justify-self: start;
+        }
+      }
+
+      &:nth-of-type(2n + 1) {
+        grid-template-areas:
+          'segment-heading segment-illustration'
+          'segment-content segment-illustration';
+
+        .segment-heading {
+          justify-self: end;
+          align-self: end;
+        }
+
+        .segment-illustration {
+          justify-self: start;
+
+          img {
+            padding: 20px;
+            max-height: 250px;
+          }
+        }
+
+        .segment-content {
+          text-align: right;
+          justify-self: end;
+        }
+      }
+    }
   }
 }
 
@@ -82,11 +160,57 @@
   }
 
   .why-ngx-d3 {
-    gap: 16px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-      'heading heading heading'
-      'comfortable customizable components'
-      'btn-get-started-holder btn-get-started-holder btn-get-started-holder';
+    .segment {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+
+      &:nth-of-type(2n) {
+        grid-template-areas:
+          'segment-illustration segment-heading'
+          'segment-illustration segment-content';
+
+        .segment-heading {
+          justify-self: start;
+          align-self: end;
+        }
+
+        .segment-illustration {
+          justify-self: end;
+
+          img {
+            padding: 40px;
+          }
+        }
+
+        .segment-content {
+          text-align: left;
+          justify-self: start;
+        }
+      }
+
+      &:nth-of-type(2n + 1) {
+        grid-template-areas:
+          'segment-heading segment-illustration'
+          'segment-content segment-illustration';
+
+        .segment-heading {
+          justify-self: end;
+          align-self: end;
+        }
+
+        .segment-illustration {
+          justify-self: start;
+
+          img {
+            padding: 40px;
+          }
+        }
+
+        .segment-content {
+          text-align: right;
+          justify-self: end;
+        }
+      }
+    }
   }
 }
