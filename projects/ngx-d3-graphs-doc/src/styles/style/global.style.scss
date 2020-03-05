@@ -38,29 +38,33 @@ h6 {
   @include font-raleway($weight: 500);
 }
 
-a:not(.mat-button):not(.mat-raised-button):not(.mat-stroked-button):not(.mat-flat-button):not(.mat-icon-button):not(.mat-fab):not(.mat-mini-fab) {
+// a:not(.mat-button):not(.mat-raised-button):not(.mat-stroked-button):not(.mat-flat-button):not(.mat-icon-button):not(.mat-fab):not(.mat-mini-fab) {
+//   text-decoration: none;
+//   position: relative;
+//   color: map-get($mat-palette-primary, 500);
+
+//   &:hover {
+//     text-decoration: none;
+
+//     &::after {
+//       width: 100%;
+//     }
+//   }
+
+//   &::after {
+//     content: '';
+//     height: 1px;
+//     position: absolute;
+//     bottom: -1px;
+//     left: 0;
+//     width: 0%;
+//     background: map-get($mat-palette-primary, 500);
+//     transition: 0.2s;
+//   }
+// }
+
+a {
   text-decoration: none;
-  position: relative;
-  color: map-get($mat-palette-primary, 500);
-
-  &:hover {
-    text-decoration: none;
-
-    &::after {
-      width: 100%;
-    }
-  }
-
-  &::after {
-    content: '';
-    height: 1px;
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 0%;
-    background: map-get($mat-palette-primary, 500);
-    transition: 0.2s;
-  }
 }
 
 .clr {

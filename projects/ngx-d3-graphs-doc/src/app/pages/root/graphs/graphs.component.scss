@@ -1,0 +1,138 @@
+@import 'projects/ngx-d3-graphs-doc/src/styles/palette/primary.palette.scss';
+@import 'projects/ngx-d3-graphs-doc/src/styles/helper/_index.helper.scss';
+
+.graphs {
+  display: grid;
+  position: relative;
+
+  &-left-menu {
+    width: 250px;
+    z-index: 1;
+    grid-area: graphs-left-menu;
+
+    &-small {
+      width: 250px;
+
+      &-container {
+        grid-area: graphs-left-menu-small-container;
+      }
+
+      &-toggle {
+        position: fixed;
+        left: 5px;
+        transform: translateY(5px);
+        z-index: 30;
+        transition: left 0.4s;
+
+        &.is-active {
+          left: 205px;
+        }
+
+        &.hamburger {
+          .hamburger-box {
+            width: 20px;
+            height: 12px;
+            line-height: 20px;
+          }
+
+          &:hover .hamburger-inner,
+          &:hover .hamburger-inner::before,
+          &:hover .hamburger-inner::after,
+          .hamburger-inner,
+          .hamburger-inner::before,
+          .hamburger-inner::after {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+            background-color: map-deep-get($mat-palette-primary, 500);
+          }
+
+          &:hover,
+          &.is-active:hover {
+            opacity: 1;
+          }
+
+          &.is-active:hover .hamburger-inner,
+          &.is-active:hover .hamburger-inner::before,
+          &.is-active:hover .hamburger-inner::after {
+            background-color: #ffffff;
+          }
+
+          &.is-active .hamburger-inner,
+          &.is-active .hamburger-inner::before,
+          &.is-active .hamburger-inner::after {
+            background-color: #ffffff;
+          }
+
+          .hamburger-inner::before {
+            top: -5px;
+          }
+
+          .hamburger-inner::after {
+            bottom: -5px;
+          }
+
+          &.hamburger--arrow.is-active .hamburger-inner::before {
+            transform: translate3d(-4px, 0, 0) rotate(-45deg) scale(0.7, 1);
+          }
+
+          &.hamburger--arrow.is-active .hamburger-inner::after {
+            transform: translate3d(-4px, 0, 0) rotate(45deg) scale(0.7, 1);
+          }
+        }
+      }
+    }
+
+    &-group {
+      border-radius: 0;
+      box-shadow: unset;
+
+      *,
+      ::ng-deep .mat-expansion-indicator::after {
+        color: #ffffff;
+      }
+
+      &-link {
+        display: block;
+        padding: 14.8px 24px;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.04);
+        }
+      }
+
+      &-item {
+        display: block;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.04);
+        }
+      }
+    }
+  }
+
+  &-content {
+    grid-area: graphs-content;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .graphs {
+    grid-template-rows: 50px 1fr;
+    grid-template-areas: 'graphs-left-menu-small-container' 'graphs-content';
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 992px) {
+  .graphs {
+    grid-template-columns: 250px 1fr;
+    grid-template-areas: 'graphs-left-menu graphs-content';
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .graphs {
+    grid-template-columns: 250px 1fr;
+    grid-template-areas: 'graphs-left-menu graphs-content';
+  }
+}

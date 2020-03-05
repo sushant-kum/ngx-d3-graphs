@@ -8,6 +8,10 @@ const routes: Routes = [
     component: RootComponent
   },
   {
+    path: 'graphs',
+    loadChildren: () => import('@doc/src/app/pages/root/graphs/graphs.module').then(module => module.GraphsModule)
+  },
+  {
     path: 'api',
     loadChildren: () => import('@doc/src/app/pages/root/api/api.module').then(module => module.ApiModule)
   }
