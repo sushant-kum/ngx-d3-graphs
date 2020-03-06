@@ -30,17 +30,8 @@ export class GraphsComponent implements OnInit {
         {
           id: 'stacked-area',
           name: 'Stacked Area'
-        },
-        {
-          id: 'google',
-          name: 'Google',
-          absolute_link: 'http://google.com'
         }
       ]
-    },
-    {
-      id: 'evolution',
-      name: 'Evolution'
     }
   ];
 

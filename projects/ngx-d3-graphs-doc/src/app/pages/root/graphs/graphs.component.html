@@ -15,15 +15,17 @@
       </span>
     </button>
     <nav #graphs_left_menu_small class="graphs-left-menu-small w3-sidebar w3-animate-left w3-hide app-theme-primary">
+      <div class="graphs-left-menu-small-toggle-placeholder"></div>
       <ng-container *ngTemplateOutlet="template_graphs_left_menu"></ng-container>
     </nav>
   </section>
 
   <section class="graphs-content">
-    graphs-content
+    <!-- <router-outlet></router-outlet> -->
   </section>
 </section>
 
+<!--Template for menu-->
 <ng-template #template_graphs_left_menu>
   <ng-container *ngFor="let menu_group of menu_groups; let i = index">
     <mat-expansion-panel
@@ -62,14 +64,14 @@
         *ngIf="menu_group.router_link; else template_absolute_menu_group_link"
         class="graphs-left-menu-group graphs-left-menu-group-link"
         [routerLink]="menu_group.router_link"
-        ><span>{{ menu_group.name ? menu_group.name : menu_group.id }}</span></a
+        >{{ menu_group.name ? menu_group.name : menu_group.id }}</a
       >
 
       <ng-template #template_absolute_menu_group_link>
         <a
           class=" graphs-left-menu-group graphs-left-menu-group-link graphs-left-menu-group-link-absolute"
           [href]="menu_group.absolute_link"
-          ><span>{{ menu_group.name ? menu_group.name : menu_group.id }}</span></a
+          >{{ menu_group.name ? menu_group.name : menu_group.id }}</a
         >
       </ng-template>
     </ng-template>

@@ -24,6 +24,10 @@
         z-index: 30;
         transition: left 0.4s;
 
+        &-placeholder {
+          height: 48px;
+        }
+
         &.is-active {
           left: 205px;
         }
