@@ -17,7 +17,7 @@ import { HelperService } from '../../services/helper/helper.service';
 /**
  * Class AxisComponents
  *
- * @author Sushant Kumar<sushant.kum96@gmail.com>
+ * @author Sushant Kumar <sushant.kum96@gmail.com>
  * @export
  */
 export class AxisComponents {
@@ -35,7 +35,7 @@ export class AxisComponents {
   /**
    * Create and return D3 X axis
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param domain Data-wise domain for X axis
    * @param graph_width Graph width
    * @param graph_height Graph height
@@ -77,7 +77,7 @@ export class AxisComponents {
   /**
    * Get actual domain of X axis
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param domain Data-wise domain
    */
   getXAxisDomain(
@@ -113,7 +113,7 @@ export class AxisComponents {
   /**
    * Render X axis
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg Parent SVG element
    * @param x D3 X axis element
    * @param graph_width Graph width
@@ -216,7 +216,7 @@ export class AxisComponents {
   /**
    * Renders X Axis label
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg Parent SVG element
    * @param x_axis_svg X Axis SVG element
    * @param graph_width Width of the graph in px
@@ -295,7 +295,7 @@ export class AxisComponents {
   /**
    * Wrap tick text for horizontal X axis
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param text Tick Text
    * @param width Width of axis
    */
@@ -343,7 +343,7 @@ export class AxisComponents {
   /**
    * Wrap text for vertical X axis
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param text
    * @param left_padding
    */
@@ -395,7 +395,7 @@ export class AxisComponents {
   /**
    * Get linear D3 X Axis object
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param domain Data-wise domain
    * @param graph_width Graph width
    * @param graph_height Graph height
@@ -428,7 +428,7 @@ export class AxisComponents {
   /**
    * Get linear domain for Y Axis
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param domain Data-wise domain
    */
   getLinearYAxisDomain(domain: [number, number] | [Date, Date]): [number, number] | [Date, Date] {
@@ -462,7 +462,7 @@ export class AxisComponents {
   /**
    * Render Y axis
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg Parent SVG element
    * @param y D3 Y axis object
    * @param graph_width Graph width
@@ -534,7 +534,7 @@ export class AxisComponents {
   /**
    * Render Y Axis label
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg Parent SVG element's D3 object
    * @param y_axis D3 Y axis SVG element
    * @param graph_width Graph width

@@ -464,7 +464,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   /**
    * Get data-wise domain of Y axis data
    *
-   * @author Sushant Kumar<sushant.kum96@gmail.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param type type of data `number` or `Date`
    */
   private _getYDomain(type: 'number' | 'Date'): [number, number] | [Date, Date] {

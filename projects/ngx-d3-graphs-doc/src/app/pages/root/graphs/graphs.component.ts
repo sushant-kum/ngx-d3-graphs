@@ -343,7 +343,7 @@ export class GraphsComponent implements OnInit {
   /**
    * Set router_link of menu items
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @private
    * @memberof GraphsComponent
    */
@@ -366,7 +366,7 @@ export class GraphsComponent implements OnInit {
   /**
    * Toggle visibility of left menu on small screens
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @memberof GraphsComponent
    */
   toggleGraphLeftMenuSmallVisibility(): void {

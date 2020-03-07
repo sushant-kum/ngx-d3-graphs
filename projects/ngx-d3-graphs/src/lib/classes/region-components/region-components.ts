@@ -22,7 +22,7 @@ export class RegionComponents {
   /**
    * Render the regions
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg Base SVG element
    * @param x X axis scale
    * @param y Y axis scale

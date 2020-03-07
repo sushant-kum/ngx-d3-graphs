@@ -25,7 +25,7 @@ export class LegendComponents {
   /**
    * Render ordinal legend
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param chart_element Parent chart element
    * @param svg Parent SVG
    * @param padding Chart padding
@@ -55,7 +55,7 @@ export class LegendComponents {
   /**
    * Render inset ordinal legend
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg Parent SVG
    * @param graph_width Graph width
    * @param graph_height Graph height
@@ -198,7 +198,7 @@ export class LegendComponents {
   /**
    * Render bottom ordinal legend
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param chart_element Parent chart element
    * @param padding Chart padding
    * @param keys Keys

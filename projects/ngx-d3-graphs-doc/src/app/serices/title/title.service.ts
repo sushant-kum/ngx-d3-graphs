@@ -15,7 +15,7 @@ export class TitleService {
   /**
    * Set browser tab title
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param {string} [page]
    */
   setTitle(page?: string) {

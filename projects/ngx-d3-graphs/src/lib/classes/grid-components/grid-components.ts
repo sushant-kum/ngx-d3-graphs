@@ -24,7 +24,7 @@ export class GridComponents {
   /**
    * Render gridlines for X Axis
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg parent SVG element
    * @param x X axis scals
    * @param graph_width Graph width
@@ -105,7 +105,7 @@ export class GridComponents {
   /**
    * Render X Axis grid-like lines
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg parent SVG element
    * @param x A axis scale
    * @param graph_width Graph width
@@ -166,7 +166,7 @@ export class GridComponents {
   /**
    * Render X Axis grid-like line labels
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg parent SVG element
    * @param x A axis scale
    * @param graph_width Graph width
@@ -262,7 +262,7 @@ export class GridComponents {
   /**
    * Render gridlines for Y Axis
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg parent SVG element
    * @param y Y axis scals
    * @param graph_width Graph width
@@ -329,7 +329,7 @@ export class GridComponents {
   /**
    * Render Y Axis grid-like lines
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg parent SVG element
    * @param y Y axis scale
    * @param graph_width Graph width
@@ -388,7 +388,7 @@ export class GridComponents {
   /**
    * Render Y Axis grid-like line labels
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
    * @param svg parent SVG element
    * @param y Y axis scale
    * @param graph_width Graph width
