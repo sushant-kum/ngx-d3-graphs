@@ -5,7 +5,14 @@ import { GraphsComponent } from './graphs.component';
 const routes: Routes = [
   {
     path: '',
-    component: GraphsComponent
+    component: GraphsComponent,
+    children: [
+      {
+        path: 'evolution',
+        loadChildren: () =>
+          import('@doc/src/app/pages/root/graphs/evolution/evolution.module').then(module => module.EvolutionModule)
+      }
+    ]
   }
 ];
 

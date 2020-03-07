@@ -9,6 +9,8 @@
     width: 250px;
     z-index: 1;
     grid-area: graphs-left-menu;
+    position: sticky;
+    top: 25px;
 
     &-small {
       width: 250px;
@@ -103,13 +105,24 @@
         &:hover {
           background: rgba(0, 0, 0, 0.04);
         }
+
+        &-disabled {
+          pointer-events: none;
+          cursor: default;
+        }
       }
 
       &-item {
         display: block;
+        cursor: pointer;
 
         &:hover {
           background: rgba(0, 0, 0, 0.04);
+        }
+
+        &-disabled {
+          pointer-events: none;
+          cursor: default;
         }
       }
     }
@@ -117,6 +130,25 @@
 
   &-content {
     grid-area: graphs-content;
+
+    &-quick-links {
+      display: grid;
+      gap: 10px;
+
+      &-item {
+        cursor: pointer;
+
+        &-images {
+          width: 50px;
+          padding: 4px;
+          // filter: grayscale(100%);
+
+          // &:hover {
+          //   filter: none;
+          // }
+        }
+      }
+    }
   }
 }
 
@@ -124,6 +156,12 @@
   .graphs {
     grid-template-rows: 50px 1fr;
     grid-template-areas: 'graphs-left-menu-small-container' 'graphs-content';
+
+    &-content {
+      &-quick-links {
+        grid-template-columns: 1fr;
+      }
+    }
   }
 }
 
@@ -131,6 +169,12 @@
   .graphs {
     grid-template-columns: 250px 1fr;
     grid-template-areas: 'graphs-left-menu graphs-content';
+
+    &-content {
+      &-quick-links {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
   }
 }
 
@@ -138,5 +182,11 @@
   .graphs {
     grid-template-columns: 250px 1fr;
     grid-template-areas: 'graphs-left-menu graphs-content';
+
+    &-content {
+      &-quick-links {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+    }
   }
 }

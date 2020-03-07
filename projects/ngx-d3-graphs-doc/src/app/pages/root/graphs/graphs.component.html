@@ -21,7 +21,9 @@
   </section>
 
   <section class="graphs-content">
-    <!-- <router-outlet></router-outlet> -->
+    <ng-container *ngTemplateOutlet="template_quick_links"></ng-container>
+
+    <router-outlet></router-outlet>
   </section>
 </section>
 
@@ -31,7 +33,11 @@
     <mat-expansion-panel
       *ngIf="menu_group.items && menu_group.items.length > 0; else template_non_group_menu_group"
       class="graphs-left-menu-group app-theme-primary"
-      expanded
+      [ngClass]="{
+        'graphs-left-menu-group-disabled w3-opacity app-theme-primary-d1': menu_group.disabled
+      }"
+      [expanded]="active_menu.group == menu_group.id"
+      [disabled]="menu_group.disabled"
     >
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -43,6 +49,10 @@
         <a
           *ngIf="menu_item.router_link; else template_absolute_menu_item_link"
           class="graphs-left-menu-group-item w3-padding"
+          [ngClass]="{
+            'graphs-left-menu-group-item-disabled w3-opacity app-theme-primary-d1': menu_item.disabled,
+            'graphs-left-menu-group-item-active app-theme-primary-dark': active_menu.item === menu_item.id
+          }"
           [routerLink]="menu_item.router_link"
           >{{ menu_item.name ? menu_item.name : menu_item.id }}</a
         >
@@ -50,6 +60,10 @@
         <ng-template #template_absolute_menu_item_link>
           <a
             class="graphs-left-menu-group-item graphs-left-menu-group-item-absolute w3-padding"
+            [ngClass]="{
+              'graphs-left-menu-group-item-disabled w3-opacity app-theme-primary-d1': menu_item.disabled,
+              'graphs-left-menu-group-item-active app-theme-primary-dark': active_menu.item === menu_item.id
+            }"
             [href]="menu_item.absolute_link"
             >{{ menu_item.name ? menu_item.name : menu_item.id }}</a
           >
@@ -63,17 +77,52 @@
       <a
         *ngIf="menu_group.router_link; else template_absolute_menu_group_link"
         class="graphs-left-menu-group graphs-left-menu-group-link"
+        [ngClass]="{
+          'graphs-left-menu-group-link-disabled w3-opacity app-theme-primary-d1': menu_group.disabled,
+          'graphs-left-menu-group-link-active app-theme-primary-dark': active_menu.group === menu_group.id
+        }"
         [routerLink]="menu_group.router_link"
         >{{ menu_group.name ? menu_group.name : menu_group.id }}</a
       >
 
       <ng-template #template_absolute_menu_group_link>
         <a
-          class=" graphs-left-menu-group graphs-left-menu-group-link graphs-left-menu-group-link-absolute"
+          class="graphs-left-menu-group graphs-left-menu-group-link graphs-left-menu-group-link-absolute"
+          [ngClass]="{
+            'graphs-left-menu-group-link-disabled w3-opacity app-theme-primary-d1': menu_group.disabled,
+            'graphs-left-menu-group-link-active app-theme-primary-dark': active_menu.group === menu_group.id
+          }"
           [href]="menu_group.absolute_link"
           >{{ menu_group.name ? menu_group.name : menu_group.id }}</a
         >
       </ng-template>
     </ng-template>
   </ng-container>
+</ng-template>
+
+<ng-template #template_quick_links>
+  <section *ngIf="!active_menu.group" class="graphs-content-quick-links w3-padding">
+    <mat-card
+      class="graphs-content-quick-links-item w3-card"
+      *ngFor="let menu_group of menu_groups"
+      [routerLink]="[menu_group.id]"
+    >
+      <mat-card-header>
+        <mat-card-title class="app-text-theme-primary">{{
+          menu_group.name ? menu_group.name : menu_group.id
+        }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <img
+            class="graphs-content-quick-links-item-images w3-circle w3-opacity w3-hover-opacity-off"
+            [matTooltip]="menu_item.name ? menu_item.name : menu_item.id"
+            *ngFor="let menu_item of menu_group.items"
+            [src]="menu_item.icon_path"
+            [alt]="menu_item.id"
+          />
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
 </ng-template>

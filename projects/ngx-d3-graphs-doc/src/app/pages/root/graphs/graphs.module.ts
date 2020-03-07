@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 /* Fontawesome Imports */
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -27,6 +29,8 @@ import { GraphsComponent } from './graphs.component';
     MatButtonModule,
     MatExpansionModule,
     MatDividerModule,
+    MatCardModule,
+    MatTooltipModule,
 
     /* Fontawesome */
     FontAwesomeModule
