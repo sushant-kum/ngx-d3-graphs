@@ -39,7 +39,7 @@
       [expanded]="active_menu.group == menu_group.id"
       [disabled]="menu_group.disabled"
     >
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header class="app-hover-theme-primary">
         <mat-panel-title>
           {{ menu_group.name ? menu_group.name : menu_group.id }}
         </mat-panel-title>
@@ -100,6 +100,7 @@
   </ng-container>
 </ng-template>
 
+<!--Template quick links-->
 <ng-template #template_quick_links>
   <section *ngIf="!active_menu.group" class="graphs-content-quick-links w3-padding">
     <mat-card class="graphs-content-quick-links-item w3-card" *ngFor="let menu_group of menu_groups">
@@ -125,6 +126,7 @@
               menu_item.router_link ? false : true
             )
           "
+          [disabled]="menu_item.disabled"
         >
           <img
             class="graphs-content-quick-links-item-sublink-image w3-circle"

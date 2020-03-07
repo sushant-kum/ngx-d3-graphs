@@ -307,27 +307,28 @@ export class GraphsComponent implements OnInit {
 
   ngOnInit(): void {
     // Set router_link of menu items
-    this.setMenuRouterLinks();
+    this._setMenuRouterLinks();
 
     // Set active_menu on navigation
     this._router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.setActiveMenu();
+        this._hideGraphLeftMenuSmall();
+        this._setActiveMenu();
       }
     });
 
     // Set active_menu
-    this.setActiveMenu();
+    this._setActiveMenu();
   }
 
   /**
    * Set active_menu
    *
-   * @author Sushant Kumar<sushant.kumar@soroco.com>
-   * @param {string} [group]
-   * @param {string} [item]
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
+   * @private
+   * @memberof GraphsComponent
    */
-  setActiveMenu(): void {
+  private _setActiveMenu(): void {
     const group = this._router.url.includes('/graphs/')
       ? this._router.url.split('/graphs/')[1].split('/')[0]
       : undefined;
@@ -343,8 +344,10 @@ export class GraphsComponent implements OnInit {
    * Set router_link of menu items
    *
    * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @private
+   * @memberof GraphsComponent
    */
-  setMenuRouterLinks(): void {
+  private _setMenuRouterLinks(): void {
     for (const menu_group of this.menu_groups) {
       if (menu_group.items && menu_group.items.length > 0) {
         for (const menu_item of menu_group.items) {
@@ -364,15 +367,38 @@ export class GraphsComponent implements OnInit {
    * Toggle visibility of left menu on small screens
    *
    * @author Sushant Kumar<sushant.kumar@soroco.com>
+   * @memberof GraphsComponent
    */
   toggleGraphLeftMenuSmallVisibility(): void {
     if (this.graphs_left_menu_small_toggle._elementRef.nativeElement.classList.contains('is-active')) {
-      this.graphs_left_menu_small_toggle._elementRef.nativeElement.classList.remove('is-active');
-      this.graphs_left_menu_small.nativeElement.classList.add('w3-hide');
+      this._hideGraphLeftMenuSmall();
     } else {
-      this.graphs_left_menu_small_toggle._elementRef.nativeElement.classList.add('is-active');
-      this.graphs_left_menu_small.nativeElement.classList.remove('w3-hide');
+      this._showGraphLeftMenuSmall();
     }
+  }
+
+  /**
+   * Hide left menu on small screens
+   *
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
+   * @private
+   * @memberof GraphsComponent
+   */
+  private _hideGraphLeftMenuSmall(): void {
+    this.graphs_left_menu_small_toggle._elementRef.nativeElement.classList.remove('is-active');
+    this.graphs_left_menu_small.nativeElement.classList.add('w3-hide');
+  }
+
+  /**
+   * Show left menu on small screens
+   *
+   * @author Sushant Kumar <sushant.kum96@gmail.com>
+   * @private
+   * @memberof GraphsComponent
+   */
+  private _showGraphLeftMenuSmall(): void {
+    this.graphs_left_menu_small_toggle._elementRef.nativeElement.classList.add('is-active');
+    this.graphs_left_menu_small.nativeElement.classList.remove('w3-hide');
   }
 
   /**
