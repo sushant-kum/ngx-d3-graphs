@@ -30,6 +30,7 @@ export class GraphsComponent implements OnInit {
     {
       id: 'distribution',
       name: 'Distribution',
+      disabled: true,
       items: [
         {
           id: 'violin',
@@ -66,6 +67,7 @@ export class GraphsComponent implements OnInit {
     {
       id: 'correlation',
       name: 'Correlation',
+      disabled: true,
       items: [
         {
           id: 'scatter',
@@ -108,6 +110,7 @@ export class GraphsComponent implements OnInit {
     {
       id: 'ranking',
       name: 'Ranking',
+      disabled: true,
       items: [
         {
           id: 'barplot',
@@ -150,6 +153,7 @@ export class GraphsComponent implements OnInit {
     {
       id: 'part-of-a-whole',
       name: 'Part of a whole',
+      disabled: true,
       items: [
         {
           id: 'treemap',
@@ -215,6 +219,7 @@ export class GraphsComponent implements OnInit {
     {
       id: 'map',
       name: 'Map',
+      disabled: true,
       items: [
         {
           id: 'map',
@@ -257,6 +262,7 @@ export class GraphsComponent implements OnInit {
     {
       id: 'flow',
       name: 'Flow',
+      disabled: true,
       items: [
         {
           id: 'chord-diagram',
@@ -369,8 +375,23 @@ export class GraphsComponent implements OnInit {
     }
   }
 
-  navigateThroughMenu(router_link: string[]): void {
-    this.setActiveMenu();
-    this._router.navigate(router_link);
+  /**
+   * Handle click on quick links' sub-link
+   *
+   * @author (Set the text for this tag by adding docthis.authorName to your settings file.)
+   * @param {Event} event
+   * @param {(string[] | string)} [link]
+   * @param {boolean} [is_absolute]
+   * @memberof GraphsComponent
+   */
+  onClickQuickLinkSublinks(event: Event, link?: string[] | string, is_absolute?: boolean): void {
+    event.stopPropagation();
+    if (link) {
+      if (is_absolute && typeof link === 'string') {
+        window.location.href = link;
+      } else {
+        this._router.navigate(link as string[]);
+      }
+    }
   }
 }

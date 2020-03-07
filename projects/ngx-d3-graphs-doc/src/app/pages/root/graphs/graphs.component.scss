@@ -136,16 +136,14 @@
       gap: 10px;
 
       &-item {
-        cursor: pointer;
+        &-sublink {
+          margin: 4px;
+          height: auto;
+          width: auto;
 
-        &-images {
-          width: 50px;
-          padding: 4px;
-          // filter: grayscale(100%);
-
-          // &:hover {
-          //   filter: none;
-          // }
+          &-image {
+            width: 36px;
+          }
         }
       }
     }

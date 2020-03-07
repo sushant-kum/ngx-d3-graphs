@@ -11,7 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 /* Fontawesome Imports */
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 /* Solid Icons */
-import {} from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight as fasAngleRight } from '@fortawesome/free-solid-svg-icons';
 /* Regular Icons */
 import {} from '@fortawesome/free-regular-svg-icons';
 /* Brand Icons */
@@ -36,4 +36,11 @@ import { GraphsComponent } from './graphs.component';
     FontAwesomeModule
   ]
 })
-export class GraphsModule {}
+export class GraphsModule {
+  constructor(fa_icon_library: FaIconLibrary) {
+    // Include solid fa icons
+    fa_icon_library.addIcons(fasAngleRight);
+    // Include regular fa icons
+    // Include brand fa icons
+  }
+}

@@ -102,27 +102,47 @@
 
 <ng-template #template_quick_links>
   <section *ngIf="!active_menu.group" class="graphs-content-quick-links w3-padding">
-    <mat-card
-      class="graphs-content-quick-links-item w3-card"
-      *ngFor="let menu_group of menu_groups"
-      [routerLink]="[menu_group.id]"
-    >
+    <mat-card class="graphs-content-quick-links-item w3-card" *ngFor="let menu_group of menu_groups">
       <mat-card-header>
         <mat-card-title class="app-text-theme-primary">{{
           menu_group.name ? menu_group.name : menu_group.id
         }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div>
+        <button
+          mat-icon-button
+          *ngFor="let menu_item of menu_group.items"
+          class="graphs-content-quick-links-item-sublink w3-opacity-min"
+          [ngClass]="{
+            'w3-hover-opacity-off': !menu_item.disabled,
+            'w3-greyscale-max': menu_item.disabled
+          }"
+          [matTooltip]="(menu_item.name ? menu_item.name : menu_item.id) + (menu_item.disabled ? ' (Coming Soon)' : '')"
+          (click)="
+            onClickQuickLinkSublinks(
+              $event,
+              !menu_item.disabled ? (menu_item.router_link ? menu_item.router_link : menu_item.absolute_link) : null,
+              menu_item.router_link ? false : true
+            )
+          "
+        >
           <img
-            class="graphs-content-quick-links-item-images w3-circle w3-opacity w3-hover-opacity-off"
-            [matTooltip]="menu_item.name ? menu_item.name : menu_item.id"
-            *ngFor="let menu_item of menu_group.items"
+            class="graphs-content-quick-links-item-sublink-image w3-circle"
             [src]="menu_item.icon_path"
             [alt]="menu_item.id"
           />
-        </div>
+        </button>
       </mat-card-content>
+      <mat-card-actions class="w3-right-align">
+        <a
+          mat-button
+          class="graphs-content-quick-links-item-explore_btn"
+          color="primary"
+          [routerLink]="[menu_group.id]"
+          [disabled]="menu_group.disabled"
+          >Explore <fa-icon [icon]="['fas', 'angle-right']"></fa-icon
+        ></a>
+      </mat-card-actions>
     </mat-card>
   </section>
 </ng-template>
