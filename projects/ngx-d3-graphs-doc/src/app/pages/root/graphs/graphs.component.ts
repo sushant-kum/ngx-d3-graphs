@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 
 import { HelperService } from '@doc/src/app/serices/helper/helper.service';
+import { TitleService } from '@doc/src/app/serices/title/title.service';
 
 interface MenuItem {
   id: string;
@@ -23,6 +24,7 @@ interface MenuGroup extends MenuItem {
   styleUrls: ['./graphs.component.scss']
 })
 export class GraphsComponent implements OnInit {
+  @ViewChild('graphs_left_menu_small_overlay') graphs_left_menu_small_overlay: ElementRef;
   @ViewChild('graphs_left_menu_small_toggle') graphs_left_menu_small_toggle: MatButton;
   @ViewChild('graphs_left_menu_small') graphs_left_menu_small: ElementRef;
 
@@ -303,9 +305,11 @@ export class GraphsComponent implements OnInit {
     item: string;
   };
 
-  constructor(private _router: Router, public helper: HelperService) {}
+  constructor(private _router: Router, private _title_svc: TitleService, public helper: HelperService) {}
 
   ngOnInit(): void {
+    this._title_svc.setTitle('Graphs');
+
     // Set router_link of menu items
     this._setMenuRouterLinks();
 
@@ -333,7 +337,6 @@ export class GraphsComponent implements OnInit {
       ? this._router.url.split('/graphs/')[1].split('/')[0]
       : undefined;
     const item = group !== undefined ? this._router.url.split('/graphs/')[1].split('/')[1] : undefined;
-    console.log(this._router.url, group, item);
 
     this.active_menu = {
       group: group === undefined ? null : group,
@@ -387,6 +390,7 @@ export class GraphsComponent implements OnInit {
   private _hideGraphLeftMenuSmall(): void {
     this.graphs_left_menu_small_toggle._elementRef.nativeElement.classList.remove('is-active');
     this.graphs_left_menu_small.nativeElement.classList.add('w3-hide');
+    this.graphs_left_menu_small_overlay.nativeElement.classList.add('w3-hide');
   }
 
   /**
@@ -399,6 +403,7 @@ export class GraphsComponent implements OnInit {
   private _showGraphLeftMenuSmall(): void {
     this.graphs_left_menu_small_toggle._elementRef.nativeElement.classList.add('is-active');
     this.graphs_left_menu_small.nativeElement.classList.remove('w3-hide');
+    this.graphs_left_menu_small_overlay.nativeElement.classList.remove('w3-hide');
   }
 
   /**

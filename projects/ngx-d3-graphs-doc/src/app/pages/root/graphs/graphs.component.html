@@ -3,6 +3,11 @@
     <ng-container *ngTemplateOutlet="template_graphs_left_menu"></ng-container>
   </nav>
   <section class="graphs-left-menu-small-container w3-hide-medium w3-hide-large">
+    <div
+      #graphs_left_menu_small_overlay
+      class="graphs-left-menu-small-overlay w3-hide"
+      (click)="toggleGraphLeftMenuSmallVisibility()"
+    ></div>
     <button
       #graphs_left_menu_small_toggle
       mat-icon-button
