@@ -1,2 +1,92 @@
-<p>evolution works!</p>
-<router-outlet></router-outlet>
+<section class="evolution">
+  <router-outlet></router-outlet>
+  <ng-container *ngTemplateOutlet="template_quick_links"></ng-container>
+</section>
+
+<!--Template evolution quick links-->
+<ng-template #template_quick_links>
+  <section class="evolution-quick-links w3-padding">
+    <mat-card class="evolution-quick-links-item w3-card" *ngFor="let page of evolution_sub_pages">
+      <mat-card-header>
+        <img mat-card-avatar class="evolution-quick-links-item-avatar" [src]="page.icon_path" />
+        <mat-card-title class="app-text-theme-primary">{{ page.name ? page.name : page.id }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="page.id === 'line-plot'" class="evolution-quick-links-item-details w3-small">
+          <p>
+            A line chart or line graph displays the evolution of one or several numeric variables. Data points are
+            connected by straight line segments. It is similar to a scatter plot except that the measurement points are
+            ordered (typically by their x-axis value) and joined with straight line segments. A line chart is often used
+            to visualize a trend in data over intervals of time – a time series – thus the line is often drawn
+            chronologically.
+          </p>
+          <a
+            mat-stroked-button
+            color="primary"
+            class="evolution-quick-links-item-details-read_more"
+            href="https://www.data-to-viz.com/graph/line.html"
+            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+          ></a>
+        </div>
+        <div *ngIf="page.id === 'area'" class="evolution-quick-links-item-details w3-small">
+          <p>
+            An area chart is really similar to a line chart and represents the evolution of a numeric variable.
+            Basically, the X axis represents time or an ordered variable, and the Y axis gives the value of another
+            variable. Data points are connected by straight line segments and the area between the x axis and the line
+            is filled in with color or shading.
+          </p>
+          <a
+            mat-stroked-button
+            color="primary"
+            class="evolution-quick-links-item-details-read_more"
+            href="https://www.data-to-viz.com/graph/area.html"
+            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+          ></a>
+        </div>
+        <div *ngIf="page.id === 'stacked-area'" class="evolution-quick-links-item-details w3-small">
+          <p>
+            A stacked area chart is the extension of a basic area chart. It displays the evolution of the value of
+            several groups on the same graphic. The values of each group are displayed on top of each other, what allows
+            to check on the same figure the evolution of both the total of a numeric variable, and the importance of
+            each group.
+          </p>
+          <a
+            mat-stroked-button
+            color="primary"
+            class="evolution-quick-links-item-details-read_more"
+            href="https://www.data-to-viz.com/graph/stackedarea.html"
+            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+          ></a>
+        </div>
+        <div *ngIf="page.id === 'streamchart'" class="evolution-quick-links-item-details w3-small">
+          <p>
+            A Stream graph is a type of stacked area chart. It displays the evolution of a numeric value (Y axis)
+            following another numeric value (X axis). This evolution is represented for several groups, all with a
+            distinct color.
+          </p>
+          <p>
+            Contrary to a stacked area, there is no corner: edges are rounded what gives this nice impression of flow.
+            Moreover, areas are usually displaced around a central axis, resulting in a flowing and organic shape.
+          </p>
+          <a
+            mat-stroked-button
+            color="primary"
+            class="evolution-quick-links-item-details-read_more"
+            href="https://www.data-to-viz.com/graph/streamgraph.html"
+            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+          ></a>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="w3-right-align">
+        <a
+          mat-button
+          class="evolution-quick-links-item-explore_btn"
+          color="primary"
+          [routerLink]="[page.id]"
+          [disabled]="page.disabled"
+          >Explore <fa-icon [icon]="['fas', 'angle-right']"></fa-icon
+        ></a>
+      </mat-card-actions>
+    </mat-card>
+  </section>
+</ng-template>
