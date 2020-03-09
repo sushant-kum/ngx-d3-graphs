@@ -20,13 +20,6 @@
             to visualize a trend in data over intervals of time – a time series – thus the line is often drawn
             chronologically.
           </p>
-          <a
-            mat-stroked-button
-            color="primary"
-            class="evolution-quick-links-item-details-read_more"
-            href="https://www.data-to-viz.com/graph/line.html"
-            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
-          ></a>
         </div>
         <div *ngIf="page.id === 'area'" class="evolution-quick-links-item-details w3-small">
           <p>
@@ -35,13 +28,6 @@
             variable. Data points are connected by straight line segments and the area between the x axis and the line
             is filled in with color or shading.
           </p>
-          <a
-            mat-stroked-button
-            color="primary"
-            class="evolution-quick-links-item-details-read_more"
-            href="https://www.data-to-viz.com/graph/area.html"
-            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
-          ></a>
         </div>
         <div *ngIf="page.id === 'stacked-area'" class="evolution-quick-links-item-details w3-small">
           <p>
@@ -50,13 +36,6 @@
             to check on the same figure the evolution of both the total of a numeric variable, and the importance of
             each group.
           </p>
-          <a
-            mat-stroked-button
-            color="primary"
-            class="evolution-quick-links-item-details-read_more"
-            href="https://www.data-to-viz.com/graph/stackedarea.html"
-            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
-          ></a>
         </div>
         <div *ngIf="page.id === 'streamchart'" class="evolution-quick-links-item-details w3-small">
           <p>
@@ -68,19 +47,40 @@
             Contrary to a stacked area, there is no corner: edges are rounded what gives this nice impression of flow.
             Moreover, areas are usually displaced around a central axis, resulting in a flowing and organic shape.
           </p>
-          <a
-            mat-stroked-button
-            color="primary"
-            class="evolution-quick-links-item-details-read_more"
-            href="https://www.data-to-viz.com/graph/streamgraph.html"
-            >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
-          ></a>
         </div>
       </mat-card-content>
       <mat-card-actions class="w3-right-align">
         <a
-          mat-button
-          class="evolution-quick-links-item-explore_btn"
+          *ngIf="page.id === 'line-plot'"
+          mat-stroked-button
+          color="primary"
+          href="https://www.data-to-viz.com/graph/line.html"
+          >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+        ></a>
+        <a
+          *ngIf="page.id === 'area'"
+          mat-stroked-button
+          color="primary"
+          href="https://www.data-to-viz.com/graph/area.html"
+          >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+        ></a>
+        <a
+          *ngIf="page.id === 'stacked-area'"
+          mat-stroked-button
+          color="primary"
+          href="https://www.data-to-viz.com/graph/stackedarea.html"
+          >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+        ></a>
+        <a
+          *ngIf="page.id === 'streamchart'"
+          mat-stroked-button
+          color="primary"
+          href="https://www.data-to-viz.com/graph/streamgraph.html"
+          >Read more <fa-icon [icon]="['fas', 'book-open']"></fa-icon
+        ></a>
+        <a
+          mat-flat-button
+          class="evolution-quick-links-item-explore_btn w3-margin-left"
           color="primary"
           [routerLink]="[page.id]"
           [disabled]="page.disabled"
