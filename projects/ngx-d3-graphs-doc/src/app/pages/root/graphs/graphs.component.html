@@ -25,7 +25,7 @@
     </nav>
   </section>
 
-  <section class="graphs-content">
+  <section class="graphs-content w3-padding">
     <ng-container *ngTemplateOutlet="template_quick_links"></ng-container>
 
     <router-outlet></router-outlet>
@@ -107,7 +107,7 @@
 
 <!--Template quick links-->
 <ng-template #template_quick_links>
-  <section *ngIf="!active_menu.group" class="graphs-content-quick-links w3-padding">
+  <section *ngIf="!active_menu.group" class="graphs-content-quick-links">
     <mat-card class="graphs-content-quick-links-item w3-card" *ngFor="let menu_group of menu_groups">
       <mat-card-header>
         <mat-card-title class="app-text-theme-primary">{{

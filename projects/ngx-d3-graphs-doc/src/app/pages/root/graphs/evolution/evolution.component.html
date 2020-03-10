@@ -1,11 +1,11 @@
-<section class="evolution">
+<section class="evolution w3-padding">
   <router-outlet></router-outlet>
   <ng-container *ngTemplateOutlet="template_quick_links"></ng-container>
 </section>
 
 <!--Template evolution quick links-->
 <ng-template #template_quick_links>
-  <section class="evolution-quick-links w3-padding">
+  <section class="evolution-quick-links">
     <mat-card class="evolution-quick-links-item w3-card" *ngFor="let page of evolution_sub_pages">
       <mat-card-header>
         <img mat-card-avatar class="evolution-quick-links-item-avatar" [src]="page.icon_path" />
