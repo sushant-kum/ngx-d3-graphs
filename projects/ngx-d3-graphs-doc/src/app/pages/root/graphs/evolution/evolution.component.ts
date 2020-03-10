@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 /* Import Services */
-import { TitleService } from '@doc/src/app/serices/title/title.service';
+import { TitleService } from '@doc/src/app/services/title/title.service';
 
 /* Import Configs */
 import { GRAPH_PAGES } from '@doc/src/app/config/config';

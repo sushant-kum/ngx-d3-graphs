@@ -3,8 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 
 /* Import Services */
-import { HelperService } from '@doc/src/app/serices/helper/helper.service';
-import { TitleService } from '@doc/src/app/serices/title/title.service';
+import { HelperService } from '@doc/src/app/services/helper/helper.service';
+import { TitleService } from '@doc/src/app/services/title/title.service';
 
 /* Import Configs */
 import { GRAPH_PAGES } from '@doc/src/app/config/config';

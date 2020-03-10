@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { GraphOptionsModel, StackedAreaDataModel } from 'ngx-d3-graphs';
 
-import { TitleService } from '@doc/src/app/serices/title/title.service';
+import { TitleService } from '@doc/src/app/services/title/title.service';
 
 @Component({
   selector: 'app-root',
