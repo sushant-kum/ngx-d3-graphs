@@ -3,66 +3,66 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-d3-graphs": {
+    "ngx-graphs-d3": {
       "projectType": "library",
-      "root": "projects/ngx-d3-graphs",
-      "sourceRoot": "projects/ngx-d3-graphs/src",
+      "root": "projects/ngx-graphs-d3",
+      "sourceRoot": "projects/ngx-graphs-d3/src",
       "prefix": "ngx-d3",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ngx-d3-graphs/tsconfig.lib.json",
-            "project": "projects/ngx-d3-graphs/ng-package.json"
+            "tsConfig": "projects/ngx-graphs-d3/tsconfig.lib.json",
+            "project": "projects/ngx-graphs-d3/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-d3-graphs/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-graphs-d3/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-d3-graphs/src/test.ts",
-            "tsConfig": "projects/ngx-d3-graphs/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-d3-graphs/karma.conf.js"
+            "main": "projects/ngx-graphs-d3/src/test.ts",
+            "tsConfig": "projects/ngx-graphs-d3/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-graphs-d3/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["projects/ngx-d3-graphs/tsconfig.lib.json", "projects/ngx-d3-graphs/tsconfig.spec.json"],
+            "tsConfig": ["projects/ngx-graphs-d3/tsconfig.lib.json", "projects/ngx-graphs-d3/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**"]
           }
         }
       }
     },
-    "ngx-d3-graphs-doc": {
+    "ngx-graphs-d3-doc": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/ngx-d3-graphs-doc",
-      "sourceRoot": "projects/ngx-d3-graphs-doc/src",
+      "root": "projects/ngx-graphs-d3-doc",
+      "sourceRoot": "projects/ngx-graphs-d3-doc/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngx-d3-graphs-doc",
-            "index": "projects/ngx-d3-graphs-doc/src/index.html",
-            "main": "projects/ngx-d3-graphs-doc/src/main.ts",
-            "polyfills": "projects/ngx-d3-graphs-doc/src/polyfills.ts",
-            "tsConfig": "projects/ngx-d3-graphs-doc/tsconfig.app.json",
+            "outputPath": "dist/ngx-graphs-d3-doc",
+            "index": "projects/ngx-graphs-d3-doc/src/index.html",
+            "main": "projects/ngx-graphs-d3-doc/src/main.ts",
+            "polyfills": "projects/ngx-graphs-d3-doc/src/polyfills.ts",
+            "tsConfig": "projects/ngx-graphs-d3-doc/tsconfig.app.json",
             "aot": true,
-            "assets": ["projects/ngx-d3-graphs-doc/src/assets"],
+            "assets": ["projects/ngx-graphs-d3-doc/src/assets"],
             "styles": [
-              "projects/ngx-d3-graphs-doc/src/assets/libraries/w3.css/4/w3.css",
-              "projects/ngx-d3-graphs-doc/src/assets/libraries/hamburgers/hamburgers.min.css",
-              "projects/ngx-d3-graphs-doc/src/styles/index.scss"
+              "projects/ngx-graphs-d3-doc/src/assets/libraries/w3.css/4/w3.css",
+              "projects/ngx-graphs-d3-doc/src/assets/libraries/hamburgers/hamburgers.min.css",
+              "projects/ngx-graphs-d3-doc/src/styles/index.scss"
             ],
             "scripts": []
           },
@@ -70,8 +70,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-d3-graphs-doc/src/environments/environment.ts",
-                  "with": "projects/ngx-d3-graphs-doc/src/environments/environment.prod.ts"
+                  "replace": "projects/ngx-graphs-d3-doc/src/environments/environment.ts",
+                  "with": "projects/ngx-graphs-d3-doc/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -100,32 +100,32 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-d3-graphs-doc:build"
+            "browserTarget": "ngx-graphs-d3-doc:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-d3-graphs-doc:build:production"
+              "browserTarget": "ngx-graphs-d3-doc:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-d3-graphs-doc:build"
+            "browserTarget": "ngx-graphs-d3-doc:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-d3-graphs-doc/src/test.ts",
-            "polyfills": "projects/ngx-d3-graphs-doc/src/polyfills.ts",
-            "tsConfig": "projects/ngx-d3-graphs-doc/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-d3-graphs-doc/karma.conf.js",
-            "assets": ["projects/ngx-d3-graphs-doc/src/assets"],
+            "main": "projects/ngx-graphs-d3-doc/src/test.ts",
+            "polyfills": "projects/ngx-graphs-d3-doc/src/polyfills.ts",
+            "tsConfig": "projects/ngx-graphs-d3-doc/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-graphs-d3-doc/karma.conf.js",
+            "assets": ["projects/ngx-graphs-d3-doc/src/assets"],
             "styles": [
-              "projects/ngx-d3-graphs-doc/src/assets/libraries/w3.css/4/w3.css",
-              "projects/ngx-d3-graphs-doc/src/assets/libraries/hamburgers/hamburgers.min.css",
-              "projects/ngx-d3-graphs-doc/src/styles/index.scss"
+              "projects/ngx-graphs-d3-doc/src/assets/libraries/w3.css/4/w3.css",
+              "projects/ngx-graphs-d3-doc/src/assets/libraries/hamburgers/hamburgers.min.css",
+              "projects/ngx-graphs-d3-doc/src/styles/index.scss"
             ],
             "scripts": []
           }
@@ -134,9 +134,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-d3-graphs-doc/tsconfig.app.json",
-              "projects/ngx-d3-graphs-doc/tsconfig.spec.json",
-              "projects/ngx-d3-graphs-doc/e2e/tsconfig.json"
+              "projects/ngx-graphs-d3-doc/tsconfig.app.json",
+              "projects/ngx-graphs-d3-doc/tsconfig.spec.json",
+              "projects/ngx-graphs-d3-doc/e2e/tsconfig.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -144,17 +144,17 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/ngx-d3-graphs-doc/e2e/protractor.conf.js",
-            "devServerTarget": "ngx-d3-graphs-doc:serve"
+            "protractorConfig": "projects/ngx-graphs-d3-doc/e2e/protractor.conf.js",
+            "devServerTarget": "ngx-graphs-d3-doc:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-d3-graphs-doc:serve:production"
+              "devServerTarget": "ngx-graphs-d3-doc:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "ngx-d3-graphs"
+  "defaultProject": "ngx-graphs-d3"
 }

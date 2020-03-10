@@ -1,10 +1,10 @@
 {
-  "tsconfig": "./projects/ngx-d3-graphs/tsconfig.lib.json",
-  "output": "./projects/ngx-d3-graphs-doc/src/assets/api-doc",
+  "tsconfig": "./projects/ngx-graphs-d3/tsconfig.lib.json",
+  "output": "./projects/ngx-graphs-d3-doc/src/assets/api-doc",
   "name": "NgxD3Graphs - APIs",
   "hideGenerator": true,
   "disableCoverage": true,
   "disableDependencies": true,
-  "customFavicon": "./projects/ngx-d3-graphs-doc/src/assets/images/favicon/favicon-96x96.png",
-  "customLogo": "./projects/ngx-d3-graphs-doc/src/assets/images/favicon/apple-icon-60x60.png"
+  "customFavicon": "./projects/ngx-graphs-d3-doc/src/assets/images/favicon/favicon-96x96.png",
+  "customLogo": "./projects/ngx-graphs-d3-doc/src/assets/images/favicon/apple-icon-60x60.png"
 }

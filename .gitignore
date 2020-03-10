@@ -46,4 +46,4 @@ testem.log
 Thumbs.db
 
 # Others
-projects/ngx-d3-graphs-doc/src/assets/api-doc/**/*
+projects/ngx-graphs-d3-doc/src/assets/api-doc/**/*

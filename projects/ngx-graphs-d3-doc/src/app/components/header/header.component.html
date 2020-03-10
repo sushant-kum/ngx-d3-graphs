@@ -1,0 +1,46 @@
+<header class="w3-top w3-card app-theme-primary">
+  <div class="header w3-padding">
+    <div class="header-home-link">
+      <img
+        class="header-home-link-icon w3-hide-small w3-hide-medium"
+        src="assets/images/ngx-graphs-d3-logo.min.256x256.png"
+      />
+      <a mat-button class="header-primary-item" [routerLink]="['/']">
+        <img
+          class="header-home-link-icon-internal w3-hide-large"
+          src="assets/images/ngx-graphs-d3-logo.min.256x256.png"
+        />
+        <span class="w3-hide-medium">
+          {{ app_title }}
+        </span>
+      </a>
+    </div>
+    <div class="header-primary">
+      <a mat-button class="header-primary-item" [routerLink]="['/', 'graphs']">
+        Graphs
+      </a>
+      <a mat-button class="header-primary-item" [routerLink]="['/', 'components']">
+        Components
+      </a>
+      <a mat-button class="header-primary-item" [routerLink]="['/', 'guides']">
+        Guides
+      </a>
+      <a mat-button class="header-primary-item" [routerLink]="['/', 'api']">
+        API
+      </a>
+    </div>
+    <div class="header-secondary">
+      <a
+        mat-button
+        class="header-secondary-version-container"
+        [href]="'https://github.com/sushant-kum/ngx-graphs-d3/releases/tag/' + lib_version"
+        >{{ lib_version }}</a
+      >
+      <a mat-button href="https://github.com/sushant-kum/ngx-graphs-d3">
+        <fa-icon [icon]="['fas', 'code']"></fa-icon>&nbsp;
+        <span class="w3-hide-small w3-hide-medium" style="vertical-align: middle;">Source</span>
+      </a>
+    </div>
+  </div>
+</header>
+<div class="header-space"></div>

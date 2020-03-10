@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/ngx-graphs-d3",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "assign-deep": "assign-deep",
+      "css-element-queries": "css-element-queries",
+      "d3": "d3",
+      "d3-svg-legend": "d3-svg-legend",
+      "fast-deep-equal": "fast-deep-equal",
+      "google-palette": "google-palette",
+      "moment": "moment",
+      "object-assign-deep": "object-assign-deep"
+    }
+  }
+}

@@ -27,7 +27,7 @@ jobs:
       - name: Run unit tests
         run: npm run test:CI
         continue-on-error: true
-      - name: Run build on ngx-d3-graphs to check that it succeeds
+      - name: Run build on ngx-graphs-d3 to check that it succeeds
         run: npm run build:prod:lib
-      - name: Run build on ngx-d3-graphs-doc to check that it succeeds
+      - name: Run build on ngx-graphs-d3-doc to check that it succeeds
         run: npm run build:prod:doc

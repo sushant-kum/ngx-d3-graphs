@@ -14,12 +14,12 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "ngx-d3-graphs": ["dist/ngx-d3-graphs"],
-      "ngx-d3-graphs/*": ["dist/ngx-d3-graphs/*"],
-      "@lib": ["projects/ngx-d3-graphs"],
-      "@lib/*": ["projects/ngx-d3-graphs/*"],
-      "@doc": ["projects/ngx-d3-graphs-doc"],
-      "@doc/*": ["projects/ngx-d3-graphs-doc/*"]
+      "ngx-graphs-d3": ["dist/ngx-graphs-d3"],
+      "ngx-graphs-d3/*": ["dist/ngx-graphs-d3/*"],
+      "@lib": ["projects/ngx-graphs-d3"],
+      "@lib/*": ["projects/ngx-graphs-d3/*"],
+      "@doc": ["projects/ngx-graphs-d3-doc"],
+      "@doc/*": ["projects/ngx-graphs-d3-doc/*"]
     },
     "allowSyntheticDefaultImports": true
   },

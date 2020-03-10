@@ -1,8 +1,8 @@
-# ngx-d3-graphs - Mock Server
+# ngx-graphs-d3 - Mock Server
 
 ## Overview
 
-ngx-d3-graphs - Mock Server is a mock-server to cater to API requests emitted by ngx-d3-graphs documentation.
+ngx-graphs-d3 - Mock Server is a mock-server to cater to API requests emitted by ngx-graphs-d3 documentation.
 
 ## Capabilities
 
