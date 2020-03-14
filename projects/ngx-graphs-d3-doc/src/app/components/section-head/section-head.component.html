@@ -1,0 +1,72 @@
+<h1 *ngIf="level === 1" class="section_head app-text-theme-primary">
+  <span class="section_head-text">{{ title }}</span>
+  <a
+    *ngIf="routerLink || fragment"
+    mat-icon-button
+    color="primary"
+    [routerLink]="routerLink ? routerLink : undefined"
+    [fragment]="fragment ? fragment : undefined"
+  >
+    <fa-icon [icon]="['fas', 'link']"></fa-icon>
+  </a>
+</h1>
+<h2 *ngIf="level === 2" class="section_head app-text-theme-primary">
+  <span class="section_head-text">{{ title }}</span>
+  <a
+    *ngIf="routerLink || fragment"
+    mat-icon-button
+    color="primary"
+    [routerLink]="routerLink ? routerLink : undefined"
+    [fragment]="fragment ? fragment : undefined"
+  >
+    <fa-icon [icon]="['fas', 'link']"></fa-icon>
+  </a>
+</h2>
+<h3 *ngIf="level === 3" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-500">{{ title }}</span>
+  <a
+    *ngIf="routerLink || fragment"
+    mat-icon-button
+    color="primary"
+    [routerLink]="routerLink ? routerLink : undefined"
+    [fragment]="fragment ? fragment : undefined"
+  >
+    <fa-icon [icon]="['fas', 'link']"></fa-icon>
+  </a>
+</h3>
+<h4 *ngIf="level === 4" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-500">{{ title }}</span>
+  <a
+    *ngIf="routerLink || fragment"
+    mat-icon-button
+    color="primary"
+    [routerLink]="routerLink ? routerLink : undefined"
+    [fragment]="fragment ? fragment : undefined"
+  >
+    <fa-icon [icon]="['fas', 'link']"></fa-icon>
+  </a>
+</h4>
+<h5 *ngIf="level === 5" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-600">{{ title }}</span>
+  <a
+    *ngIf="routerLink || fragment"
+    mat-icon-button
+    color="primary"
+    [routerLink]="routerLink ? routerLink : undefined"
+    [fragment]="fragment ? fragment : undefined"
+  >
+    <fa-icon [icon]="['fas', 'link']"></fa-icon>
+  </a>
+</h5>
+<h6 *ngIf="level === 6" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-600">{{ title }}</span>
+  <a
+    *ngIf="routerLink || fragment"
+    mat-icon-button
+    color="primary"
+    [routerLink]="routerLink ? routerLink : undefined"
+    [fragment]="fragment ? fragment : undefined"
+  >
+    <fa-icon [icon]="['fas', 'link']"></fa-icon>
+  </a>
+</h6>

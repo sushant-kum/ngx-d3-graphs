@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatButton } from '@angular/material/button';
+import UrlParse from 'url-parse';
 
 /* Import Services */
 import { HelperService } from '@doc/src/app/services/helper/helper.service';
@@ -46,7 +47,7 @@ export class GraphsComponent implements OnInit {
 
     // Set active_menu on navigation
     this._router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
+      if (event instanceof NavigationEnd && new UrlParse(this._router.url, true).pathname.includes('/graphs')) {
         this._hideGraphLeftMenuSmall();
         this._setActiveMenu();
       }
@@ -64,10 +65,10 @@ export class GraphsComponent implements OnInit {
    * @memberof GraphsComponent
    */
   private _setActiveMenu(): void {
-    const group = this._router.url.includes('/graphs/')
-      ? this._router.url.split('/graphs/')[1].split('/')[0]
-      : undefined;
-    const item = group !== undefined ? this._router.url.split('/graphs/')[1].split('/')[1] : undefined;
+    const pathname: string = new UrlParse(this._router.url, true).pathname;
+
+    const group = pathname.includes('/graphs/') ? pathname.split('/graphs/')[1].split('/')[0] : undefined;
+    const item = group !== undefined ? pathname.split('/graphs/')[1].split('/')[1] : undefined;
 
     this.active_menu = {
       group: group === undefined ? null : group,

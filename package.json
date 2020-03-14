@@ -55,6 +55,7 @@
     "rxjs": "~6.5.4",
     "tslib": "^1.11.1",
     "unique-colors": "^1.0.1",
+    "url-parse": "^1.4.7",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -70,6 +71,7 @@
     "@types/json-server": "^0.14.2",
     "@types/node": "^12.12.29",
     "@types/object-assign-deep": "^0.4.0",
+    "@types/url-parse": "^1.4.3",
     "codelyzer": "^5.1.2",
     "concurrently": "^5.1.0",
     "connect-pause": "^0.1.0",

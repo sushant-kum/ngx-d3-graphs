@@ -1,42 +1,39 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 /* Angular Material imports */
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 /* Fontawesome Imports */
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 /* Solid Icons */
-import { faAngleRight as fasAngleRight, faBookOpen as fasBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { faLink as fasLink } from '@fortawesome/free-solid-svg-icons';
 /* Regular Icons */
 import {} from '@fortawesome/free-regular-svg-icons';
 /* Brand Icons */
 import {} from '@fortawesome/free-brands-svg-icons';
 
-import { EvolutionRoutingModule } from './evolution-routing.module';
-import { EvolutionComponent } from './evolution.component';
+import { SectionHeadComponent } from './section-head.component';
 
 @NgModule({
-  declarations: [EvolutionComponent],
+  declarations: [SectionHeadComponent],
   imports: [
     CommonModule,
-    EvolutionRoutingModule,
+    RouterModule,
 
     /* Angular Material */
     MatButtonModule,
-    MatCardModule,
-    MatTooltipModule,
 
     /* Fontawesome */
     FontAwesomeModule
-  ]
+  ],
+  exports: [SectionHeadComponent]
 })
-export class EvolutionModule {
+export class SectionHeadModule {
   constructor(fa_icon_library: FaIconLibrary) {
     // Include solid fa icons
-    fa_icon_library.addIcons(fasAngleRight, fasBookOpen);
+    fa_icon_library.addIcons(fasLink);
     // Include regular fa icons
     // Include brand fa icons
   }

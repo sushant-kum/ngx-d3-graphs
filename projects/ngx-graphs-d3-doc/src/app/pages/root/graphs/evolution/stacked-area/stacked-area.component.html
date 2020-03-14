@@ -1,1 +1,12 @@
-<p>stacked-area works!</p>
+<section class="stacked_area">
+  <section class="stacked_area-content">
+    <nav class="stacked_area-content-nav" mat-tab-nav-bar *ngIf="active_tab && active_tab.id">
+      <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.router_link" [active]="active_tab.id === tab.id">
+        {{ tab.name ? tab.name : tab.id }}
+      </a>
+    </nav>
+
+    <router-outlet></router-outlet>
+  </section>
+  <app-section-head title="Related"></app-section-head>
+</section>
