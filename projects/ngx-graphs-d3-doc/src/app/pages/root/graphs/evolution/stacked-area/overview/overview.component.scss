@@ -1,0 +1,32 @@
+.overview {
+  display: grid;
+
+  &-content {
+    grid-area: overview-content;
+  }
+
+  &-right_sidenav {
+    grid-area: overview-right_sidenav;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .overview {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'overview-content';
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 992px) {
+  .overview {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'overview-content';
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .overview {
+    grid-template-columns: 1fr 250px;
+    grid-template-areas: 'overview-content overview-right_sidenav';
+  }
+}

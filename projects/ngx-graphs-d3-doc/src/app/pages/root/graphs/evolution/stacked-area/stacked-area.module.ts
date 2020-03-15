@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 /* Angular Material imports */
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
 
 /* Fontawesome Imports */
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -26,6 +27,7 @@ import { SectionHeadModule } from '@doc/src/app/components/section-head/section-
 
     /* Angular Material */
     MatTabsModule,
+    MatDividerModule,
 
     /* Fontawesome */
     FontAwesomeModule
