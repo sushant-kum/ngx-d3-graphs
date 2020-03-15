@@ -1,0 +1,26 @@
+{
+  "hosting": [
+    {
+      "target": "prod",
+      "public": "dist/ngx-graphs-d3-doc",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "testbed",
+      "public": "dist/ngx-graphs-d3-doc",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

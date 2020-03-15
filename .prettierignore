@@ -46,4 +46,5 @@ testem.log
 Thumbs.db
 
 # Others
-projects/ngx-graphs-d3-doc/src/api/**/*
+projects/ngx-graphs-d3-doc/src/assets/api-doc/**/*
+.firebase

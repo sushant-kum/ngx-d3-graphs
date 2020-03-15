@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "ngx-graphs-d3"
+  },
+  "targets": {
+    "ngx-graphs-d3": {
+      "hosting": {
+        "prod": [
+          "ngx-graphs-d3"
+        ],
+        "testbed": [
+          "ngx-graphs-d3-testbed"
+        ]
+      }
+    }
+  }
+}
