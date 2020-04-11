@@ -1,9 +1,112 @@
 <section class="overview">
   <section class="overview-content">
-    <code class="w3-codespan">&lt;ngx-d3-stacked-area&gt;</code> is a container component that can be used to display a
-    Stacked area graph.
+    <section #definition id="definition">
+      <app-section-head sh_title="Definition" sh_fragment="definition"></app-section-head>
+      <blockquote class="w3-leftbar w3-margin-0 w3-padding app-border-theme-primary app-theme-primary-light">
+        <p>
+          <i
+            >A <b>stacked area chart</b> is the extension of a basic area chart. It displays the evolution of the value
+            of several groups on the same graphic. The values of each group are displayed on top of each other, what
+            allows to check on the same figure the evolution of both the total of a numeric variable, and the importance
+            of each group.
+          </i>
+        </p>
+        <p class="w3-small">
+          Source:
+          <a
+            class="app-text-theme-primary"
+            href="https://www.data-to-viz.com/graph/stackedarea.html#definition"
+            target="_blank"
+            >data-to-viz.com <fa-icon [icon]="['fas', 'external-link-square-alt']"></fa-icon
+          ></a>
+        </p>
+      </blockquote>
+    </section>
+
+    <section #usage id="usage">
+      <app-section-head sh_title="Usage" sh_fragment="usage"></app-section-head>
+      <code class="w3-codespan">&lt;ngx-d3-stacked-area&gt;</code> is a container component that can be used to display
+      a Stacked area graph.
+      <app-usage-example
+        if_title="Simple Stacked Area Graph"
+        if_src="https://stackblitz.com/edit/simple-stacked-area-ngx-graphs-d3?embed=1&view=preview"
+        if_external_tooltip="Edit in Stackblitz"
+        if_external_url="https://stackblitz.com/edit/simple-stacked-area-ngx-graphs-d3"
+      ></app-usage-example>
+
+      A simple stacked area graph can be generated as below:
+      <pre
+        [ngClass]="'language-' + code_examples.simple_usage.html.language"
+        [innerHTML]="
+          code_highlighter.highlight(code_examples.simple_usage.html.code, code_examples.simple_usage.html.language)
+        "
+        style="white-space: pre-wrap;"
+      ></pre>
+      <pre
+        [ngClass]="'language-' + code_examples.simple_usage.ts.language"
+        [innerHTML]="
+          code_highlighter.highlight(code_examples.simple_usage.ts.code, code_examples.simple_usage.ts.language)
+        "
+        style="white-space: pre-wrap;"
+      ></pre>
+    </section>
+
+    <section #configurations id="configurations">
+      <app-section-head sh_title="Configurations" sh_fragment="configurations"></app-section-head>
+
+      <section #specific_configurations id="specific_configurations">
+        <app-section-head
+          sh_title="Specific Configurations"
+          sh_fragment="specific_configurations"
+          [sh_level]="4"
+        ></app-section-head>
+
+        Stacked area specific configurations can be provided to the component by providing argument
+        <code class="w3-codespan">stacked_area_options</code> of type
+        <code class="w3-codespan"
+          ><a
+            class="app-text-theme-primary"
+            [routerLink]="['/api']"
+            [queryParams]="{ path: 'interfaces/StackedAreaOptionsModel.html' }"
+            >StackedAreaOptionsModel</a
+          ></code
+        >
+        to <code class="w3-codespan">&lt;ngx-d3-stacked-area&gt;</code>.
+
+        <app-usage-example
+          if_title="Use of stacked_area_options attribute"
+          if_src="https://stackblitz.com/edit/stacked-area-options-ngx-graphs-d3?embed=1&view=preview"
+          if_external_tooltip="Edit in Stackblitz"
+          if_external_url="https://stackblitz.com/edit/stacked-area-options-ngx-graphs-d3"
+        ></app-usage-example>
+
+        Further usage details about <code class="w3-codespan">StackedAreaOptionsModel</code> can be found
+        <a
+          class="app-text-theme-primary"
+          [routerLink]="['/graphs/evolution/stacked-area', 'api']"
+          fragment="StackedAreaOptionsModel"
+          >here</a
+        >.
+      </section>
+
+      <section #general_configurations id="general_configurations">
+        <app-section-head
+          sh_title="General Configurations"
+          sh_fragment="general_configurations"
+          [sh_level]="4"
+        ></app-section-head>
+
+        General configurations can be seen in the
+        <a class="app-text-theme-primary" [routerLink]="['/', 'components']">Components</a> section.
+      </section>
+    </section>
   </section>
-  <section class="overview-right_sidenav">
-    overview-right_sidenav
+
+  <section class="overview-right_sidenav w3-hide-small w3-hide-medium">
+    <app-table-of-content
+      toc_title="Overview Content"
+      [toc_entries]="table_of_content_entries"
+      [toc_current_entry]="active_table_of_content_entry"
+    ></app-table-of-content>
   </section>
 </section>

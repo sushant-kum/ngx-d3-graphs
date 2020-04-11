@@ -19,8 +19,10 @@
 
     &-path {
       grid-area: api-toolbar-path;
+      max-width: calc(100vw - 80px);
       text-overflow: ellipsis;
       white-space: nowrap;
+      overflow: hidden;
     }
 
     &-actions {

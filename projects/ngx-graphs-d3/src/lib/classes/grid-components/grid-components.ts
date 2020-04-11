@@ -14,9 +14,9 @@ export class GridComponents {
 
   constructor(grid_options?: GridOptionsModel) {
     const temp_grid_options: GridOptionsModel = assignDeep({}, GridComponents.DEFAULT_GRID_OPTIONS);
-    console.log('temp_grid_options before', JSON.parse(JSON.stringify(temp_grid_options)));
+    // console.log('temp_grid_options before', JSON.parse(JSON.stringify(temp_grid_options)));
     assignDeep(temp_grid_options, grid_options);
-    console.log('temp_grid_options after', JSON.parse(JSON.stringify(temp_grid_options)));
+    // console.log('temp_grid_options after', JSON.parse(JSON.stringify(temp_grid_options)));
 
     this.options = temp_grid_options;
   }

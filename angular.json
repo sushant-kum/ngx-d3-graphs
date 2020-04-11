@@ -62,6 +62,7 @@
             "styles": [
               "projects/ngx-graphs-d3-doc/src/assets/libraries/w3.css/4/w3.css",
               "projects/ngx-graphs-d3-doc/src/assets/libraries/hamburgers/hamburgers.min.css",
+              "node_modules/prismjs/themes/prism-okaidia.css",
               "projects/ngx-graphs-d3-doc/src/styles/index.scss"
             ],
             "scripts": []

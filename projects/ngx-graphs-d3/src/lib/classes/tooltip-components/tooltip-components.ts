@@ -11,9 +11,9 @@ export class TooltipComponents {
 
   constructor(tooltip_options?: TooltipOptionsModel) {
     const temp_tooltip_options: TooltipOptionsModel = assignDeep({}, TooltipComponents.DEFAULT_TOOLTIP_OPTIONS);
-    console.log('temp_tooltip_options before', JSON.parse(JSON.stringify(temp_tooltip_options)));
+    // console.log('temp_tooltip_options before', JSON.parse(JSON.stringify(temp_tooltip_options)));
     assignDeep(temp_tooltip_options, tooltip_options);
-    console.log('temp_tooltip_options after', JSON.parse(JSON.stringify(temp_tooltip_options)));
+    // console.log('temp_tooltip_options after', JSON.parse(JSON.stringify(temp_tooltip_options)));
     this.options = temp_tooltip_options;
   }
 

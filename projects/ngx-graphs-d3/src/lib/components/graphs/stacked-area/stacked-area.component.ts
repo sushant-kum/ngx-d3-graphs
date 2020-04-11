@@ -99,12 +99,12 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() {}
 
   ngOnInit() {
-    console.log('ngOnInit()');
+    // console.log('ngOnInit()');
     this._initOps();
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit()');
+    // console.log('ngAfterViewInit()');
     // tslint:disable-next-line: no-unused-expression
     new ResizeSensor(this._chartContainer.nativeElement, () => {
       this.onResize();
@@ -118,7 +118,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('ngOnChanges()');
+    // console.log('ngOnChanges()');
     this._initOps();
 
     if (this.data !== undefined && this.data.length > 0 && this._chartContainer.nativeElement.offsetWidth !== 0) {
@@ -129,7 +129,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   onResize(): void {
-    console.log('onResize(): void');
+    // console.log('onResize(): void');
     this._initOps();
 
     if (this.data !== undefined && this.data.length > 0) {
@@ -140,11 +140,11 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private _initOps(): void {
-    console.log(' StackedAreaComponent.data', this.data);
-    console.log(' StackedAreaComponent.options', this.options);
-    console.log(' StackedAreaComponent.stacked_area_options', this.stacked_area_options);
+    // console.log(' StackedAreaComponent.data', this.data);
+    // console.log(' StackedAreaComponent.options', this.options);
+    // console.log(' StackedAreaComponent.stacked_area_options', this.stacked_area_options);
     this.options_obj = new GraphOptions(this.options);
-    console.log(' StackedAreaComponent.options_obj', this.options_obj);
+    // console.log(' StackedAreaComponent.options_obj', this.options_obj);
 
     const temp_stacked_area_options: StackedAreaOptionsModel = objectAssignDeep({}, DEFAULT_STACKED_AREA_OPTIONS);
     objectAssignDeep(temp_stacked_area_options, this.stacked_area_options);
@@ -153,7 +153,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private _createChart(data: StackedAreaDataModel[], element: HTMLElement): void {
-    console.log('private _createChart(data: StackedAreaDataModel[], element: HTMLElement)', data, element);
+    // console.log('private _createChart(data: StackedAreaDataModel[], element: HTMLElement)', data, element);
 
     const graph_height = this.options_obj.size.height - this.options_obj.padding.top - this.options_obj.padding.bottom;
     const graph_width = element.offsetWidth - this.options_obj.padding.left - this.options_obj.padding.right;
@@ -372,13 +372,13 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       this._colors = palette('mpn65', this._keys.length).map((color: string) => `#${color}`);
     }
 
-    console.log('this._optimized_data', this._optimized_data);
-    console.log('this._keys', this._keys);
-    console.log('this._colors', this._colors);
+    // console.log('this._optimized_data', this._optimized_data);
+    // console.log('this._keys', this._keys);
+    // console.log('this._colors', this._colors);
 
     this._stacked_data = d3.stack().keys(this._keys)(this._optimized_data as { [key: string]: number }[]);
 
-    console.log('this._stacked_data', this._stacked_data);
+    // console.log('this._stacked_data', this._stacked_data);
   };
 
   /**
@@ -1382,7 +1382,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
         }
       ];
       const title = this.options_obj.tooltip.format.title ? this.options_obj.tooltip.format.title(x as any) : String(x);
-      console.log('title', title, 'data', data);
+      // console.log('title', title, 'data', data);
 
       if (x !== undefined) {
         this._tooltip_container.style('display', null);
@@ -1492,7 +1492,7 @@ export class StackedAreaComponent implements OnInit, AfterViewInit, OnChanges {
       ];
       const title = this.options_obj.tooltip.format.title ? this.options_obj.tooltip.format.title(x as any) : String(x);
 
-      console.log('title', title, 'data', JSON.stringify(data));
+      // console.log('title', title, 'data', JSON.stringify(data));
 
       if (x !== undefined) {
         this._tooltip_container.style('display', null);

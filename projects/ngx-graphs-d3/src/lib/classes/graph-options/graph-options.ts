@@ -29,9 +29,9 @@ export class GraphOptions {
 
   constructor(options?: GraphOptionsModel) {
     const temp_graph_options: GraphOptionsModel = objectAssignDeep({}, GraphOptions.DEFAULT_GRAPH_OPTIONS);
-    console.log('temp_graph_options before', JSON.parse(JSON.stringify(temp_graph_options)));
+    // console.log('temp_graph_options before', JSON.parse(JSON.stringify(temp_graph_options)));
     objectAssignDeep(temp_graph_options, options);
-    console.log('temp_graph_options after', JSON.parse(JSON.stringify(temp_graph_options)));
+    // console.log('temp_graph_options after', JSON.parse(JSON.stringify(temp_graph_options)));
 
     this.no_data_text = temp_graph_options.no_data_text;
     this.size = temp_graph_options.size;

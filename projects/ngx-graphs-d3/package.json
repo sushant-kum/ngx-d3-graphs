@@ -1,6 +1,29 @@
 {
   "name": "ngx-graphs-d3",
-  "version": "0.0.0",
+  "version": "0.1.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sushant-kum/ngx-d3-graphs"
+  },
+  "homepage": "https://ngx-graphs-d3.sushantk.com",
+  "license": "MIT",
+  "author": {
+    "name": "Sushant Kumar",
+    "email": "sushant.kum96@gmail.com",
+    "url": "https://sushantk.com"
+  },
+  "keywords": [
+    "d3",
+    "graphs",
+    "graph",
+    "charts",
+    "chart",
+    "angular",
+    "data visualization",
+    "d3-visualization",
+    "d3js",
+    "library"
+  ],
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14",

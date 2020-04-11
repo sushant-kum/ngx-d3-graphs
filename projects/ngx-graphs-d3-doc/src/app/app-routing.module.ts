@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
+
+import { environment as env } from '@doc/src/environments/environment';
 
 const routes: Routes = [
   {
@@ -12,14 +14,16 @@ const routes: Routes = [
   }
 ];
 
+const router_option: ExtraOptions = {
+  enableTracing: env.production ? false : true,
+  anchorScrolling: 'enabled',
+  onSameUrlNavigation: 'ignore',
+  scrollPositionRestoration: 'enabled',
+  scrollOffset: [0, 53.5]
+};
+
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      anchorScrolling: 'enabled',
-      onSameUrlNavigation: 'reload',
-      scrollPositionRestoration: 'enabled'
-    })
-  ],
+  imports: [RouterModule.forRoot(routes, router_option)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

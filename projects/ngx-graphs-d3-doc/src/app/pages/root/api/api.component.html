@@ -3,9 +3,15 @@
     <div class="api-toolbar-icon w3-padding-small w3-hide-small app-text-theme-accent">
       <fa-icon [icon]="['fas', 'book-open']"></fa-icon>
     </div>
-    <div class="api-toolbar-path w3-padding-small w3-white w3-round" *ngIf="path" (click)="copyPathToClipboard()">
-      <span class="app-text-theme-accent">{{ path.includes('https') ? 'https://' : 'http://' }}</span
-      ><span>{{ path.includes('https') ? path.split('https://')[1] : path.split('http://')[1] }}</span>
+    <div
+      class="api-toolbar-path w3-padding-small w3-white w3-round"
+      *ngIf="iframe_href"
+      (click)="copyPathToClipboard()"
+    >
+      <span class="app-text-theme-accent">{{ iframe_href.includes('https') ? 'https://' : 'http://' }}</span
+      ><span>{{
+        iframe_href.includes('https') ? iframe_href.split('https://')[1] : iframe_href.split('http://')[1]
+      }}</span>
     </div>
     <div class="api-toolbar-actions w3-padding-small">
       <button
@@ -15,21 +21,21 @@
         aria-label="Copy link to clipboard"
         matTooltip="Copy link to clipboard"
       >
-        <fa-icon [icon]="['far', 'clipboard']"></fa-icon>
+        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
       </button>
       <a
         mat-icon-button
         color="primary"
         target="_blank"
-        [href]="path"
+        [href]="iframe_href"
         aria-label="Open API Doc in new tab"
         matTooltip="Open API Doc in new tab"
       >
-        <fa-icon [icon]="['fas', 'external-link-alt']"></fa-icon>
+        <fa-icon [icon]="['fas', 'external-link-square-alt']"></fa-icon>
       </a>
     </div>
   </div>
   <div class="api-frame-container">
-    <iframe #frame class="api-frame" src="/assets/api-doc/" scrolling="no" frameborder="0"></iframe>
+    <iframe #frame class="api-frame" [src]="iframe_src | safe: 'resourceUrl'" scrolling="no" frameborder="0"></iframe>
   </div>
 </div>

@@ -1,0 +1,25 @@
+.table-of-content {
+  position: sticky;
+  top: 69.5px;
+
+  & &-item {
+    height: auto;
+
+    &-link {
+      width: 100%;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &-step {
+        &-2 {
+          padding-left: 24px !important;
+        }
+
+        &-3 {
+          padding-left: 32px !important;
+        }
+      }
+    }
+  }
+}

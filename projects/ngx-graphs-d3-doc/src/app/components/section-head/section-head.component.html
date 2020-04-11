@@ -1,71 +1,71 @@
-<h1 *ngIf="level === 1" class="section_head app-text-theme-primary">
-  <span class="section_head-text">{{ title }}</span>
+<h1 *ngIf="sh_level === 1" class="section_head app-text-theme-primary">
+  <span class="section_head-text">{{ sh_title }}</span>
   <a
-    *ngIf="routerLink || fragment"
+    *ngIf="sh_routerLink || sh_fragment"
     mat-icon-button
     color="primary"
-    [routerLink]="routerLink ? routerLink : undefined"
-    [fragment]="fragment ? fragment : undefined"
+    [routerLink]="sh_routerLink ? sh_routerLink : undefined"
+    [fragment]="sh_fragment ? sh_fragment : undefined"
   >
     <fa-icon [icon]="['fas', 'link']"></fa-icon>
   </a>
 </h1>
-<h2 *ngIf="level === 2" class="section_head app-text-theme-primary">
-  <span class="section_head-text">{{ title }}</span>
+<h2 *ngIf="sh_level === 2" class="section_head app-text-theme-primary">
+  <span class="section_head-text">{{ sh_title }}</span>
   <a
-    *ngIf="routerLink || fragment"
+    *ngIf="sh_routerLink || sh_fragment"
     mat-icon-button
     color="primary"
-    [routerLink]="routerLink ? routerLink : undefined"
-    [fragment]="fragment ? fragment : undefined"
+    [routerLink]="sh_routerLink ? sh_routerLink : undefined"
+    [fragment]="sh_fragment ? sh_fragment : undefined"
   >
     <fa-icon [icon]="['fas', 'link']"></fa-icon>
   </a>
 </h2>
-<h3 *ngIf="level === 3" class="section_head app-text-theme-primary">
-  <span class="section_head-text app-text-500">{{ title }}</span>
+<h3 *ngIf="sh_level === 3" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-500">{{ sh_title }}</span>
   <a
-    *ngIf="routerLink || fragment"
+    *ngIf="sh_routerLink || sh_fragment"
     mat-icon-button
     color="primary"
-    [routerLink]="routerLink ? routerLink : undefined"
-    [fragment]="fragment ? fragment : undefined"
+    [routerLink]="sh_routerLink ? sh_routerLink : undefined"
+    [fragment]="sh_fragment ? sh_fragment : undefined"
   >
     <fa-icon [icon]="['fas', 'link']"></fa-icon>
   </a>
 </h3>
-<h4 *ngIf="level === 4" class="section_head app-text-theme-primary">
-  <span class="section_head-text app-text-500">{{ title }}</span>
+<h4 *ngIf="sh_level === 4" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-500">{{ sh_title }}</span>
   <a
-    *ngIf="routerLink || fragment"
+    *ngIf="sh_routerLink || sh_fragment"
     mat-icon-button
     color="primary"
-    [routerLink]="routerLink ? routerLink : undefined"
-    [fragment]="fragment ? fragment : undefined"
+    [routerLink]="sh_routerLink ? sh_routerLink : undefined"
+    [fragment]="sh_fragment ? sh_fragment : undefined"
   >
     <fa-icon [icon]="['fas', 'link']"></fa-icon>
   </a>
 </h4>
-<h5 *ngIf="level === 5" class="section_head app-text-theme-primary">
-  <span class="section_head-text app-text-600">{{ title }}</span>
+<h5 *ngIf="sh_level === 5" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-600">{{ sh_title }}</span>
   <a
-    *ngIf="routerLink || fragment"
+    *ngIf="sh_routerLink || sh_fragment"
     mat-icon-button
     color="primary"
-    [routerLink]="routerLink ? routerLink : undefined"
-    [fragment]="fragment ? fragment : undefined"
+    [routerLink]="sh_routerLink ? sh_routerLink : undefined"
+    [fragment]="sh_fragment ? sh_fragment : undefined"
   >
     <fa-icon [icon]="['fas', 'link']"></fa-icon>
   </a>
 </h5>
-<h6 *ngIf="level === 6" class="section_head app-text-theme-primary">
-  <span class="section_head-text app-text-600">{{ title }}</span>
+<h6 *ngIf="sh_level === 6" class="section_head app-text-theme-primary">
+  <span class="section_head-text app-text-600">{{ sh_title }}</span>
   <a
-    *ngIf="routerLink || fragment"
+    *ngIf="sh_routerLink || sh_fragment"
     mat-icon-button
     color="primary"
-    [routerLink]="routerLink ? routerLink : undefined"
-    [fragment]="fragment ? fragment : undefined"
+    [routerLink]="sh_routerLink ? sh_routerLink : undefined"
+    [fragment]="sh_fragment ? sh_fragment : undefined"
   >
     <fa-icon [icon]="['fas', 'link']"></fa-icon>
   </a>

@@ -6,10 +6,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./section-head.component.scss']
 })
 export class SectionHeadComponent implements OnInit {
-  @Input() title: string;
-  @Input() level: 1 | 2 | 3 | 4 | 5 | 6 = 3;
-  @Input() routerLink: string[];
-  @Input() fragment: string;
+  @Input() sh_title: string;
+  @Input() sh_level: 1 | 2 | 3 | 4 | 5 | 6 = 3;
+  @Input() sh_routerLink: string[];
+  @Input() sh_fragment: string;
 
   constructor() {}
 

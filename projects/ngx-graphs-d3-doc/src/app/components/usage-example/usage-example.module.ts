@@ -1,19 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UsageExampleComponent } from './usage-example.component';
 
 /* Angular Material imports */
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 /* Fontawesome Imports */
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 /* Solid Icons */
-import {
-  faBookOpen as fasBookOpen,
-  faExternalLinkSquareAlt as fasExternalLinkSquareAlt,
-  faCopy as fasCopy
-} from '@fortawesome/free-solid-svg-icons';
+import { faExternalLinkAlt as fasExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 /* Regular Icons */
 import {} from '@fortawesome/free-regular-svg-icons';
 /* Brand Icons */
@@ -21,30 +17,26 @@ import {} from '@fortawesome/free-brands-svg-icons';
 
 import { SafePipeModule } from '@doc/src/app/pipes/safe/safe-pipe.module';
 
-import { ApiRoutingModule } from './api-routing.module';
-import { ApiComponent } from './api.component';
-
 @NgModule({
-  declarations: [ApiComponent],
+  declarations: [UsageExampleComponent],
   imports: [
     CommonModule,
-    ApiRoutingModule,
 
     /* Angular Material */
     MatButtonModule,
     MatTooltipModule,
-    MatSnackBarModule,
 
     /* Fontawesome */
     FontAwesomeModule,
 
     SafePipeModule
-  ]
+  ],
+  exports: [UsageExampleComponent]
 })
-export class ApiModule {
+export class UsageExampleModule {
   constructor(fa_icon_library: FaIconLibrary) {
     // Include solid fa icons
-    fa_icon_library.addIcons(fasBookOpen, fasExternalLinkSquareAlt, fasCopy);
+    fa_icon_library.addIcons(fasExternalLinkAlt);
     // Include regular fa icons
     // Include brand fa icons
   }

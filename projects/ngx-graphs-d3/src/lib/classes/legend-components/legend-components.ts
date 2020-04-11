@@ -13,11 +13,11 @@ export class LegendComponents {
 
   constructor(legend_options?: LegendOptionsModel) {
     const temp_legend_options: LegendOptionsModel = assignDeep({}, LegendComponents.DEFAULT_LEGEND_OPTIONS);
-    console.log('temp_legend_options before', JSON.parse(JSON.stringify(temp_legend_options)));
+    // console.log('temp_legend_options before', JSON.parse(JSON.stringify(temp_legend_options)));
     assignDeep(temp_legend_options, legend_options);
-    console.log('temp_legend_options after', JSON.parse(JSON.stringify(temp_legend_options)));
+    // console.log('temp_legend_options after', JSON.parse(JSON.stringify(temp_legend_options)));
 
-    // console.log('d3Legends', d3Legends);
+    // // console.log('d3Legends', d3Legends);
 
     this.options = temp_legend_options;
   }

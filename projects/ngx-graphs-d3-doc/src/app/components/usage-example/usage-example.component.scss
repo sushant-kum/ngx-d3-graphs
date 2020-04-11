@@ -1,0 +1,22 @@
+.usage_example {
+  &-title-bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 'iframe-title iframe-title-external';
+    align-content: center;
+  }
+
+  &-title {
+    grid-area: iframe-title;
+  }
+
+  &-title-external {
+    grid-area: iframe-title-external;
+  }
+
+  &-iframe {
+    width: 100%;
+    border: unset;
+    border-radius: 0 0 4px 4px;
+  }
+}

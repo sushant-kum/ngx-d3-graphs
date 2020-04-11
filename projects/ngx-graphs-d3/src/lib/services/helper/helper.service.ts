@@ -57,7 +57,7 @@ export class HelperService {
       return list;
     },
     isSubset(subset_array: any[], parent_array: any[]): boolean {
-      console.log('isSubset(subset_array: any[], parent_array: any[]): boolean', subset_array, parent_array);
+      // console.log('isSubset(subset_array: any[], parent_array: any[]): boolean', subset_array, parent_array);
       for (const sa of subset_array) {
         if (!parent_array.includes(sa)) {
           return false;

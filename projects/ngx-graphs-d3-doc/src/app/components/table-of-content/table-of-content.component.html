@@ -1,0 +1,20 @@
+<section class="table-of-content w3-margin-top w3-margin-left w3-leftbar app-border-theme-primary">
+  <mat-list>
+    <h3 mat-subheader>{{ toc_title }}</h3>
+    <mat-list-item *ngFor="let entry of toc_entries" class="table-of-content-item">
+      <a
+        mat-button
+        color="accent"
+        class="table-of-content-item-link"
+        [ngClass]="
+          (toc_current_entry && toc_current_entry.name === entry.name ? 'app-text-theme-primary ' : '') +
+          (entry.step && entry.step > 1 ? 'table-of-content-item-link-step-' + entry.step : '')
+        "
+        [routerLink]=""
+        [fragment]="entry.fragment"
+        [disabled]="toc_current_entry && toc_current_entry.name === entry.name"
+        >{{ entry.name }}</a
+      >
+    </mat-list-item>
+  </mat-list>
+</section>

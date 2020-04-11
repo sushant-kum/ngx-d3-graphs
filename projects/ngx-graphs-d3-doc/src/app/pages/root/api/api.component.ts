@@ -1,21 +1,33 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-api',
   templateUrl: './api.component.html',
   styleUrls: ['./api.component.scss']
 })
-export class ApiComponent implements OnInit, AfterViewInit {
+export class ApiComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('frame') frame: ElementRef;
-  path: string;
-  constructor(private _snack_bar: MatSnackBar) {}
 
-  ngOnInit(): void {}
+  iframe_href: string;
+  iframe_src: string;
+  iframe_href_detect_interval: NodeJS.Timeout;
+
+  constructor(private _snack_bar: MatSnackBar, private _route: ActivatedRoute, private _router: Router) {}
+
+  ngOnInit(): void {
+    this.iframe_src = '/assets/api-doc/';
+
+    this._route.queryParams.pipe(filter(params => params.path)).subscribe(params => {
+      this.iframe_src += params.path;
+    });
+  }
 
   ngAfterViewInit() {
-    setInterval(() => {
-      this.path = this.frame.nativeElement.contentWindow.location.href;
+    this.iframe_href_detect_interval = setInterval(() => {
+      this.iframe_href = this.frame.nativeElement.contentWindow.location.href;
     }, 500);
   }
 
@@ -25,7 +37,7 @@ export class ApiComponent implements OnInit, AfterViewInit {
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = this.path;
+    selBox.value = this.iframe_href;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
@@ -35,5 +47,9 @@ export class ApiComponent implements OnInit, AfterViewInit {
       duration: 3000,
       announcementMessage: 'Link copied to clipboard successfully.'
     });
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.iframe_href_detect_interval);
   }
 }

@@ -1,0 +1,33 @@
+<div
+  class="usage_example-container w3-margin-top w3-margin-bottom w3-card w3-round app-border-theme-accent"
+  [style.width.px]="if_width_px ? if_width_px : null"
+>
+  <div class="usage_example-title-bar app-theme-accent-light app-text-theme-accent">
+    <div class="usage_example-title w3-padding">{{ if_title }}</div>
+    <a
+      *ngIf="if_external_url"
+      mat-icon-button
+      color="primary"
+      class="usage_example-title-external"
+      [href]="if_external_url"
+      target="_blank"
+      [matTooltip]="if_external_tooltip ? if_external_tooltip : null"
+    >
+      <fa-icon [icon]="['fas', 'external-link-alt']"></fa-icon>
+    </a>
+  </div>
+  <div class="usage_example-content" [style.height.px]="if_src ? if_height_px : null">
+    <iframe
+      *ngIf="if_src"
+      class="usage_example-iframe"
+      [src]="if_src | safe: 'resourceUrl'"
+      [style.height.px]="if_height_px"
+    ></iframe>
+    <div
+      *ngIf="if_src === undefined"
+      class="usage_example-no-src w3-padding-large w3-center w3-xlarge app-theme-primary-light app-text-theme-warn"
+    >
+      Invalid argument <code class="w3-codespan">if_src</code>
+    </div>
+  </div>
+</div>
