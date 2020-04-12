@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OverviewComponent } from './overview.component';
+import { StackedAreaApiComponent } from './stacked-area-api.component';
 
-describe('OverviewComponent', () => {
-  let component: OverviewComponent;
-  let fixture: ComponentFixture<OverviewComponent>;
+describe('StackedAreaApiComponent', () => {
+  let component: StackedAreaApiComponent;
+  let fixture: ComponentFixture<StackedAreaApiComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OverviewComponent]
+      declarations: [StackedAreaApiComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OverviewComponent);
+    fixture = TestBed.createComponent(StackedAreaApiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

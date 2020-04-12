@@ -9,11 +9,11 @@ import { TableOfContentEntry } from '@doc/src/app/data-models/table-of-content-e
 import { CodeSnippet } from '@doc/src/app/data-models/code-snippet/code-snippet';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: 'app-stacked-area-overview',
+  templateUrl: './stacked-area-overview.component.html',
+  styleUrls: ['./stacked-area-overview.component.scss']
 })
-export class OverviewComponent implements OnInit, AfterViewInit {
+export class StackedAreaOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild('definition') definition: ElementRef;
   @ViewChild('usage') usage: ElementRef;
   @ViewChild('configurations') configurations: ElementRef;

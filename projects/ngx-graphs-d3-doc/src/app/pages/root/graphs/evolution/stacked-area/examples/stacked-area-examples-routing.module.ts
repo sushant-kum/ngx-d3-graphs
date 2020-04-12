@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ExamplesComponent } from './examples.component';
+import { StackedAreaExamplesComponent } from './stacked-area-examples.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ExamplesComponent
+    component: StackedAreaExamplesComponent
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ExamplesRoutingModule {}
+export class StackedAreaExamplesRoutingModule {}

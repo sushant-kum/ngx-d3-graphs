@@ -15,22 +15,22 @@ const routes: Routes = [
       {
         path: 'overview',
         loadChildren: () =>
-          import('@doc/src/app/pages/root/graphs/evolution/stacked-area/overview/overview.module').then(
-            module => module.OverviewModule
+          import('@doc/src/app/pages/root/graphs/evolution/stacked-area/overview/stacked-area-overview.module').then(
+            module => module.StackedAreaOverviewModule
           )
       },
       {
         path: 'api',
         loadChildren: () =>
-          import('@doc/src/app/pages/root/graphs/evolution/stacked-area/api/api.module').then(
-            module => module.ApiModule
+          import('@doc/src/app/pages/root/graphs/evolution/stacked-area/api/stacked-area-api.module').then(
+            module => module.StackedAreaApiModule
           )
       },
       {
         path: 'examples',
         loadChildren: () =>
-          import('@doc/src/app/pages/root/graphs/evolution/stacked-area/examples/examples.module').then(
-            module => module.ExamplesModule
+          import('@doc/src/app/pages/root/graphs/evolution/stacked-area/examples/stacked-area-examples.module').then(
+            module => module.StackedAreaExamplesModule
           )
       }
     ]
