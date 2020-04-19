@@ -15,7 +15,7 @@ export class ApiComponent implements OnInit, AfterViewInit, OnDestroy {
   iframe_src: string;
   iframe_href_detect_interval: NodeJS.Timeout;
 
-  constructor(private _snack_bar: MatSnackBar, private _route: ActivatedRoute, private _router: Router) {}
+  constructor(private _snack_bar: MatSnackBar, private _route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.iframe_src = '/assets/api-doc/';

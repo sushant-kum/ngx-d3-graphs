@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { ViewportScroller } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { CodeHighlighterService } from '@doc/src/app/services/code-highlighter/code-highlighter.service';
-
 /* Import Data models */
 import { TableOfContentEntry } from '@doc/src/app/data-models/table-of-content-entry/table-of-content-entry';
 import { CodeSnippet } from '@doc/src/app/data-models/code-snippet/code-snippet';
@@ -42,23 +40,16 @@ export class StackedAreaOverviewComponent implements OnInit, AfterViewInit {
       step: 2
     }
   ];
-  readonly code_examples: { [key: string]: CodeSnippet } = {
-    simple_usage: {
-      html: {
-        code: `<!--
-@file simple-stacked-area.component.html
--->
-
-<ngx-d3-stacked-area [data]="graph_data"></ngx-d3-stacked-area>
+  readonly code_examples: { [key: string]: CodeSnippet[] } = {
+    simple_usage: [
+      {
+        code: `<ngx-d3-stacked-area [data]="graph_data"></ngx-d3-stacked-area>
 `,
+        filename: 'app.component.html',
         language: 'html'
       },
-      ts: {
-        code: `/**\n
- * @file simple-stacked-area.component.ts
- */
-
-import { Component, OnInit } from '@angular/core';
+      {
+        code: `import { Component, OnInit } from '@angular/core';
 
 import { GraphOptionsModel, StackedAreaDataModel } from 'ngx-graphs-d3';
 
@@ -79,24 +70,112 @@ export class AppComponent  {
   ];
 }
 `,
+        filename: 'app.component.ts',
         language: 'typescript'
       }
+    ],
+    stacked_area_options: [
+      {
+        code: `<ngx-d3-stacked-area
+  [data]="graph_data"
+  [options]="graph_options"
+  [stacked_area_options]="stacked_area_options"
+></ngx-d3-stacked-area>
+`,
+        filename: 'app.component.html',
+        language: 'html'
+      },
+      {
+        code: `import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
+import { GraphOptionsModel, StackedAreaDataModel, StackedAreaOptionsModel } from 'ngx-graphs-d3';
+
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: [ './app.component.css' ]
+})
+export class AppComponent  {
+  graph_data: StackedAreaDataModel[];
+  graph_options: GraphOptionsModel = {
+    size: {
+      height: 400
+    },
+    padding: {
+      top: 20,
+      right: 20,
+      bottom: 20,
+      left: 50
+    },
+    axis: {
+      x: {
+        type: 'category'
+      }
     }
+  };
+  stacked_area_options: StackedAreaOptionsModel = {
+    area: {
+      stroke: {
+        color_hex: '#686868',
+        width: 0.5
+      },
+      opacity: {
+        unhovered: 0.5,
+        hovered: 0.9
+      }
+    }
+  }
+
+  constructor(private _http: HttpClient) {}
+
+  ngOnInit(): void {
+    this._getGraphData();
+  }
+
+  private _getGraphData(): void {
+    const url = '/assets/birth-records.json';
+
+    this._http.get(url).subscribe(
+      (res: any) => {
+        this.graph_data = [];
+
+        for (const data_row of res) {
+          if (data_row.year >= 2000) {
+            this.graph_data.push({
+              key: data_row.name,
+              plot: {
+                x: data_row.year,
+                y: data_row.n
+              }
+            });
+          }
+        }
+      },
+      (err: HttpErrorResponse) => {
+        console.error(err);
+      }
+    );
+  }
+}
+`,
+        filename: 'app.component.ts',
+        language: 'typescript'
+      }
+    ]
   };
 
   active_table_of_content_entry: TableOfContentEntry;
   fragment: string;
 
-  constructor(
-    private _route: ActivatedRoute,
-    private _viewport_scroller: ViewportScroller,
-    public code_highlighter: CodeHighlighterService
-  ) {}
+  constructor(private _route: ActivatedRoute, private _viewport_scroller: ViewportScroller) {}
 
   ngOnInit(): void {
     this._route.fragment.subscribe(fragment => {
       this.fragment = fragment;
     });
+
+    // console.log('this.code_examples', this.code_examples);
   }
 
   ngAfterViewInit(): void {

@@ -1,33 +1,75 @@
-<div
-  class="usage_example-container w3-margin-top w3-margin-bottom w3-card w3-round app-border-theme-accent"
-  [style.width.px]="if_width_px ? if_width_px : null"
->
-  <div class="usage_example-title-bar app-theme-accent-light app-text-theme-accent">
-    <div class="usage_example-title w3-padding">{{ if_title }}</div>
-    <a
-      *ngIf="if_external_url"
-      mat-icon-button
-      color="primary"
-      class="usage_example-title-external"
-      [href]="if_external_url"
-      target="_blank"
-      [matTooltip]="if_external_tooltip ? if_external_tooltip : null"
-    >
-      <fa-icon [icon]="['fas', 'external-link-alt']"></fa-icon>
-    </a>
-  </div>
-  <div class="usage_example-content" [style.height.px]="if_src ? if_height_px : null">
-    <iframe
-      *ngIf="if_src"
-      class="usage_example-iframe"
-      [src]="if_src | safe: 'resourceUrl'"
-      [style.height.px]="if_height_px"
-    ></iframe>
-    <div
-      *ngIf="if_src === undefined"
-      class="usage_example-no-src w3-padding-large w3-center w3-xlarge app-theme-primary-light app-text-theme-warn"
-    >
-      Invalid argument <code class="w3-codespan">if_src</code>
+<mat-card class="usage_example">
+  <mat-card-header class="usage_example-title-bar app-theme-accent-light app-text-theme-accent">
+    <div class="usage_example-title w3-padding">{{ ue_title }}</div>
+    <div class="usage_example-title-button-group">
+      <button
+        *ngIf="ue_source_code"
+        mat-icon-button
+        color="primary"
+        class="usage_example-title-button-source"
+        [matTooltip]="
+          ue_title
+            ? (mode.show_source ? 'Hide ' : 'View ') + ue_title + ' source'
+            : (mode.show_source ? 'Hide ' : 'View ') + 'source'
+        "
+        (click)="mode.show_source = !mode.show_source"
+      >
+        <fa-icon [icon]="['fas', 'code']"></fa-icon>
+      </button>
+      <a
+        *ngIf="ue_external_url"
+        mat-icon-button
+        color="primary"
+        class="usage_example-title-button-external"
+        [href]="ue_external_url"
+        target="_blank"
+        [matTooltip]="ue_external_tooltip ? ue_external_tooltip : null"
+      >
+        <fa-icon [icon]="['fas', 'external-link-alt']"></fa-icon>
+      </a>
     </div>
-  </div>
-</div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="usage_example-content">
+      <mat-tab-group
+        class="usage_example-content-source"
+        *ngIf="mode.show_source && ue_source_code"
+        color="primary"
+        backgroundColor="primary"
+        [dynamicHeight]="true"
+      >
+        <mat-tab *ngFor="let file of ue_source_code" [label]="file.filename">
+          <div class="usage_example-content-source-code">
+            <pre
+              [ngClass]="'language-' + file.language"
+              [innerHTML]="code_highlighter.highlight(file.code, file.language)"
+            ></pre>
+
+            <button
+              mat-icon-button
+              color="accent"
+              class="usage_example-content-source-code-copy_btn"
+              [matTooltip]="'Copy content of ' + file.filename"
+              (click)="copyToClipBoard(file.code)"
+            >
+              <fa-icon [icon]="['far', 'copy']"></fa-icon>
+            </button>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <iframe
+        *ngIf="ue_src"
+        class="usage_example-content-iframe"
+        [src]="ue_src | safe: 'resourceUrl'"
+        [style.height.px]="ue_height_px"
+      ></iframe>
+      <div
+        *ngIf="ue_src === undefined"
+        class="usage_example-no-src w3-padding-large w3-center w3-xlarge app-theme-primary-light app-text-theme-warn"
+      >
+        Invalid argument <code class="w3-codespan w3-round">ue_src</code>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

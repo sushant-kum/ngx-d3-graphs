@@ -15,7 +15,7 @@ const routes: Routes = [
 ];
 
 const router_option: ExtraOptions = {
-  enableTracing: env.production ? false : true,
+  // enableTracing: env.production ? false : true,
   anchorScrolling: 'enabled',
   onSameUrlNavigation: 'ignore',
   scrollPositionRestoration: 'enabled',

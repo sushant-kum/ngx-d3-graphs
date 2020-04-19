@@ -25,30 +25,15 @@
 
     <section #usage id="usage">
       <app-section-head sh_title="Usage" sh_fragment="usage"></app-section-head>
-      <code class="w3-codespan">&lt;ngx-d3-stacked-area&gt;</code> is a container component that can be used to display
-      a Stacked area graph.
+      <code class="w3-codespan w3-round">&lt;ngx-d3-stacked-area&gt;</code> is a container component that can be used to
+      display a Stacked area graph.
       <app-usage-example
-        if_title="Simple Stacked Area Graph"
-        if_src="https://stackblitz.com/edit/simple-stacked-area-ngx-graphs-d3?embed=1&view=preview"
-        if_external_tooltip="Edit in Stackblitz"
-        if_external_url="https://stackblitz.com/edit/simple-stacked-area-ngx-graphs-d3"
+        ue_title="Simple Stacked Area Graph"
+        ue_src="https://simple-stacked-area-ngx-graphs-d3.stackblitz.io"
+        [ue_source_code]="code_examples.simple_usage"
+        ue_external_tooltip="Edit in Stackblitz"
+        ue_external_url="https://stackblitz.com/edit/simple-stacked-area-ngx-graphs-d3"
       ></app-usage-example>
-
-      A simple stacked area graph can be generated as below:
-      <pre
-        [ngClass]="'language-' + code_examples.simple_usage.html.language"
-        [innerHTML]="
-          code_highlighter.highlight(code_examples.simple_usage.html.code, code_examples.simple_usage.html.language)
-        "
-        style="white-space: pre-wrap;"
-      ></pre>
-      <pre
-        [ngClass]="'language-' + code_examples.simple_usage.ts.language"
-        [innerHTML]="
-          code_highlighter.highlight(code_examples.simple_usage.ts.code, code_examples.simple_usage.ts.language)
-        "
-        style="white-space: pre-wrap;"
-      ></pre>
     </section>
 
     <section #configurations id="configurations">
@@ -62,8 +47,8 @@
         ></app-section-head>
 
         Stacked area specific configurations can be provided to the component by providing argument
-        <code class="w3-codespan">stacked_area_options</code> of type
-        <code class="w3-codespan"
+        <code class="w3-codespan w3-round">stacked_area_options</code> of type
+        <code class="w3-codespan w3-round"
           ><a
             class="app-text-theme-primary"
             [routerLink]="['/api']"
@@ -71,16 +56,17 @@
             >StackedAreaOptionsModel</a
           ></code
         >
-        to <code class="w3-codespan">&lt;ngx-d3-stacked-area&gt;</code>.
+        to <code class="w3-codespan w3-round">&lt;ngx-d3-stacked-area&gt;</code>.
 
         <app-usage-example
-          if_title="Use of stacked_area_options attribute"
-          if_src="https://stackblitz.com/edit/stacked-area-options-ngx-graphs-d3?embed=1&view=preview"
-          if_external_tooltip="Edit in Stackblitz"
-          if_external_url="https://stackblitz.com/edit/stacked-area-options-ngx-graphs-d3"
+          ue_title="Use of stacked_area_options attribute"
+          ue_src="https://stacked-area-options-ngx-graphs-d3.stackblitz.io"
+          [ue_source_code]="code_examples.stacked_area_options"
+          ue_external_tooltip="Edit in Stackblitz"
+          ue_external_url="https://stackblitz.com/edit/stacked-area-options-ngx-graphs-d3"
         ></app-usage-example>
 
-        Further usage details about <code class="w3-codespan">StackedAreaOptionsModel</code> can be found
+        Further usage details about <code class="w3-codespan w3-round">StackedAreaOptionsModel</code> can be found
         <a
           class="app-text-theme-primary"
           [routerLink]="['/graphs/evolution/stacked-area', 'api']"
