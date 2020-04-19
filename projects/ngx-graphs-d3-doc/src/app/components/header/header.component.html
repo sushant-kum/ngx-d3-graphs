@@ -33,14 +33,24 @@
       <a
         mat-button
         class="header-secondary-version-container"
-        [href]="'https://github.com/sushant-kum/ngx-graphs-d3/releases/tag/' + lib_version"
+        [href]="
+          'https://github.com/sushant-kum/ngx-d3-graphs/releases/tag/' +
+          (lib_version.includes('.dev') ? lib_version.split('.dev')[0] : lib_version)
+        "
         >{{ lib_version }}</a
       >
-      <a mat-button href="https://github.com/sushant-kum/ngx-graphs-d3">
+      <a mat-button href="https://github.com/sushant-kum/ngx-d3-graphs">
         <fa-icon [icon]="['fas', 'code']"></fa-icon>&nbsp;
         <span class="w3-hide-small w3-hide-medium" style="vertical-align: middle;">Source</span>
       </a>
     </div>
   </div>
+  <mat-progress-bar
+    class="header-loading_status-router"
+    *ngIf="loader.progress$ | async"
+    mode="determinate"
+    color="red"
+    [value]="loader.progress$ | async"
+  ></mat-progress-bar>
 </header>
 <div class="header-space"></div>

@@ -30,6 +30,13 @@ header {
     grid-template-columns: auto auto;
     justify-content: end;
   }
+
+  &-loading_status {
+    &-router {
+      position: absolute;
+      bottom: 0;
+    }
+  }
 }
 
 @media screen and (max-width: 600px) {

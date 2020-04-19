@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 /* Angular Material imports */
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 /* Fontawesome Imports */
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -14,6 +15,8 @@ import { faCode as fasCode } from '@fortawesome/free-solid-svg-icons';
 import {} from '@fortawesome/free-regular-svg-icons';
 /* Brand Icons */
 import {} from '@fortawesome/free-brands-svg-icons';
+
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 import { HeaderComponent } from './header.component';
 
@@ -26,9 +29,12 @@ import { HeaderComponent } from './header.component';
     /* Angular Material */
     MatToolbarModule,
     MatButtonModule,
+    MatProgressBarModule,
 
     /* Fontawesome */
-    FontAwesomeModule
+    FontAwesomeModule,
+
+    LoadingBarRouterModule
   ],
   exports: [HeaderComponent]
 })
