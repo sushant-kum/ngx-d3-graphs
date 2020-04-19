@@ -4,13 +4,13 @@ import { Page } from '@doc/src/app/data-models/page/page';
 export const CONFIG = env.production
   ? {
       app_title: 'NGX Graphs D3',
-      lib_version: '0.0.0',
-      doc_version: '0.0.0'
+      lib_version: env.version_info.version.lib,
+      doc_version: env.version_info.version.doc
     }
   : {
       app_title: 'NGX Graphs D3 (Dev)',
-      lib_version: '0.0.0',
-      doc_version: '0.0.0.dev'
+      lib_version: env.version_info.version.lib,
+      doc_version: env.version_info.version.doc
     };
 
 export const GRAPH_PAGES: Page[] = [

@@ -30,13 +30,13 @@
     "test": "ng test",
     "test:CI": "ng test --browsers ChromeHeadless --no-watch --code-coverage",
     "e2e": "ng e2e",
-    "serve:doc": "ng serve --host 0.0.0.0 --disableHostCheck --proxy-config proxy.config.json",
+    "serve:doc": "npm run version_info_gen && ng serve --host 0.0.0.0 --disableHostCheck --proxy-config proxy.config.json",
     "mock-server:dev": "nodemon --config \"./nodemon.json\"/",
     "build:dev:lib": "ng build --project ngx-graphs-d3 --watch",
     "build:prod:lib": "ng build --prod --project ngx-graphs-d3",
     "predeploy:prod:lib": "npm run build:prod:lib",
     "deploy:prod:lib": "npm publish dist/ngx-graphs-d3",
-    "build:prod:doc": "npm run compodoc:lib && ng build --prod --project ngx-graphs-d3-doc",
+    "build:prod:doc": "npm run version_info_gen && npm run compodoc:lib && ng build --prod --project ngx-graphs-d3-doc",
     "predeploy:prod:doc": "npm run build:prod:doc",
     "deploy:prod:doc": "firebase deploy --only hosting:prod",
     "predeploy:testbed:doc": "npm run build:prod:doc",
@@ -56,7 +56,8 @@
     "format:check:lib": "prettier --check \"projects/ngx-graphs-d3/src/**/*.{css,html,js,json,md,scss,ts}\"",
     "format:check:doc": "prettier --check \"projects/ngx-graphs-d3-doc/src/**/*.{css,html,js,json,md,scss,ts}\"",
     "firebase:target:apply:prod": "firebase target:apply hosting prod ngx-graphs-d3",
-    "firebase:target:apply:testbed": "firebase target:apply hosting testbed ngx-graphs-d3-testbed"
+    "firebase:target:apply:testbed": "firebase target:apply hosting testbed ngx-graphs-d3-testbed",
+    "version_info_gen": "node tools/version-info-gen/version-info-gen.tool.ts"
   },
   "private": true,
   "dependencies": {
