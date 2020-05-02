@@ -1,33 +1,33 @@
-.overview {
+.stacked_area_overview {
   display: grid;
 
   &-content {
-    grid-area: overview-content;
+    grid-area: stacked_area_overview-content;
     justify-content: start;
   }
 
   &-right_sidenav {
-    grid-area: overview-right_sidenav;
+    grid-area: stacked_area_overview-right_sidenav;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .overview {
+  .stacked_area_overview {
     grid-template-columns: 1fr;
-    grid-template-areas: 'overview-content';
+    grid-template-areas: 'stacked_area_overview-content';
   }
 }
 
 @media screen and (min-width: 601px) and (max-width: 992px) {
-  .overview {
+  .stacked_area_overview {
     grid-template-columns: 1fr;
-    grid-template-areas: 'overview-content';
+    grid-template-areas: 'stacked_area_overview-content';
   }
 }
 
 @media screen and (min-width: 993px) {
-  .overview {
+  .stacked_area_overview {
     grid-template-columns: 1fr 250px;
-    grid-template-areas: 'overview-content overview-right_sidenav';
+    grid-template-areas: 'stacked_area_overview-content stacked_area_overview-right_sidenav';
   }
 }
