@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 /* Import Data models */
 import { TableOfContentEntry } from '@doc/src/app/data-models/table-of-content-entry/table-of-content-entry';
@@ -13,10 +13,13 @@ export class TableOfContentComponent implements OnInit {
   @Input() toc_entries: TableOfContentEntry[] = [];
   @Input() toc_current_entry: TableOfContentEntry;
 
+  @Output() toc_itemClicked: EventEmitter<TableOfContentEntry> = new EventEmitter();
+
   constructor() {}
 
-  ngOnInit(): void {
-    // console.log('this.title', this.title);
-    // console.log('this.entries', this.entries);
+  ngOnInit(): void {}
+
+  onItemClicked(entry: TableOfContentEntry): void {
+    this.toc_itemClicked.emit(entry);
   }
 }

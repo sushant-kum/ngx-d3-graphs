@@ -1,6 +1,6 @@
 <section class="stacked_area_overview">
   <section class="stacked_area_overview-content">
-    <section #definition id="definition">
+    <section #definition id="definition" class="fragment-section">
       <app-section-head sh_title="Definition" sh_fragment="definition"></app-section-head>
       <blockquote class="w3-leftbar w3-margin-0 w3-padding app-border-theme-primary app-theme-primary-light">
         <p>
@@ -23,7 +23,7 @@
       </blockquote>
     </section>
 
-    <section #usage id="usage">
+    <section #usage id="usage" class="fragment-section">
       <app-section-head sh_title="Usage" sh_fragment="usage"></app-section-head>
       <code class="w3-codespan w3-round">&lt;ngx-d3-stacked-area&gt;</code> is a container component that can be used to
       display a Stacked area graph.
@@ -36,10 +36,10 @@
       ></app-usage-example>
     </section>
 
-    <section #configurations id="configurations">
+    <section #configurations id="configurations" class="fragment-section">
       <app-section-head sh_title="Configurations" sh_fragment="configurations"></app-section-head>
 
-      <section #specific_configurations id="specific_configurations">
+      <section #specific_configurations id="specific_configurations" class="fragment-section">
         <app-section-head
           sh_title="Specific Configurations"
           sh_fragment="specific_configurations"
@@ -75,7 +75,7 @@
         >.
       </section>
 
-      <section #general_configurations id="general_configurations">
+      <section #general_configurations id="general_configurations" class="fragment-section">
         <app-section-head
           sh_title="General Configurations"
           sh_fragment="general_configurations"
@@ -93,6 +93,7 @@
       toc_title="Overview Content"
       [toc_entries]="table_of_content_entries"
       [toc_current_entry]="active_table_of_content_entry"
+      (toc_itemClicked)="onTableOfContentItemClicked($event)"
     ></app-table-of-content>
   </section>
 </section>

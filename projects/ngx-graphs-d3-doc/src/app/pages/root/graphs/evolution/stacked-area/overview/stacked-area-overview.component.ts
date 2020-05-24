@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 /* Import Data models */
 import { TableOfContentEntry } from '@doc/src/app/data-models/table-of-content-entry/table-of-content-entry';
 import { CodeSnippet } from '@doc/src/app/data-models/code-snippet/code-snippet';
+
+/* Import Services */
+import { ScrollOffsetService } from '@doc/src/app/services/scroll-offset/scroll-offset.service';
 
 @Component({
   selector: 'app-stacked-area-overview',
@@ -15,6 +18,8 @@ export class StackedAreaOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild('definition') definition: ElementRef;
   @ViewChild('usage') usage: ElementRef;
   @ViewChild('configurations') configurations: ElementRef;
+  @ViewChild('specific_configurations') specific_configurations: ElementRef;
+  @ViewChild('general_configurations') general_configurations: ElementRef;
 
   readonly table_of_content_entries: TableOfContentEntry[] = [
     {
@@ -168,23 +173,68 @@ export class AppComponent  {
   active_table_of_content_entry: TableOfContentEntry;
   fragment: string;
 
-  constructor(private _route: ActivatedRoute, private _viewport_scroller: ViewportScroller) {}
+  constructor(
+    private _route: ActivatedRoute,
+    private _viewport_scroller: ViewportScroller,
+    private _scroll_offset_svc: ScrollOffsetService,
+    private _change_detector_Ref: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    this._onPageScroll = this._onPageScroll.bind(this);
+
     this._route.fragment.subscribe(fragment => {
       this.fragment = fragment;
     });
-
-    // console.log('this.code_examples', this.code_examples);
   }
 
   ngAfterViewInit(): void {
     for (const table_of_content_entry of this.table_of_content_entries) {
       table_of_content_entry.element_ref = this[table_of_content_entry.fragment];
+      table_of_content_entry.element_offset = this._scroll_offset_svc.getOffset(
+        table_of_content_entry.element_ref.nativeElement
+      );
     }
 
     if (this.fragment) {
       this._viewport_scroller.scrollToAnchor(this.fragment);
     }
+
+    document.addEventListener('scroll', this._onPageScroll);
+  }
+
+  private _onPageScroll(event: Event): void {
+    const scroll_top: number = document.documentElement.scrollTop;
+    const header_height: number = (document.getElementsByClassName('header')[0] as HTMLElement).offsetHeight;
+    let flag_active_table_of_content_entry_set = false;
+
+    for (let i = 0; i < this.table_of_content_entries.length; i++) {
+      if (this.table_of_content_entries[i].element_offset) {
+        if (i !== this.table_of_content_entries.length - 1) {
+          if (
+            this.table_of_content_entries[i].element_offset.top <= scroll_top + header_height &&
+            scroll_top + header_height < this.table_of_content_entries[i + 1].element_offset.top
+          ) {
+            this.active_table_of_content_entry = this.table_of_content_entries[i];
+            flag_active_table_of_content_entry_set = true;
+            break;
+          }
+        } else {
+          if (this.table_of_content_entries[i].element_offset.top <= scroll_top + header_height) {
+            this.active_table_of_content_entry = this.table_of_content_entries[i];
+            flag_active_table_of_content_entry_set = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!flag_active_table_of_content_entry_set) {
+      this.active_table_of_content_entry = undefined;
+    }
+  }
+
+  onTableOfContentItemClicked(table_of_content_item: TableOfContentEntry): void {
+    this._viewport_scroller.scrollToAnchor(table_of_content_item.fragment);
   }
 }
