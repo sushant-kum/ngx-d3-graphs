@@ -1,6 +1,6 @@
 <section class="stacked_area">
   <section class="stacked_area-content">
-    <header class="app-theme-primary w3-padding w3-xlarge">Stacked area</header>
+    <header class="stacked_area-content-header app-theme-primary w3-padding w3-xlarge">Stacked area</header>
     <nav class="stacked_area-content-nav" mat-tab-nav-bar *ngIf="active_tab && active_tab.id">
       <a mat-tab-link *ngFor="let tab of tabs" [routerLink]="tab.router_link" [active]="active_tab.id === tab.id">
         {{ tab.name ? tab.name : tab.id }}
