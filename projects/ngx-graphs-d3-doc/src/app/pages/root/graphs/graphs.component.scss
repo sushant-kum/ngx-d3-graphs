@@ -9,11 +9,15 @@
     width: 250px;
     grid-area: graphs-left-menu;
     position: sticky;
-    top: 25px;
+    overflow-y: auto;
     z-index: 20;
+    max-height: calc(100vh - 53.5px);
+    top: 53.5px;
 
     &-small {
       width: 250px;
+      height: calc(100vh - 89.5px);
+      overflow-y: auto;
       z-index: 20;
 
       &-container {
