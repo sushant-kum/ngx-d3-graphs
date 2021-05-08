@@ -76,7 +76,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.5.2",
-    "ng-packagr": "^9.0.0",
+    "ng-packagr": "^10.1.1",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "prettier-tslint": "^0.4.2",
